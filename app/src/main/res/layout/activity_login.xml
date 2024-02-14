@@ -32,7 +32,8 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Theme.Instagram.FormTextInputLayout">
+                style="@style/Theme.Instagram.FormTextInputLayout"
+                android:id="@+id/login_edit_email_layout">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_edit_email"
                     style="@style/Theme.Instagram.FormEditText"
@@ -42,7 +43,8 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Theme.Instagram.FormTextInputLayout">
+                style="@style/Theme.Instagram.FormTextInputLayout"
+                android:id="@+id/login_edit_password_layout">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_edit_password"
                     style="@style/Theme.Instagram.FormEditText"
@@ -55,7 +57,8 @@
             <Button
                 android:id="@+id/login_btn_enter"
                 style="@style/Theme.Instagram.FormButton"
-                android:text="@string/enter" />
+                android:text="@string/enter"
+                android:enabled="false"/>
 
             <FrameLayout
                 style="@style/Theme.Instagram.FormContainer"

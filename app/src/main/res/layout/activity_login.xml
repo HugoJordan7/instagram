@@ -30,19 +30,27 @@
                 android:contentDescription="@null"
                 android:src="@drawable/instagram_logo_black" />
 
-            <EditText
-                android:id="@+id/login_edit_email"
-                style="@style/Theme.Instagram.FormEditText"
-                android:autofillHints="@null"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/login_edit_password"
-                style="@style/Theme.Instagram.FormEditText"
-                android:autofillHints="@null"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Theme.Instagram.FormTextInputLayout">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_edit_email"
+                    style="@style/Theme.Instagram.FormEditText"
+                    android:autofillHints="@null"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Theme.Instagram.FormTextInputLayout">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_edit_password"
+                    style="@style/Theme.Instagram.FormEditText"
+                    android:autofillHints="@null"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/login_btn_enter"
@@ -79,15 +87,15 @@
         app:layout_constraintBottom_toTopOf="@id/login_txt_register" />
 
     <TextView
-        android:background="@color/white"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_width="match_parent"
-        android:textAlignment="center"
         android:id="@+id/login_txt_register"
         style="@style/Theme.Instagram.FormTextView"
+        android:layout_width="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="@color/white"
         android:padding="24dp"
         android:text="@string/does_not_have_account"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

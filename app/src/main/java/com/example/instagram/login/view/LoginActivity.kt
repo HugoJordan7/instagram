@@ -2,6 +2,8 @@ package com.example.instagram.login.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
@@ -11,7 +13,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var enterButton: Button
+    private lateinit var enterButton: LoadingButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,10 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText.addTextChangedListener(watcher)
         
         enterButton.setOnClickListener {
+            enterButton.showProgress(true)
+            Handler(Looper.getMainLooper()).postDelayed({
+                enterButton.showProgress(false)
+            }, 2000)
             emailInputLayout.error = "Esse e-mail é inválido"
             passwordInputLayout.error = "Senha incorreta"
         }

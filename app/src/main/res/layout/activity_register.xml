@@ -10,7 +10,7 @@
         android:id="@+id/register_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.instagram.register.view.RegisterNamePasswordFragment"
-        tools:layout="@layout/fragment_register_name_password"/>
+        android:name="com.example.instagram.register.view.RegisterWelcome"
+        tools:layout="@layout/fragment_register_welcome"/>
 
 </LinearLayout>

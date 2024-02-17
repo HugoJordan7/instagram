@@ -42,4 +42,7 @@
     <string name="logout">Deseja sair?</string>
     <string name="logout_action">Sair</string>
     <string name="cancel">Cancel</string>
+    <string name="add">Adicionar</string>
+    <string name="fav">Favoritos</string>
+    <string name="profile">Perfil</string>
 </resources>

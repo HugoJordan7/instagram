@@ -37,8 +37,8 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.example.instagram.search.view.SearchFragment"
-            tools:layout="@layout/fragment_search"/>
+            android:name="com.example.instagram.camera.view.CameraFragment"
+            tools:layout="@layout/fragment_camera"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
 
-class RegisterWelcome: Fragment() {
+class FragmentRegisterNamePassword: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_register_welcome,container,false)
+        return inflater.inflate(R.layout.fragment_register_name_password,container,false)
     }
 
 }

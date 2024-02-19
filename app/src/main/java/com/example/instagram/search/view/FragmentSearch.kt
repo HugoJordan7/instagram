@@ -1,14 +1,14 @@
-package com.example.instagram.main.view
+package com.example.instagram.search.view
 
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 
-class ProfileFragment: Fragment() {
+class FragmentSearch: Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -18,13 +18,13 @@ class ProfileFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_profile,container,false)
+        return inflater.inflate(R.layout.fragment_search,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.profile_recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),3)
+        recyclerView = view.findViewById(R.id.search_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = PostAdapter(emptyList())
     }
 
@@ -33,25 +33,22 @@ class ProfileFragment: Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-
     inner class PostAdapter(private val imageList: List<Int>): RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-            val view = layoutInflater.inflate(R.layout.item_profile_grid,parent,false)
+            val view = layoutInflater.inflate(R.layout.item_user_list,parent,false)
             return PostViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-            holder.bind(R.drawable.photo_icon)
+            holder.bind(R.drawable.ic_insta_add)
         }
 
-        override fun getItemCount(): Int {
-            return 30
-        }
+        override fun getItemCount() = 30
 
         inner class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             fun bind(image: Int){
-                val imageView = itemView.findViewById<ImageView>(R.id.item_profile_img_grid)
+                val imageView = itemView.findViewById<ImageView>(R.id.search_img_user)
                 imageView.setImageResource(image)
             }
         }

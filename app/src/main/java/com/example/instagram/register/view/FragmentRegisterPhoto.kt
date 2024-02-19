@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.instagram.R
 import com.example.instagram.common.view.CustomDialog
 
-class RegisterPhotoFragment: Fragment() {
+class FragmentRegisterPhoto: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_photo,container,false)

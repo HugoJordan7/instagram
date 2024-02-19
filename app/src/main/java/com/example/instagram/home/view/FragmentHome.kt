@@ -1,4 +1,4 @@
-package com.example.instagram.search.view
+package com.example.instagram.home.view
 
 import android.os.Bundle
 import android.view.*
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 
-class SearchFragment: Fragment() {
+class FragmentHome: Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -18,12 +18,12 @@ class SearchFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search,container,false)
+        return inflater.inflate(R.layout.fragment_home,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.search_recycler_view)
+        recyclerView = view.findViewById(R.id.home_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = PostAdapter(emptyList())
     }
@@ -36,7 +36,7 @@ class SearchFragment: Fragment() {
     inner class PostAdapter(private val imageList: List<Int>): RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-            val view = layoutInflater.inflate(R.layout.item_user_list,parent,false)
+            val view = layoutInflater.inflate(R.layout.item_post_list,parent,false)
             return PostViewHolder(view)
         }
 
@@ -44,11 +44,13 @@ class SearchFragment: Fragment() {
             holder.bind(R.drawable.ic_insta_add)
         }
 
-        override fun getItemCount() = 30
+        override fun getItemCount(): Int {
+            return 30
+        }
 
         inner class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             fun bind(image: Int){
-                val imageView = itemView.findViewById<ImageView>(R.id.search_img_user)
+                val imageView = itemView.findViewById<ImageView>(R.id.post_img_publication)
                 imageView.setImageResource(image)
             }
         }

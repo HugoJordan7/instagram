@@ -37,8 +37,8 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.example.instagram.main.view.ProfileFragment"
-            tools:layout="@layout/fragment_profile"/>
+            android:name="com.example.instagram.home.view.HomeFragment"
+            tools:layout="@layout/fragment_home"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

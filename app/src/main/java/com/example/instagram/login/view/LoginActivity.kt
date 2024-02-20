@@ -6,41 +6,37 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
 import com.example.instagram.R
+import com.example.instagram.databinding.ActivityLoginBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var enterButton: LoadingButton
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        val emailEditText = findViewById<TextInputEditText>(R.id.login_edit_email)
-        val passwordEditText = findViewById<TextInputEditText>(R.id.login_edit_password)
-        val emailInputLayout = findViewById<TextInputLayout>(R.id.login_edit_email_layout)
-        val passwordInputLayout = findViewById<TextInputLayout>(R.id.login_edit_password_layout)
-        enterButton = findViewById(R.id.login_btn_enter)
-
-        emailEditText.addTextChangedListener(watcher)
-        passwordEditText.addTextChangedListener(watcher)
-        
-        enterButton.setOnClickListener {
-            enterButton.showProgress(true)
-            Handler(Looper.getMainLooper()).postDelayed({
-                enterButton.showProgress(false)
-            }, 2000)
-            emailInputLayout.error = "Esse e-mail é inválido"
-            passwordInputLayout.error = "Senha incorreta"
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        with(binding){
+            loginEditEmail.addTextChangedListener(watcher)
+            loginEditPassword.addTextChangedListener(watcher)
+            loginBtnEnter.setOnClickListener {
+                loginBtnEnter.showProgress(true)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    loginBtnEnter.showProgress(false)
+                }, 2000)
+                loginEditEmailLayout.error = "Esse e-mail é inválido"
+                loginEditPasswordLayout.error = "Senha incorreta"
+            }
         }
     }
 
     private val watcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            enterButton.isEnabled = s.toString().isNotEmpty()
+            binding.loginBtnEnter.isEnabled = s.toString().isNotEmpty()
         }
         override fun afterTextChanged(s: Editable?) {}
     }

@@ -6,18 +6,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.instagram.R
-import com.example.instagram.databinding.CustomDialogBinding
+import com.example.instagram.databinding.DialogCustomBinding
 
 class CustomDialog(context: Context): Dialog(context) {
 
-    private lateinit var binding: CustomDialogBinding
+    private lateinit var binding: DialogCustomBinding
     private lateinit var textButtons: Array<TextView>
     private var titleId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = CustomDialogBinding.inflate(layoutInflater)
+        binding = DialogCustomBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 

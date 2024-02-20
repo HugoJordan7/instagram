@@ -11,7 +11,7 @@ interface LoginContract {
     }
 
     interface Presenter{
-
+        fun loginValidate(email: String, password: String)
     }
 
 }

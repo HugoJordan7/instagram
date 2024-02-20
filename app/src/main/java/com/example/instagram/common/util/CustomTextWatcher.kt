@@ -10,6 +10,7 @@ class CustomTextWatcher(val funOnTextChanged: (String) -> Unit): TextWatcher {
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         funOnTextChanged(s.toString())
+
     }
 
     override fun afterTextChanged(s: Editable?) {

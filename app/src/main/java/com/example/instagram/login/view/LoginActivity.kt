@@ -5,26 +5,36 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
 import com.example.instagram.login.LoginContract
+import com.example.instagram.login.presentation.LoginPresenter
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var presenter: LoginContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        presenter = LoginPresenter(this)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        with(binding){
+        with(binding) {
             loginEditEmail.addTextChangedListener(watcher)
             loginEditPassword.addTextChangedListener(watcher)
             loginBtnEnter.setOnClickListener {
-
+                presenter.loginValidate(loginEditEmail.text.toString(), loginEditPassword.text.toString())
             }
         }
     }
 
-    private val watcher = CustomTextWatcher{
-        binding.loginBtnEnter.isEnabled = it.isNotEmpty()
+    private val watcher = CustomTextWatcher { currentEditTextString ->
+        val email = binding.loginEditEmail.text.toString()
+        val password = binding.loginEditPassword.text.toString()
+        binding.loginBtnEnter.isEnabled = email.isNotEmpty() && password.isNotEmpty()
+        if(currentEditTextString == email){
+            displayEmailFailure(null)
+        } else{
+            displayPasswordFailure(null)
+        }
     }
 
     override fun showProgress(enabled: Boolean) {

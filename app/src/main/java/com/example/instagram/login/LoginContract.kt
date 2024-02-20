@@ -1,8 +1,11 @@
 package com.example.instagram.login
 
+import com.example.instagram.common.base.BasePresenter
+import com.example.instagram.common.base.BaseView
+
 interface LoginContract {
 
-    interface View{
+    interface View: BaseView<Presenter>{
         fun showProgress(enabled: Boolean)
         fun displayEmailFailure(emailError: Int?)
         fun displayPasswordFailure(passwordError: Int?)
@@ -10,7 +13,7 @@ interface LoginContract {
         fun onUserUnauthorized()
     }
 
-    interface Presenter{
+    interface Presenter: BasePresenter<View>{
         fun loginValidate(email: String, password: String)
     }
 

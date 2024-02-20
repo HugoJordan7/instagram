@@ -10,7 +10,7 @@ import com.example.instagram.login.presentation.LoginPresenter
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var presenter: LoginContract.Presenter
+    override lateinit var presenter: LoginContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,5 +55,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override fun onUserUnauthorized() {
 
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
     }
 }

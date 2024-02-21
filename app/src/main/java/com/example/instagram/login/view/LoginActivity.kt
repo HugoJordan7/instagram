@@ -1,11 +1,17 @@
 package com.example.instagram.login.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Message
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
 import com.example.instagram.login.LoginContract
+import com.example.instagram.login.data.FakeDataSource
+import com.example.instagram.login.data.LoginRepository
 import com.example.instagram.login.presentation.LoginPresenter
+import com.example.instagram.main.view.MainActivity
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
@@ -14,7 +20,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = LoginPresenter(this)
+        val repository = LoginRepository(FakeDataSource())
+        presenter = LoginPresenter(this,repository)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         with(binding) {
@@ -50,11 +57,13 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun onUserAuthenticated() {
-
+        val intent = Intent(this,MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 
-    override fun onUserUnauthorized() {
-
+    override fun onUserUnauthorized(message: String) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

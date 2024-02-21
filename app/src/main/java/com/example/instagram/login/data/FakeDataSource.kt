@@ -2,14 +2,25 @@ package com.example.instagram.login.data
 
 import android.os.Handler
 import android.os.Looper
+import com.example.instagram.common.model.Database
 
 class FakeDataSource: LoginDataSource {
     override fun login(email: String, password: String, callback: LoginCallback) {
         Handler(Looper.getMainLooper()).postDelayed({
-            if(email == "hugo@gmail.com" && password == "12344321"){
-                callback.onSuccess()
-            } else{
-                callback.onFailure("Invalid login!")
+            val userAuth = Database.usersAuth.firstOrNull{
+                email == it.email
+            }
+            when {
+                userAuth == null -> {
+                    callback.onFailure("User not found!")
+                }
+                userAuth.password != password -> {
+                    callback.onFailure("The password is incorrect!")
+                }
+                else -> {
+                    Database.sessionAuth = userAuth
+                    callback.onSuccess(userAuth)
+                }
             }
             callback.onComplete()
         }, 2000)

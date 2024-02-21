@@ -13,6 +13,7 @@ import com.example.instagram.login.data.FakeDataSource
 import com.example.instagram.login.data.LoginRepository
 import com.example.instagram.login.presentation.LoginPresenter
 import com.example.instagram.main.view.MainActivity
+import com.example.instagram.register.view.RegisterActivity
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
@@ -29,6 +30,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
             loginEditPassword.addTextChangedListener(watcher)
             loginBtnEnter.setOnClickListener {
                 presenter.loginValidate(loginEditEmail.text.toString(), loginEditPassword.text.toString())
+            }
+            loginTxtRegister.setOnClickListener {
+                startActivity(Intent(this@LoginActivity,RegisterActivity::class.java))
             }
         }
     }

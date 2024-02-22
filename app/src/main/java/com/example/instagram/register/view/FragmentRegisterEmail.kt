@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
+import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterEmailBinding
 import com.example.instagram.register.RegisterContract
 
@@ -17,6 +18,16 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRegisterEmailBinding.bind(view)
+        binding?.apply {
+            registerEditEmail.addTextChangedListener(watcher)
+            registerTxtLogin.setOnClickListener { 
+                activity?.finish()
+            }
+        }
+    }
+
+    private val watcher = CustomTextWatcher{
+        binding?.registerBtnNext?.isEnabled = it.isNotEmpty()
     }
 
     override fun displayEmailFailure(emailError: Int?) {
@@ -25,6 +36,7 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
 
     override fun onDestroy() {
         binding = null
+        //presenter.onDestroy()
         super.onDestroy()
     }
 }

@@ -10,7 +10,7 @@ interface RegisterEmailContract {
         fun showProgress(enabled: Boolean)
         fun displayEmailFailure(@StringRes emailError: Int?)
         fun onEmailFailure(message: String)
-        fun goToNameAndPassword(email: String)
+        fun goToNameAndPasswordScreen(email: String)
     }
 
     interface Presenter: BasePresenter<View>{

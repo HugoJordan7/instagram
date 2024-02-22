@@ -1,5 +1,6 @@
 package com.example.instagram.register.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -15,6 +16,7 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
 
     private var binding: FragmentRegisterEmailBinding? = null
     override lateinit var presenter: RegisterEmailContract.Presenter
+    private lateinit var attachListener: FragmentAttachListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,12 +47,19 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
         binding?.registerEditEmailLayout?.error = emailError?.let { getString(it) }
     }
 
-    override fun goToNameAndPassword(email: String) {
-        Toast.makeText(requireContext(),"Very good",Toast.LENGTH_SHORT).show()
+    override fun goToNameAndPasswordScreen(email: String) {
+        attachListener.goToNameAndPasswordScreen(email)
     }
 
     override fun onEmailFailure(message: String) {
         Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onAttach(context: Context) {
+        if(context is FragmentAttachListener){
+            attachListener = context
+        }
+        super.onAttach(context)
     }
 
     override fun onDestroy() {

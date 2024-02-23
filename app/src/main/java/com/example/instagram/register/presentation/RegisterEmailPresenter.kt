@@ -3,19 +3,19 @@ package com.example.instagram.register.presentation
 import android.util.Patterns
 import com.example.instagram.R
 import com.example.instagram.register.RegisterEmailContract
-import com.example.instagram.register.data.RegisterEmailCallback
-import com.example.instagram.register.data.RegisterEmailRepository
+import com.example.instagram.register.data.RegisterCallback
+import com.example.instagram.register.data.RegisterRepository
 
 class RegisterEmailPresenter(
     override var view: RegisterEmailContract.View?,
-    private val repository: RegisterEmailRepository) : RegisterEmailContract.Presenter {
+    private val repository: RegisterRepository) : RegisterEmailContract.Presenter {
 
     override fun register(email: String) {
         val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
         view?.displayEmailFailure(if (isEmailValid) null else R.string.invalid_email)
         if(isEmailValid){
             view?.showProgress(true)
-            repository.register(email, object : RegisterEmailCallback{
+            repository.register(email, object : RegisterCallback{
                 override fun onSuccess() {
                     view?.goToNameAndPasswordScreen(email)
                 }

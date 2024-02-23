@@ -21,7 +21,7 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRegisterEmailBinding.bind(view)
-        val repository = DependencyInjector.registerEmailRepository()
+        val repository = DependencyInjector.registerRepository()
         presenter = RegisterEmailPresenter(this,repository)
         binding?.apply {
             registerEditEmail.addTextChangedListener(watcher)

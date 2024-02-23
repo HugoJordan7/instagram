@@ -11,7 +11,7 @@ interface RegisterNamePasswordContract {
         fun displayNameFailure(@StringRes nameError: Int?)
         fun displayPasswordFailure(@StringRes passwordError: Int?)
         fun onRegisterFailure(message: String)
-        fun onRegisterSuccess()
+        fun onRegisterSuccess(name: String)
     }
 
     interface Presenter: BasePresenter<View> {

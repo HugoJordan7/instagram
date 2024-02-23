@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/register_txt_welcome"
                 style="@style/Theme.Instagram.FormTextView.Welcome"
                 android:text="@string/welcome_to_instagram"/>
 
@@ -37,10 +38,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray_darker"
-        app:layout_constraintBottom_toTopOf="@id/register_txt_welcome_login" />
+        app:layout_constraintBottom_toTopOf="@id/register_txt_welcome_terms" />
 
     <TextView
-        android:id="@+id/register_txt_welcome_login"
+        android:id="@+id/register_txt_welcome_terms"
         style="@style/Theme.Instagram.FormTextView"
         android:layout_width="match_parent"
         android:layout_marginStart="0dp"

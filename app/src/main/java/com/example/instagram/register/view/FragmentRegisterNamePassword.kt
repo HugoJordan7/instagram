@@ -1,5 +1,6 @@
 package com.example.instagram.register.view
 
+import android.content.Context
 import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -22,7 +23,7 @@ class FragmentRegisterNamePassword :
     }
 
     override lateinit var presenter: RegisterNamePasswordContract.Presenter
-
+    private var attachListener: FragmentAttachListener? = null
     private var binding: FragmentRegisterNamePasswordBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,9 +77,15 @@ class FragmentRegisterNamePassword :
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onRegisterSuccess() {
-        //go to photo screen
-        Toast.makeText(requireContext(), "Very nice", Toast.LENGTH_LONG).show()
+    override fun onRegisterSuccess(name: String) {
+        attachListener?.goToWelcomeScreen(name)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is FragmentAttachListener){
+            attachListener = context
+        }
     }
 
     override fun onDestroy() {

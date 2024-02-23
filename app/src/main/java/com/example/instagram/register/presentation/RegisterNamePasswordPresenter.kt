@@ -26,7 +26,7 @@ class RegisterNamePasswordPresenter(
             view?.showProgress(true)
             repository.register(email,name,password, object : RegisterCallback{
                 override fun onSuccess() {
-                    view?.onRegisterSuccess()
+                    view?.onRegisterSuccess(name)
                 }
                 override fun onFailure(message: String) {
                     view?.onRegisterFailure(message)

@@ -1,10 +1,13 @@
 package com.example.instagram.register.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
 import com.example.instagram.databinding.ActivityRegisterBinding
+import com.example.instagram.home.view.FragmentHome
+import com.example.instagram.main.view.MainActivity
 import com.example.instagram.register.view.FragmentRegisterNamePassword.Companion.KEY_EMAIL
 import com.example.instagram.register.view.FragmentRegisterWelcome.Companion.KEY_NAME
 
@@ -39,6 +42,12 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     override fun goToPhotoScreen() {
         val fragment = FragmentRegisterPhoto()
         replaceFragment(fragment)
+    }
+
+    override fun goToMainScreen() {
+        val intent = Intent(this,MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     private fun replaceFragment(fragment: Fragment){

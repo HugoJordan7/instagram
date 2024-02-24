@@ -1,10 +1,16 @@
 package com.example.instagram.register.view
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
+import com.example.instagram.common.view.FragmentImageCropper
+import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.ActivityRegisterBinding
 import com.example.instagram.home.view.FragmentHome
 import com.example.instagram.main.view.MainActivity
@@ -20,13 +26,13 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val fragment = FragmentRegisterEmail()
-        replaceFragment(fragment)
+        addFragment(fragment)
     }
 
     override fun goToNameAndPasswordScreen(email: String) {
         val fragment = FragmentRegisterNamePassword()
         fragment.arguments = Bundle().apply {
-            putString(KEY_EMAIL,email)
+            putString(KEY_EMAIL, email)
         }
         replaceFragment(fragment)
     }
@@ -34,7 +40,7 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     override fun goToWelcomeScreen(name: String) {
         val fragment = FragmentRegisterWelcome()
         val bundle = Bundle()
-        bundle.putString(KEY_NAME,name)
+        bundle.putString(KEY_NAME, name)
         fragment.arguments = bundle
         replaceFragment(fragment)
     }
@@ -45,19 +51,38 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     }
 
     override fun goToMainScreen() {
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 
-    private fun replaceFragment(fragment: Fragment){
-        supportFragmentManager.beginTransaction().apply {
-            if (supportFragmentManager.findFragmentById(R.id.register_fragment) == null){
-                add(R.id.register_fragment,fragment)
-            } else{
-                replace(R.id.register_fragment,fragment)
-                addToBackStack(null)
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                val fragment = FragmentImageCropper().apply {
+                    arguments = Bundle().apply {
+                        putParcelable(KEY_URI, it)
+                    }
+                }
+                replaceFragment(fragment)
             }
+        }
+
+    override fun goToGalleryScreen() {
+        getContent?.launch("image/*")
+    }
+
+    private fun addFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            add(R.id.register_fragment, fragment)
+            commit()
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment, toBackStack: Boolean = true) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.register_fragment, fragment)
+            if (toBackStack) addToBackStack(null)
             commit()
         }
     }

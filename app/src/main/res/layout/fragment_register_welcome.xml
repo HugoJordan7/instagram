@@ -24,7 +24,7 @@
                 style="@style/Theme.Instagram.FormTextView.Welcome"
                 android:text="@string/welcome_to_instagram"/>
 
-            <com.example.instagram.login.view.LoadingButton
+            <com.example.instagram.common.view.LoadingButton
                 android:id="@+id/register_btn_welcome_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -40,13 +40,13 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo) {
 
     private fun displayCustomDialog(){
         val customDialog = CustomDialog(requireContext())
-        customDialog.addButton(R.string.gallery,R.string.photo){
+        customDialog.addButton(R.string.photo,R.string.gallery){
             when(it.id){
+                R.string.photo -> {
+                    attachListener?.goToCameraScreen()
+                }
                 R.string.gallery -> {
                     attachListener?.goToGalleryScreen()
-                }
-                R.string.photo -> {
-                    Log.i("dialogTest","photo")
                 }
             }
         }

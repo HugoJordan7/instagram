@@ -2,24 +2,30 @@ package com.example.instagram.register.view
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
 import com.example.instagram.common.view.FragmentImageCropper
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.ActivityRegisterBinding
-import com.example.instagram.home.view.FragmentHome
 import com.example.instagram.main.view.MainActivity
 import com.example.instagram.register.view.FragmentRegisterNamePassword.Companion.KEY_EMAIL
 import com.example.instagram.register.view.FragmentRegisterWelcome.Companion.KEY_NAME
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.jvm.Throws
 
 class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
 
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var currentPhotoUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,17 +65,41 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     private val getContent =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
-                val fragment = FragmentImageCropper().apply {
-                    arguments = Bundle().apply {
-                        putParcelable(KEY_URI, it)
-                    }
-                }
-                replaceFragment(fragment)
+                openImageCropper(it)
             }
         }
 
+    private val getCamera = registerForActivityResult(ActivityResultContracts.TakePicture()){ saved ->
+        if(saved){
+            openImageCropper(currentPhotoUri)
+        }
+    }
+
     override fun goToGalleryScreen() {
-        getContent?.launch("image/*")
+        getContent.launch("image/*")
+    }
+
+    override fun goToCameraScreen() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if(intent.resolveActivity(packageManager) != null){
+            val photoFile: File? = try{
+                createImageFile()
+            } catch (e: IOException){
+                null
+            }
+            photoFile?.let {
+                val photoUri = FileProvider.getUriForFile(this,"com.example.instagram.fileprovider",it)
+                currentPhotoUri = photoUri
+                getCamera.launch(photoUri)
+            }
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("JPEG_${timestamp}_",".jpeg",dir)
     }
 
     private fun addFragment(fragment: Fragment) {
@@ -85,5 +115,14 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
             if (toBackStack) addToBackStack(null)
             commit()
         }
+    }
+
+    private fun openImageCropper(uri: Uri){
+        val fragment = FragmentImageCropper().apply {
+            arguments = Bundle().apply {
+                putParcelable(KEY_URI, uri)
+            }
+        }
+        replaceFragment(fragment)
     }
 }

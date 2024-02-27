@@ -95,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
+        android:textColor="@color/black"
         android:background="@color/white"
         android:padding="24dp"
         android:text="@string/does_not_have_account"

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.instagram.databinding.DialogCustomBinding
@@ -41,6 +42,7 @@ class CustomDialog(context: Context): Dialog(context) {
     }
 
     override fun show() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.show()
         for (textView in textButtons){
             val width = LinearLayout.LayoutParams.MATCH_PARENT

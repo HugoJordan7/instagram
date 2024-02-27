@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
+import com.example.instagram.common.extension.hideKeyBoard
 import com.example.instagram.common.view.FragmentImageCropper
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.ActivityRegisterBinding
@@ -112,8 +113,11 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     private fun replaceFragment(fragment: Fragment, toBackStack: Boolean = true) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.register_fragment, fragment)
-            if (toBackStack) addToBackStack(null)
+            if (toBackStack) {
+                addToBackStack(null)
+            }
             commit()
+            hideKeyBoard()
         }
     }
 

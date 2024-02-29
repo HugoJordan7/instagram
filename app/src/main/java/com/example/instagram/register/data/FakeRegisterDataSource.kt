@@ -1,8 +1,10 @@
 package com.example.instagram.register.data
 
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import com.example.instagram.common.model.Database
+import com.example.instagram.common.model.Photo
 import com.example.instagram.common.model.UserAuth
 import java.util.*
 
@@ -39,5 +41,21 @@ class FakeRegisterDataSource: RegisterDataSource {
         }, 2000)
     }
 
-
+    override fun updateUser(uri: Uri, callback: RegisterCallback) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val userAuth = Database.sessionAuth
+            if(userAuth == null){
+                callback.onFailure("User not found")
+            } else{
+                val photo = Photo(userAuth.uuid,uri)
+                val created = Database.photos.add(photo)
+                if(created){
+                    callback.onSuccess()
+                } else{
+                    callback.onFailure("Unknown error on created photo")
+                }
+            }
+            callback.onComplete()
+        },2000)
+    }
 }

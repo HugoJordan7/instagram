@@ -5,6 +5,7 @@ import java.util.*
 object Database {
 
     var usersAuth = hashSetOf<UserAuth>()
+    var photos = hashSetOf<Photo>()
     var sessionAuth: UserAuth? = null
 
     init {

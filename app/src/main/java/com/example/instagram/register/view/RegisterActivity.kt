@@ -8,9 +8,8 @@ import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
 import com.example.instagram.R
-import com.example.instagram.common.extension.hideKeyBoard
+import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.common.view.FragmentImageCropper
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.ActivityRegisterBinding
@@ -27,13 +26,14 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var currentPhotoUri: Uri
+    private val fragmentId: Int = R.id.register_fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val fragment = FragmentRegisterEmail()
-        addFragment(fragment)
+        replaceFragment(fragmentId,fragment)
     }
 
     override fun goToNameAndPasswordScreen(email: String) {
@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
         fragment.arguments = Bundle().apply {
             putString(KEY_EMAIL, email)
         }
-        replaceFragment(fragment)
+        replaceFragment(fragmentId,fragment)
     }
 
     override fun goToWelcomeScreen(name: String) {
@@ -49,12 +49,12 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
         val bundle = Bundle()
         bundle.putString(KEY_NAME, name)
         fragment.arguments = bundle
-        replaceFragment(fragment)
+        replaceFragment(fragmentId,fragment)
     }
 
     override fun goToPhotoScreen() {
         val fragment = FragmentRegisterPhoto()
-        replaceFragment(fragment)
+        replaceFragment(fragmentId,fragment)
     }
 
     override fun goToMainScreen() {
@@ -103,30 +103,12 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
         return File.createTempFile("JPEG_${timestamp}_",".jpeg",dir)
     }
 
-    private fun addFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            add(R.id.register_fragment, fragment)
-            commit()
-        }
-    }
-
-    private fun replaceFragment(fragment: Fragment, toBackStack: Boolean = true) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.register_fragment, fragment)
-            if (toBackStack) {
-                addToBackStack(null)
-            }
-            commit()
-            hideKeyBoard()
-        }
-    }
-
     private fun openImageCropper(uri: Uri){
         val fragment = FragmentImageCropper().apply {
             arguments = Bundle().apply {
                 putParcelable(KEY_URI, uri)
             }
         }
-        replaceFragment(fragment)
+        replaceFragment(fragmentId,fragment)
     }
 }

@@ -32,13 +32,11 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <fragment
+        <FrameLayout
             android:id="@+id/main_fragment"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.example.instagram.home.view.FragmentHome"
-            tools:layout="@layout/fragment_home"/>
+            android:layout_height="match_parent"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

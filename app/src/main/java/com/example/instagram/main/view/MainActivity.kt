@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
@@ -14,6 +15,7 @@ import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.databinding.ActivityMainBinding
 import com.example.instagram.home.view.FragmentHome
 import com.example.instagram.search.view.FragmentSearch
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -55,26 +57,30 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var fragmentSelected: Fragment = when (item.itemId) {
+        var scrollToolbarEnabled = false
+        var fragmentSelected: Fragment? = null
+        when (item.itemId) {
             R.id.menu_bottom_home -> {
-                homeFragment
+                fragmentSelected = homeFragment
             }
             R.id.menu_bottom_search -> {
-                searchFragment
+                fragmentSelected = searchFragment
             }
             R.id.menu_bottom_add -> {
-                cameraFragment
+                fragmentSelected = cameraFragment
             }
             R.id.menu_bottom_fav -> {
-                favoritesFragment
+                fragmentSelected = favoritesFragment
             }
             R.id.menu_bottom_profile -> {
-                profileFragment
+                fragmentSelected = profileFragment
+                scrollToolbarEnabled = true
             }
-            else -> profileFragment
         }
 
-        return if (currentFragment == fragmentSelected) false else{
+        setScrollToolbar(scrollToolbarEnabled)
+
+        return if (currentFragment == fragmentSelected) false else {
             currentFragment = fragmentSelected
             currentFragment?.let {
                 replaceFragment(R.id.main_fragment, it)
@@ -82,6 +88,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             true
         }
 
+    }
+
+    private fun setScrollToolbar(enabled: Boolean) {
+        val appBarParams = binding.mainToolbar.layoutParams as AppBarLayout.LayoutParams
+        val coordinatorParams = binding.mainAppBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        if(enabled){
+            appBarParams.scrollFlags =  AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            coordinatorParams.behavior = AppBarLayout.Behavior()
+        } else{
+            appBarParams.scrollFlags = 0
+            coordinatorParams.behavior = null
+        }
+        binding.mainAppBarLayout.layoutParams = coordinatorParams
     }
 
 }

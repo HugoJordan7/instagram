@@ -14,6 +14,7 @@ import com.example.instagram.camera.view.FragmentCamera
 import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.databinding.ActivityMainBinding
 import com.example.instagram.home.view.FragmentHome
+import com.example.instagram.profile.view.FragmentProfile
 import com.example.instagram.search.view.FragmentSearch
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView

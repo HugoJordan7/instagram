@@ -127,7 +127,7 @@
             app:menu="@menu/menu_profile_bottom_nav" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/profile_recycler_view"
+            android:id="@+id/profile_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

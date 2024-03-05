@@ -14,7 +14,7 @@ interface RegisterNamePasswordContract {
         fun onRegisterSuccess(name: String)
     }
 
-    interface Presenter: BasePresenter<View> {
+    interface Presenter: BasePresenter {
         fun register(email: String, name: String, password: String, confirm: String)
     }
 

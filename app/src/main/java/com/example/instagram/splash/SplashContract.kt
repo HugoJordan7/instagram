@@ -10,7 +10,7 @@ interface SplashContract {
         fun goToLoginScreen()
     }
 
-    interface Presenter: BasePresenter<View>{
+    interface Presenter: BasePresenter{
         fun authenticated()
     }
 

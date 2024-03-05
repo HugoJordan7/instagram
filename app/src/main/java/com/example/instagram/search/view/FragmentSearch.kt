@@ -25,7 +25,7 @@ class FragmentSearch: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.search_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = PostAdapter(emptyList())
+        recyclerView.adapter = PostAdapter()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -33,7 +33,7 @@ class FragmentSearch: Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    inner class PostAdapter(private val imageList: List<Int>): RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
+    inner class PostAdapter : RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
             val view = layoutInflater.inflate(R.layout.item_user_list,parent,false)

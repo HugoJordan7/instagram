@@ -14,7 +14,7 @@ interface LoginContract {
         fun onUserUnauthorized(message: String)
     }
 
-    interface Presenter: BasePresenter<View>{
+    interface Presenter: BasePresenter{
         fun loginValidate(email: String, password: String)
     }
 

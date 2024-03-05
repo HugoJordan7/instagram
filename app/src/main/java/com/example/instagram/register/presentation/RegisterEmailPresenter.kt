@@ -7,7 +7,7 @@ import com.example.instagram.register.data.RegisterCallback
 import com.example.instagram.register.data.RegisterRepository
 
 class RegisterEmailPresenter(
-    override var view: RegisterEmailContract.View?,
+    private var view: RegisterEmailContract.View?,
     private val repository: RegisterRepository) : RegisterEmailContract.Presenter {
 
     override fun register(email: String) {

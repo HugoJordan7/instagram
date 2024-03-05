@@ -6,7 +6,7 @@ import com.example.instagram.register.data.RegisterCallback
 import com.example.instagram.register.data.RegisterRepository
 
 class RegisterPhotoPresenter(
-    override var view: RegisterPhotoContract.View?,
+    private var view: RegisterPhotoContract.View?,
     private val repository: RegisterRepository
 ) : RegisterPhotoContract.Presenter {
 

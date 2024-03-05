@@ -7,10 +7,6 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.instagram.R
-import com.example.instagram.databinding.FragmentProfileBinding
-import com.example.instagram.profile.view.PostAdapter
 
 abstract class BaseFragment<B,P: BasePresenter>(
     @LayoutRes layoutId: Int,

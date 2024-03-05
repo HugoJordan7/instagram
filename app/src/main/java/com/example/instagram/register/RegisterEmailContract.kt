@@ -13,7 +13,7 @@ interface RegisterEmailContract {
         fun goToNameAndPasswordScreen(email: String)
     }
 
-    interface Presenter: BasePresenter<View>{
+    interface Presenter: BasePresenter{
         fun register(email: String)
     }
 

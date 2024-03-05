@@ -47,4 +47,5 @@
     <string name="fav">Favoritos</string>
     <string name="profile">Perfil</string>
     <string name="invalid_name">O nome deve ter no mínimo 4 caracteres</string>
+    <string name="no_posts_found">Ainda não há publicações</string>
 </resources>

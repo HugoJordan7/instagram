@@ -2,15 +2,12 @@ package com.example.instagram.login.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Message
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.instagram.common.base.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
 import com.example.instagram.login.LoginContract
-import com.example.instagram.login.data.FakeDataSource
-import com.example.instagram.login.data.LoginRepository
 import com.example.instagram.login.presentation.LoginPresenter
 import com.example.instagram.main.view.MainActivity
 import com.example.instagram.register.view.RegisterActivity

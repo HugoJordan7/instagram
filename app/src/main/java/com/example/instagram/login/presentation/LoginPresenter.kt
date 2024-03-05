@@ -8,7 +8,7 @@ import com.example.instagram.login.data.LoginCallback
 import com.example.instagram.login.data.LoginRepository
 
 class LoginPresenter(
-    override var view: LoginContract.View?,
+    private var view: LoginContract.View?,
     private val repository: LoginRepository
 ) : LoginContract.Presenter {
 

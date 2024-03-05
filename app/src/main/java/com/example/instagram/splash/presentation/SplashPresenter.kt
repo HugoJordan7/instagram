@@ -5,7 +5,7 @@ import com.example.instagram.splash.data.SplashCallback
 import com.example.instagram.splash.data.SplashRepository
 
 class SplashPresenter(
-    override var view: SplashContract.View?,
+    private var view: SplashContract.View?,
     private val repository: SplashRepository
 ) : SplashContract.Presenter {
 

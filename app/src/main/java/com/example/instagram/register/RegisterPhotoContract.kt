@@ -12,7 +12,7 @@ interface RegisterPhotoContract {
         fun onUpdateFailure(message: String)
     }
 
-    interface Presenter: BasePresenter<View>{
+    interface Presenter: BasePresenter{
         fun updateUser(uri: Uri)
     }
 

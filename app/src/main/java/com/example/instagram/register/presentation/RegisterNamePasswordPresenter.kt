@@ -6,7 +6,7 @@ import com.example.instagram.register.data.RegisterCallback
 import com.example.instagram.register.data.RegisterRepository
 
 class RegisterNamePasswordPresenter(
-    override var view: RegisterNamePasswordContract.View?,
+    private var view: RegisterNamePasswordContract.View?,
     private val repository: RegisterRepository
 ) : RegisterNamePasswordContract.Presenter {
 

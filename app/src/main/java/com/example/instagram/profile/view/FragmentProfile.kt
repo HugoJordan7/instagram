@@ -6,10 +6,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
+import com.example.instagram.common.base.DependencyInjector
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.UserAuth
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.profile.ProfileContract
+import com.example.instagram.profile.data.FakeProfileDataSource
+import com.example.instagram.profile.data.ProfileRepository
 import com.example.instagram.profile.presentation.ProfilePresenter
 
 class FragmentProfile :
@@ -19,14 +22,17 @@ class FragmentProfile :
     ), ProfileContract.View {
 
     override lateinit var presenter: ProfileContract.Presenter
+    private val adapter = PostAdapter()
 
     override fun setupPresenter() {
-        presenter = ProfilePresenter(this)
+        val repository = DependencyInjector.profileRepository()
+        presenter = ProfilePresenter(this,repository)
     }
 
     override fun setupViews() {
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding?.profileRv?.adapter = PostAdapter()
+        binding?.profileRv?.adapter = adapter
+        presenter.fetchUserProfile()
     }
 
     override fun getMenu() = R.menu.menu_main_toolbar
@@ -58,6 +64,8 @@ class FragmentProfile :
     override fun displaysPosts(posts: List<Post>) {
         binding?.profileTxtNoPosts?.visibility = View.GONE
         binding?.profileProgressBar?.visibility = View.VISIBLE
+        adapter.posts = posts
+        adapter.notifyDataSetChanged()
     }
 
 }

@@ -28,7 +28,7 @@ class FakeRegisterDataSource: RegisterDataSource {
             if (userAuth != null){
                 callback.onFailure("The user is already registered")
             } else{
-                val newUser = UserAuth(UUID.randomUUID().toString(),name, email, password)
+                val newUser = UserAuth(UUID.randomUUID().toString(),name, email, password,1,1,1)
                 val isUserRegistered = Database.usersAuth.add(newUser)
                 if (isUserRegistered){
                     Database.sessionAuth = newUser

@@ -6,6 +6,7 @@ object Database {
 
     var usersAuth = hashSetOf<UserAuth>()
     var photos = hashSetOf<Photo>()
+    var posts = hashMapOf<String,Set<Post>>()
     var sessionAuth: UserAuth? = null
 
     init {

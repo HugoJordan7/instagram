@@ -13,29 +13,36 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.instagram.R
 
-fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment, toBackStack: Boolean = true) {
+fun AppCompatActivity.addFragment(@IdRes id: Int, fragment: Fragment) {
     supportFragmentManager.beginTransaction().apply {
-        if(supportFragmentManager.findFragmentById(id) == null){
-            add(id,fragment)
-        } else{
-            replace(id, fragment)
-            if(toBackStack) addToBackStack(null)
+        add(id, fragment)
+        commit()
+    }
+    hideKeyBoard()
+}
+
+fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment, toBackStack: Boolean = true, name: String? = null) {
+    supportFragmentManager.beginTransaction().apply {
+        replace(id, fragment)
+        if (toBackStack) {
+            addToBackStack(name)
         }
         commit()
     }
     hideKeyBoard()
 }
 
-fun Activity.hideKeyBoard(){
-    val imm: InputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+fun Activity.hideKeyBoard() {
+    val imm: InputMethodManager =
+        getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     var view: View? = currentFocus
-    if(view == null){
+    if (view == null) {
         view = View(this)
     }
-    imm.hideSoftInputFromWindow(view?.windowToken,0)
+    imm.hideSoftInputFromWindow(view?.windowToken, 0)
 }
 
-fun Activity.animationEnd(callback: () -> Unit): AnimatorListenerAdapter{
+fun Activity.animationEnd(callback: () -> Unit): AnimatorListenerAdapter {
     return object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator?) {
             callback.invoke()

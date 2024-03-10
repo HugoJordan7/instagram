@@ -1,5 +1,7 @@
 package com.example.instagram.profile.view
 
+import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -15,18 +17,17 @@ import com.example.instagram.profile.data.FakeProfileDataSource
 import com.example.instagram.profile.data.ProfileRepository
 import com.example.instagram.profile.presentation.ProfilePresenter
 
-class FragmentProfile :
-    BaseFragment<FragmentProfileBinding,ProfileContract.Presenter>(
-        R.layout.fragment_profile,
-        FragmentProfileBinding::bind
-    ), ProfileContract.View {
+class FragmentProfile : BaseFragment<FragmentProfileBinding, ProfileContract.Presenter>(
+    R.layout.fragment_profile,
+    FragmentProfileBinding::bind
+), ProfileContract.View {
 
     override lateinit var presenter: ProfileContract.Presenter
     private val adapter = PostAdapter()
 
     override fun setupPresenter() {
         val repository = DependencyInjector.profileRepository()
-        presenter = ProfilePresenter(this,repository)
+        presenter = ProfilePresenter(this, repository)
     }
 
     override fun setupViews() {
@@ -38,7 +39,7 @@ class FragmentProfile :
     override fun getMenu() = R.menu.menu_main_toolbar
 
     override fun showProgress(enabled: Boolean) {
-        binding?.profileProgressBar?.visibility = if(enabled) View.VISIBLE else View.GONE
+        binding?.profileProgressBar?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
     override fun displayUserProfile(userAuth: UserAuth) {
@@ -53,7 +54,7 @@ class FragmentProfile :
     }
 
     override fun displayFailure(message: String) {
-        Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun displayEmptyPosts() {
@@ -68,4 +69,24 @@ class FragmentProfile :
         adapter.notifyDataSetChanged()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelable(PROFILE_STATE, presenter.state)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if(savedInstanceState != null) {
+            val state = savedInstanceState.getParcelable<UserAuth?>(PROFILE_STATE)
+            presenter.state = state
+            Log.i("saveState","${state?.name}")
+            state?.let {
+                displayUserProfile(it)
+            }
+        }
+    }
+
+    companion object {
+        const val PROFILE_STATE = "profileState"
+    }
 }

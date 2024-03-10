@@ -12,12 +12,15 @@ class ProfilePresenter(
     private val repository: ProfileRepository
 ) : ProfileContract.Presenter {
 
+    override var state: UserAuth? = null
+
     override fun fetchUserProfile() {
         view?.showProgress(true)
         val uuid = Database.sessionAuth?.uuid ?: throw Exception("User uuid not found")
         repository.fetchUserProfile(uuid, object : RequestCallback<UserAuth>{
 
             override fun onSuccess(data: UserAuth) {
+                state = data
                 view?.displayUserProfile(data)
             }
 

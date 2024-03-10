@@ -16,6 +16,7 @@ interface ProfileContract {
     }
 
     interface Presenter: BasePresenter{
+        var state: UserAuth?
         fun fetchUserProfile()
         fun fetchUserPosts()
     }

@@ -3,6 +3,7 @@ package com.example.instagram.main.view
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.appcompat.widget.Toolbar
@@ -22,14 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
-
-    private lateinit var homeFragment: Fragment
-    private lateinit var searchFragment: Fragment
-    private lateinit var cameraFragment: Fragment
-    private lateinit var favoritesFragment: Fragment
-    private lateinit var profileFragment: Fragment
-    private lateinit var currentFragment: Fragment
-    private lateinit var selectedFragment: Fragment
+    private lateinit var fragmentSavedState: HashMap<String, Fragment.SavedState?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,56 +42,55 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             title = ""
         }
 
-        homeFragment = FragmentHome()
-        searchFragment = FragmentSearch()
-        cameraFragment = FragmentCamera()
-        profileFragment = FragmentProfile()
-
-        currentFragment = homeFragment
+        if (savedInstanceState == null) {
+            fragmentSavedState = HashMap()
+        } else {
+            savedInstanceState.getSerializable(FRAGMENT_STATE) as HashMap<String, Fragment.SavedState>
+        }
 
         binding.mainBottomNav.setOnNavigationItemSelectedListener(this)
         binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
 
-        supportFragmentManager.beginTransaction().apply {
-            add(R.id.main_fragment, homeFragment, "0")
-            add(R.id.main_fragment, searchFragment, "1").hide(searchFragment)
-            add(R.id.main_fragment, cameraFragment, "2").hide(cameraFragment)
-            add(R.id.main_fragment, profileFragment, "3").hide(profileFragment)
-            commit()
-        }
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(FRAGMENT_STATE, fragmentSavedState)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var scrollToolbarEnabled = false
-        when (item.itemId) {
+        val isScrollEnabled = false
+        val selectedFragment: Fragment? = when (item.itemId) {
             R.id.menu_bottom_home -> {
-                selectedFragment = homeFragment
-            }
-            R.id.menu_bottom_search -> {
-                selectedFragment = searchFragment
-            }
-            R.id.menu_bottom_add -> {
-                selectedFragment = cameraFragment
-            }
-            R.id.menu_bottom_fav -> {
-                //selectedFragment = homeFragment
+                FragmentHome()
             }
             R.id.menu_bottom_profile -> {
-                selectedFragment = profileFragment
-                scrollToolbarEnabled = true
+                FragmentProfile()
+            }
+            else -> null
+        }
+
+        val currentFrag = supportFragmentManager.findFragmentById(R.id.main_fragment)
+        val currentFragTag = currentFrag?.javaClass?.simpleName
+        val selectedFragTag = selectedFragment?.javaClass?.simpleName
+
+        currentFrag?.let { current ->
+            Log.i("verifyTags","currentTag: $currentFragTag")
+            Log.i("verifyTags", "selectedTag: $selectedFragTag")
+            if (!currentFragTag.equals(selectedFragTag)) {
+                fragmentSavedState.put(
+                    currentFragTag!!,
+                    supportFragmentManager.saveFragmentInstanceState(current)
+                )
             }
         }
-        if (currentFragment == selectedFragment) return false
 
-        supportFragmentManager.beginTransaction().apply {
-            hide(currentFragment)
-            show(selectedFragment)
-            commit()
+        selectedFragment?.let {
+            it.setInitialSavedState(fragmentSavedState[selectedFragTag])
+            replaceFragment(R.id.main_fragment, it, true, selectedFragTag)
         }
-        setScrollToolbar(scrollToolbarEnabled)
-        currentFragment = selectedFragment
-        //replaceFragment(R.id.main_fragment, currentFragment)
+
+        setScrollToolbar(isScrollEnabled)
         return true
     }
 
@@ -114,6 +107,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             coordinatorParams.behavior = null
         }
         binding.mainAppBarLayout.layoutParams = coordinatorParams
+    }
+
+    companion object {
+        const val FRAGMENT_STATE = "fragmentState"
     }
 
 }

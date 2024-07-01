@@ -1,11 +1,10 @@
 package com.example.instagram.main.view
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsetsController
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -22,8 +21,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
+    private val homeFragment: Fragment = FragmentHome()
+    private val searchFragment: Fragment = FragmentSearch()
+    private val cameraFragment: Fragment = FragmentCamera()
+    private val profileFragment: Fragment = FragmentProfile()
+    private var currentFragment: Fragment? = null
     private lateinit var binding: ActivityMainBinding
-    private lateinit var fragmentSavedState: HashMap<String, Fragment.SavedState?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,76 +44,43 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             setDisplayHomeAsUpEnabled(true)
             title = ""
         }
-
-        if (savedInstanceState == null) {
-            fragmentSavedState = HashMap()
-        } else {
-            savedInstanceState.getSerializable(FRAGMENT_STATE) as HashMap<String, Fragment.SavedState>
-        }
-
         binding.mainBottomNav.setOnNavigationItemSelectedListener(this)
         binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(FRAGMENT_STATE, fragmentSavedState)
-        super.onSaveInstanceState(outState)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val isScrollEnabled = false
-        val selectedFragment: Fragment? = when (item.itemId) {
+        var isScrollEnabled = false
+        currentFragment = when (item.itemId) {
             R.id.menu_bottom_home -> {
-                FragmentHome()
+                isScrollEnabled = true
+                homeFragment
             }
             R.id.menu_bottom_profile -> {
-                FragmentProfile()
+                isScrollEnabled = true
+                profileFragment
             }
+            R.id.menu_bottom_add -> cameraFragment
+            R.id.menu_bottom_search -> searchFragment
             else -> null
         }
-
-        val currentFrag = supportFragmentManager.findFragmentById(R.id.main_fragment)
-        val currentFragTag = currentFrag?.javaClass?.simpleName
-        val selectedFragTag = selectedFragment?.javaClass?.simpleName
-
-        currentFrag?.let { current ->
-            Log.i("verifyTags","currentTag: $currentFragTag")
-            Log.i("verifyTags", "selectedTag: $selectedFragTag")
-            if (!currentFragTag.equals(selectedFragTag)) {
-                fragmentSavedState.put(
-                    currentFragTag!!,
-                    supportFragmentManager.saveFragmentInstanceState(current)
-                )
-            }
+        currentFragment?.let {
+            replaceFragment(R.id.main_fragment, it)
         }
-
-        selectedFragment?.let {
-            it.setInitialSavedState(fragmentSavedState[selectedFragTag])
-            replaceFragment(R.id.main_fragment, it, true, selectedFragTag)
-        }
-
         setScrollToolbar(isScrollEnabled)
         return true
     }
 
     private fun setScrollToolbar(enabled: Boolean) {
         val appBarParams = binding.mainToolbar.layoutParams as AppBarLayout.LayoutParams
-        val coordinatorParams =
-            binding.mainAppBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        val coordinatorParams = binding.mainAppBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         if (enabled) {
-            appBarParams.scrollFlags =
-                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+            appBarParams.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
             coordinatorParams.behavior = AppBarLayout.Behavior()
         } else {
             appBarParams.scrollFlags = 0
             coordinatorParams.behavior = null
         }
         binding.mainAppBarLayout.layoutParams = coordinatorParams
-    }
-
-    companion object {
-        const val FRAGMENT_STATE = "fragmentState"
     }
 
 }

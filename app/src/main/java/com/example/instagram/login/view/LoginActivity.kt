@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.instagram.common.base.DependencyInjector
+import com.example.instagram.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
 import com.example.instagram.login.LoginContract
@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = LoginPresenter(this,DependencyInjector.loginRepository())
+        presenter = LoginPresenter(this, DependencyInjector.loginRepository())
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         with(binding) {

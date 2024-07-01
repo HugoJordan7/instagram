@@ -4,17 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
-import com.example.instagram.common.base.DependencyInjector
+import com.example.instagram.di.DependencyInjector
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.UserAuth
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.profile.ProfileContract
-import com.example.instagram.profile.data.FakeProfileDataSource
-import com.example.instagram.profile.data.ProfileRepository
 import com.example.instagram.profile.presentation.ProfilePresenter
 
 class FragmentProfile : BaseFragment<FragmentProfileBinding, ProfileContract.Presenter>(
@@ -70,7 +67,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, ProfileContract.Pre
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(PROFILE_STATE, presenter.state)
+        //outState.putParcelable(PROFILE_STATE, presenter.state)
         super.onSaveInstanceState(outState)
     }
 
@@ -78,7 +75,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, ProfileContract.Pre
         super.onViewStateRestored(savedInstanceState)
         if(savedInstanceState != null) {
             val state = savedInstanceState.getParcelable<UserAuth?>(PROFILE_STATE)
-            presenter.state = state
+            //presenter.state = state
             Log.i("saveState","${state?.name}")
             state?.let {
                 displayUserProfile(it)

@@ -3,13 +3,12 @@ package com.example.instagram.register.view
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.instagram.R
-import com.example.instagram.common.base.DependencyInjector
+import com.example.instagram.di.DependencyInjector
 import com.example.instagram.common.view.CustomDialog
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.FragmentRegisterPhotoBinding

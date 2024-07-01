@@ -3,15 +3,11 @@ package com.example.instagram.common.extension
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
-import android.content.Intent
 import android.view.View
-import android.view.ViewPropertyAnimator
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import com.example.instagram.R
 
 fun AppCompatActivity.addFragment(@IdRes id: Int, fragment: Fragment) {
     supportFragmentManager.beginTransaction().apply {
@@ -21,25 +17,29 @@ fun AppCompatActivity.addFragment(@IdRes id: Int, fragment: Fragment) {
     hideKeyBoard()
 }
 
-fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment, toBackStack: Boolean = true, name: String? = null) {
-    supportFragmentManager.beginTransaction().apply {
-        replace(id, fragment)
-        if (toBackStack) {
-            addToBackStack(name)
+fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment) {
+    if (supportFragmentManager.findFragmentById(id) == null) {
+        supportFragmentManager.beginTransaction().apply {
+            add(id, fragment)
+            commit()
         }
-        commit()
+    } else {
+        supportFragmentManager.beginTransaction().apply {
+            replace(id, fragment)
+            addToBackStack(null)
+            commit()
+        }
     }
     hideKeyBoard()
 }
 
 fun Activity.hideKeyBoard() {
-    val imm: InputMethodManager =
-        getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     var view: View? = currentFocus
     if (view == null) {
         view = View(this)
     }
-    imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun Activity.animationEnd(callback: () -> Unit): AnimatorListenerAdapter {

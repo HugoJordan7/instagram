@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import com.example.instagram.R
 import com.example.instagram.databinding.FragmentImageCropperBinding
-import com.example.instagram.register.view.FragmentAttachListener
+import com.example.instagram.feature.register.view.FragmentAttachListener
 import java.io.File
 
 class FragmentImageCropper: Fragment(R.layout.fragment_image_cropper) {

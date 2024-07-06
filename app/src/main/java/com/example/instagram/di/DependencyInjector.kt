@@ -1,22 +1,24 @@
 package com.example.instagram.di
 
-import com.example.instagram.login.data.FakeDataSource
-import com.example.instagram.login.data.LoginRepository
-import com.example.instagram.profile.data.PostListMemoryCache
-import com.example.instagram.profile.data.ProfileDataSourceFactory
-import com.example.instagram.profile.data.ProfileFakeRemoteDataSource
-import com.example.instagram.profile.data.ProfileMemoryCache
-import com.example.instagram.profile.data.ProfileRepository
-import com.example.instagram.register.data.FakeRegisterDataSource
-import com.example.instagram.register.data.RegisterRepository
-import com.example.instagram.splash.data.FakeSplashDataSource
-import com.example.instagram.splash.data.SplashRepository
+import com.example.instagram.feature.login.data.FakeDataSource
+import com.example.instagram.feature.login.data.LoginRepository
+import com.example.instagram.feature.profile.data.PostListMemoryCache
+import com.example.instagram.feature.profile.data.ProfileDataSourceFactory
+import com.example.instagram.feature.profile.data.ProfileMemoryCache
+import com.example.instagram.feature.profile.data.ProfileRepository
+import com.example.instagram.feature.register.data.FakeRegisterDataSource
+import com.example.instagram.feature.register.data.RegisterRepository
+import com.example.instagram.feature.splash.data.FakeSplashDataSource
+import com.example.instagram.feature.splash.data.SplashRepository
+import com.example.instagram.feature.home.data.FeedMemoryCache
+import com.example.instagram.feature.home.data.HomeDataSourceFactory
+import com.example.instagram.feature.home.data.HomeRepository
 
 object DependencyInjector {
-    fun loginRepository(): LoginRepository{
+    fun loginRepository(): LoginRepository {
         return LoginRepository(FakeDataSource())
     }
-    fun registerRepository(): RegisterRepository{
+    fun registerRepository(): RegisterRepository {
         return RegisterRepository(FakeRegisterDataSource())
     }
 
@@ -24,7 +26,12 @@ object DependencyInjector {
         return SplashRepository(FakeSplashDataSource())
     }
 
-    fun profileRepository(): ProfileRepository{
+    fun profileRepository(): ProfileRepository {
         return ProfileRepository(ProfileDataSourceFactory(ProfileMemoryCache, PostListMemoryCache))
     }
+
+    fun homeRepository(): HomeRepository {
+        return HomeRepository(HomeDataSourceFactory(FeedMemoryCache))
+    }
+
 }

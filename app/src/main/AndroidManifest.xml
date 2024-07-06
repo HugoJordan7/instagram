@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Instagram">
-        <activity android:name=".splash.view.SplashActivity"
+        <activity android:name=".feature.splash.view.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,13 +28,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.view.MainActivity"
+            android:name=".feature.main.view.MainActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".register.view.RegisterActivity"
+            android:name=".feature.register.view.RegisterActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".login.view.LoginActivity"
+            android:name=".feature.login.view.LoginActivity"
             android:exported="true">
         </activity>
 

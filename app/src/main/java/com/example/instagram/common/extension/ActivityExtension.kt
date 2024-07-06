@@ -9,26 +9,15 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
-fun AppCompatActivity.addFragment(@IdRes id: Int, fragment: Fragment) {
-    supportFragmentManager.beginTransaction().apply {
-        add(id, fragment)
-        commit()
-    }
-    hideKeyBoard()
-}
-
 fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment) {
-    if (supportFragmentManager.findFragmentById(id) == null) {
-        supportFragmentManager.beginTransaction().apply {
+    supportFragmentManager.beginTransaction().apply {
+        if (supportFragmentManager.findFragmentById(id) == null) {
             add(id, fragment)
-            commit()
-        }
-    } else {
-        supportFragmentManager.beginTransaction().apply {
+        } else {
             replace(id, fragment)
             addToBackStack(null)
-            commit()
         }
+        commit()
     }
     hideKeyBoard()
 }

@@ -10,9 +10,10 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
-import com.example.instagram.feature.camera.view.FragmentCamera
+import com.example.instagram.feature.add.view.FragmentCamera
 import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.databinding.ActivityMainBinding
+import com.example.instagram.feature.add.view.FragmentAdd
 import com.example.instagram.feature.home.view.FragmentHome
 import com.example.instagram.feature.profile.view.FragmentProfile
 import com.example.instagram.feature.search.view.FragmentSearch
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private val homeFragment: Fragment = FragmentHome()
     private val searchFragment: Fragment = FragmentSearch()
-    private val cameraFragment: Fragment = FragmentCamera()
+    private val addFragment: Fragment = FragmentAdd()
     private val profileFragment: Fragment = FragmentProfile()
     private var currentFragment: Fragment? = null
     private lateinit var binding: ActivityMainBinding
@@ -52,15 +53,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         var isScrollEnabled = false
         currentFragment = when (item.itemId) {
             R.id.menu_bottom_home -> {
+                if (currentFragment == homeFragment) return false
                 isScrollEnabled = true
                 homeFragment
             }
             R.id.menu_bottom_profile -> {
+                if (currentFragment == profileFragment) return false
                 isScrollEnabled = true
                 profileFragment
             }
-            R.id.menu_bottom_add -> cameraFragment
-            R.id.menu_bottom_search -> searchFragment
+            R.id.menu_bottom_add -> {
+                if (currentFragment == addFragment) return false
+                addFragment
+            }
+            R.id.menu_bottom_search -> {
+                if (currentFragment == searchFragment) return false
+                searchFragment
+            }
             else -> null
         }
         currentFragment?.let {

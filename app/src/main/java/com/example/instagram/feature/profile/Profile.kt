@@ -5,7 +5,7 @@ import com.example.instagram.common.base.BaseView
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.UserAuth
 
-interface ProfileContract {
+interface Profile {
 
     interface View: BaseView<Presenter>{
         fun showProgress(enabled: Boolean)

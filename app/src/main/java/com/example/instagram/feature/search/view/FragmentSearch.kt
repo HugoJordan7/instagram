@@ -29,7 +29,7 @@ class FragmentSearch: Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main_toolbar,menu)
+        inflater.inflate(R.menu.menu_profile,menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

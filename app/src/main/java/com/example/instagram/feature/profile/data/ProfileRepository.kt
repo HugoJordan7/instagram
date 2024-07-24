@@ -18,7 +18,9 @@ class ProfileRepository(private val dataSourceFactory: ProfileDataSourceFactory)
             override fun onFailure(message: String) {
                 callback.onFailure(message)
             }
-            override fun onComplete() {}
+            override fun onComplete() {
+                callback.onComplete()
+            }
         })
     }
 
@@ -34,7 +36,9 @@ class ProfileRepository(private val dataSourceFactory: ProfileDataSourceFactory)
             override fun onFailure(message: String) {
                 callback.onFailure(message)
             }
-            override fun onComplete() {}
+            override fun onComplete() {
+                callback.onComplete()
+            }
         })
     }
 

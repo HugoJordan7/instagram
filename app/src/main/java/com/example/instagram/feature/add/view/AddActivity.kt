@@ -23,9 +23,7 @@ class AddActivity : AppCompatActivity(), Add.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityAddBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         setSupportActionBar(binding.addToolbar)

@@ -24,6 +24,8 @@ object Database {
         followers[userB.uuid] = hashSetOf()
         feeds[userB.uuid] = hashSetOf()
         posts[userB.uuid] = hashSetOf()
+
+        sessionAuth = usersAuth.first()
     }
 
 }

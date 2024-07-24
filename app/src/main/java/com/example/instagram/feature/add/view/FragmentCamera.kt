@@ -1,11 +1,12 @@
 package com.example.instagram.feature.add.view
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import androidx.appcompat.widget.AppCompatButton
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -19,16 +20,15 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.instagram.R
 import com.example.instagram.common.util.Files
-import java.lang.Exception
 
 class FragmentCamera: Fragment() {
 
     private lateinit var previewView: PreviewView
-    private val imageCapture: ImageCapture? = null
+    private var imageCapture: ImageCapture? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setFragmentResultListener("cameraKey"){ requestKey, bundle ->  
+        setFragmentResultListener("cameraKey"){ requestKey, bundle ->
             val shouldStart = bundle.getBoolean("startCamera")
             if(shouldStart) startCamera()
         }
@@ -41,14 +41,14 @@ class FragmentCamera: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         previewView = view.findViewById(R.id.camera_img_photo)
-        val imagePicture: AppCompatButton = view.findViewById(R.id.camera_img_picture)
+        val imagePicture: Button = view.findViewById(R.id.camera_img_picture)
         imagePicture.setOnClickListener {
             takePhoto()
         }
     }
 
     private fun takePhoto(){
-        if (imageCapture == null) return
+        val imageCapture = imageCapture ?: return
         val photoFile = Files.generateFile(requireActivity())
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
         imageCapture.takePicture(
@@ -71,10 +71,11 @@ class FragmentCamera: Fragment() {
                 .also {
                     it.setSurfaceProvider(previewView.surfaceProvider)
                 }
+            imageCapture = ImageCapture.Builder().build()
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
             } catch (e: Exception){
                 Log.i("startCamera", "Error in FragmentCamera startCamera")
             }

@@ -30,7 +30,7 @@ class FragmentHome: BaseFragment<FragmentHomeBinding, Home.Presenter>(
         presenter = HomePresenter(this, repository)
     }
 
-    override fun getMenu() = R.menu.menu_main_toolbar
+    override fun getMenu() = R.menu.menu_profile
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_profile_bottom_nav, menu)

@@ -68,6 +68,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/home_txt_caption"
         tools:text="@tools:sample/lorem/random"
         android:text="@string/agree_terms_policy"
         android:layout_width="0dp"

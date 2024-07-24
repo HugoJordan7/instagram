@@ -1,5 +1,6 @@
 package com.example.instagram.feature.add.view
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -26,6 +27,9 @@ class AddActivity : AppCompatActivity(), Add.View {
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val repository = DependencyInjector.addRepository()
+        presenter = AddPresenter(this, repository)
+
         setSupportActionBar(binding.addToolbar)
 
         val drawable = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
@@ -35,9 +39,6 @@ class AddActivity : AppCompatActivity(), Add.View {
         uri = intent.extras?.getParcelable("photoUri") ?: throw RuntimeException("photo not found")
 
         binding.addImgCaption.setImageURI(uri)
-
-        val repository = DependencyInjector.addRepository()
-        presenter = AddPresenter(this, repository)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,6 +65,7 @@ class AddActivity : AppCompatActivity(), Add.View {
     }
 
     override fun displaySuccess() {
+        setResult(Activity.RESULT_OK)
         finish()
     }
 

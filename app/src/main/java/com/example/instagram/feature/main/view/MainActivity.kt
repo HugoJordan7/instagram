@@ -19,12 +19,12 @@ import com.example.instagram.feature.search.view.FragmentSearch
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, FragmentAdd.AddListener {
 
-    private val homeFragment: Fragment = FragmentHome()
-    private val searchFragment: Fragment = FragmentSearch()
-    private val addFragment: Fragment = FragmentAdd()
-    private val profileFragment: Fragment = FragmentProfile()
+    private lateinit var homeFragment: FragmentHome
+    private lateinit var searchFragment: Fragment
+    private lateinit var addFragment: Fragment
+    private lateinit var profileFragment: FragmentProfile
     private var currentFragment: Fragment? = null
     private lateinit var binding: ActivityMainBinding
 
@@ -44,6 +44,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             setDisplayHomeAsUpEnabled(true)
             title = ""
         }
+
+        homeFragment = FragmentHome()
+        searchFragment = FragmentSearch()
+        addFragment = FragmentAdd()
+        profileFragment = FragmentProfile()
+
         binding.mainBottomNav.setOnNavigationItemSelectedListener(this)
         binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
     }
@@ -89,6 +95,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             coordinatorParams.behavior = null
         }
         binding.mainAppBarLayout.layoutParams = coordinatorParams
+    }
+
+    override fun onPostCreated() {
+        homeFragment.presenter.clear()
+        //profileFragment.presenter.clear()
+        binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
     }
 
 }

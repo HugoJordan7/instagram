@@ -1,5 +1,7 @@
 package com.example.instagram.common.model
 
+import android.net.Uri
+import java.io.File
 import java.util.*
 
 object Database {
@@ -26,6 +28,58 @@ object Database {
         posts[userB.uuid] = hashSetOf()
 
         sessionAuth = usersAuth.first()
+
+        val filePath = "/storage/emulated/0/Android/media/com.example.instagram/Instagram/2024-07-24-14-12-29-261.jpeg"
+
+        feeds[userA.uuid]?.addAll(
+            arrayListOf(
+                Post(
+                    UUID.randomUUID().toString(),
+                    Uri.fromFile(File(filePath)),
+                    "caption",
+                    System.currentTimeMillis(),
+                    userA
+                ),
+                Post(
+                    UUID.randomUUID().toString(),
+                    Uri.fromFile(File(filePath)),
+                    "caption",
+                    System.currentTimeMillis(),
+                    userA
+                ),
+                Post(
+                    UUID.randomUUID().toString(),
+                    Uri.fromFile(File(filePath)),
+                    "caption",
+                    System.currentTimeMillis(),
+                    userA
+                ),
+                Post(
+                    UUID.randomUUID().toString(),
+                    Uri.fromFile(File(filePath)),
+                    "caption",
+                    System.currentTimeMillis(),
+                    userA
+                ),
+                Post(
+                    UUID.randomUUID().toString(),
+                    Uri.fromFile(File(filePath)),
+                    "caption",
+                    System.currentTimeMillis(),
+                    userA
+                ),
+                Post(
+                    UUID.randomUUID().toString(),
+                    Uri.fromFile(File(filePath)),
+                    "caption",
+                    System.currentTimeMillis(),
+                    userA
+                )
+            )
+        )
+        feeds[userA.uuid]?.let {
+            feeds[userB.uuid]?.addAll(it)
+        }
     }
 
 }

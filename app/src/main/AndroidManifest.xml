@@ -39,7 +39,9 @@
         <activity
             android:name=".feature.login.view.LoginActivity"
             android:exported="true"/>
-
+        <activity
+            android:label="@string/photo"
+            android:name=".feature.add.view.AddActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.instagram.fileprovider"

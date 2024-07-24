@@ -32,6 +32,9 @@ class FakeRegisterDataSource: RegisterDataSource {
                 val isUserRegistered = Database.usersAuth.add(newUser)
                 if (isUserRegistered){
                     Database.sessionAuth = newUser
+                    Database.followers[newUser.uuid] = hashSetOf()
+                    Database.posts[newUser.uuid] = hashSetOf()
+                    Database.feeds[newUser.uuid] = hashSetOf()
                     callback.onSuccess()
                 } else{
                     callback.onFailure("User registration failure due to an intern server problem")

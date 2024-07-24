@@ -6,14 +6,24 @@ object Database {
 
     var usersAuth = hashSetOf<UserAuth>()
     var photos = hashSetOf<Photo>()
-    var posts = hashMapOf<String,Set<Post>>()
-    var feeds = hashMapOf<String,Set<Post>>()
+    var posts = hashMapOf<String,MutableSet<Post>>()
+    var feeds = hashMapOf<String,MutableSet<Post>>()
     var sessionAuth: UserAuth? = null
+    val followers = hashMapOf<String,MutableSet<String>>()
 
     init {
-        usersAuth.add(UserAuth(UUID.randomUUID().toString(), "User1","user1@gmail.com","12345678",0,5,5))
-        usersAuth.add(UserAuth(UUID.randomUUID().toString(), "User2","user2@gmail.com","12345678",0,7,7))
-        sessionAuth = usersAuth.first()
+        val userA = UserAuth(UUID.randomUUID().toString(), "User1","user1@gmail.com","12345678",0,5,5)
+        val userB = UserAuth(UUID.randomUUID().toString(), "User2","user2@gmail.com","12345678",0,7,7)
+        usersAuth.add(userA)
+        usersAuth.add(userB)
+
+        followers[userA.uuid] = hashSetOf()
+        feeds[userA.uuid] = hashSetOf()
+        posts[userA.uuid] = hashSetOf()
+
+        followers[userB.uuid] = hashSetOf()
+        feeds[userB.uuid] = hashSetOf()
+        posts[userB.uuid] = hashSetOf()
     }
 
 }

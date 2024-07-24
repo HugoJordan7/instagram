@@ -10,7 +10,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
-import com.example.instagram.feature.add.view.FragmentCamera
 import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.databinding.ActivityMainBinding
 import com.example.instagram.feature.add.view.FragmentAdd

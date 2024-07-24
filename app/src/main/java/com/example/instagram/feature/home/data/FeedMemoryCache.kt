@@ -16,7 +16,7 @@ object FeedMemoryCache : Cache<List<Post>> {
         return feeds
     }
 
-    override fun put(data: List<Post>) {
+    override fun put(data: List<Post>?) {
         feeds = data
     }
 

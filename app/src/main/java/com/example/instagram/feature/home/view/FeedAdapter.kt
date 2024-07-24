@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 import com.example.instagram.common.model.Post
@@ -20,7 +21,7 @@ class FeedAdapter : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
-        holder.bind(items[position].uri)
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int {
@@ -28,8 +29,9 @@ class FeedAdapter : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     }
 
     class FeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(uri: Uri) {
-            itemView.findViewById<ImageView>(R.id.post_img_publication).setImageURI(uri)
+        fun bind(post: Post) {
+            itemView.findViewById<ImageView>(R.id.post_img_publication).setImageURI(post.uri)
+            itemView.findViewById<TextView>(R.id.home_txt_caption).text = post.caption
         }
     }
 

@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.instagram.R
-import com.example.instagram.feature.gallery.view.FragmentGallery
 import java.lang.IllegalArgumentException
 
 class AddViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {

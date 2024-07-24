@@ -1,4 +1,4 @@
-package com.example.instagram.feature.gallery.view
+package com.example.instagram.feature.add.view
 
 import android.os.Bundle
 import android.view.*

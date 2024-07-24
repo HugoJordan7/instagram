@@ -18,6 +18,7 @@ interface Profile {
     interface Presenter: BasePresenter{
         fun fetchUserProfile()
         fun fetchUserPosts()
+        fun clear()
     }
 
 }

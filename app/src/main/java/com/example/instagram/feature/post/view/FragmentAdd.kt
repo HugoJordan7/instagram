@@ -110,17 +110,12 @@ class FragmentAdd : Fragment(R.layout.fragment_add) {
     private fun allPermissionsGranted(): Boolean{
         var allPermissionsGranted = true
         for (permission in REQUIRED_PERMISSION){
-            if (ContextCompat.checkSelfPermission(requireContext(), permission) !=
-                PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED){
                 allPermissionsGranted = false
             }
         }
         return allPermissionsGranted
     }
-
-
-        //ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION[0]) == PackageManager.PERMISSION_GRANTED
-                //&& ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION[1]) == PackageManager.PERMISSION_GRANTED
 
     companion object {
         private val REQUIRED_PERMISSION = if (Build.VERSION.SDK_INT >= 33){

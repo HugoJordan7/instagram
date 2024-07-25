@@ -11,10 +11,11 @@ import androidx.fragment.app.Fragment
 
 fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment) {
     supportFragmentManager.beginTransaction().apply {
+        val tag = fragment.javaClass.simpleName
         if (supportFragmentManager.findFragmentById(id) == null) {
-            add(id, fragment)
+            add(id, fragment, tag)
         } else {
-            replace(id, fragment)
+            replace(id, fragment, tag)
             addToBackStack(null)
         }
         commit()

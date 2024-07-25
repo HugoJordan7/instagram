@@ -6,16 +6,18 @@ import java.util.*
 
 object Database {
 
-    var usersAuth = hashSetOf<UserAuth>()
-    var photos = hashSetOf<Photo>()
+    var usersAuth = mutableListOf<UserAuth>()
     var posts = hashMapOf<String,MutableSet<Post>>()
     var feeds = hashMapOf<String,MutableSet<Post>>()
-    var sessionAuth: UserAuth? = null
     val followers = hashMapOf<String,MutableSet<String>>()
 
+    var sessionAuth: UserAuth? = null
+
     init {
-        val userA = UserAuth(UUID.randomUUID().toString(), "User1","user1@gmail.com","12345678",0,5,5)
-        val userB = UserAuth(UUID.randomUUID().toString(), "User2","user2@gmail.com","12345678",0,7,7)
+        val filePath = "/storage/emulated/0/Android/media/com.example.instagram/Instagram/2024-07-24-14-12-29-261.jpeg"
+
+        val userA = UserAuth(UUID.randomUUID().toString(), "User1","user1@gmail.com","12345678",0,5,5, Uri.fromFile(File(filePath)))
+        val userB = UserAuth(UUID.randomUUID().toString(), "User2","user2@gmail.com","12345678",0,7,7, Uri.fromFile(File(filePath)))
         usersAuth.add(userA)
         usersAuth.add(userB)
 
@@ -26,10 +28,6 @@ object Database {
         followers[userB.uuid] = hashSetOf()
         feeds[userB.uuid] = hashSetOf()
         posts[userB.uuid] = hashSetOf()
-
-        sessionAuth = usersAuth.first()
-
-        val filePath = "/storage/emulated/0/Android/media/com.example.instagram/Instagram/2024-07-24-14-12-29-261.jpeg"
 
         feeds[userA.uuid]?.addAll(
             arrayListOf(
@@ -80,6 +78,8 @@ object Database {
         feeds[userA.uuid]?.let {
             feeds[userB.uuid]?.addAll(it)
         }
+
+        sessionAuth = usersAuth.first()
     }
 
 }

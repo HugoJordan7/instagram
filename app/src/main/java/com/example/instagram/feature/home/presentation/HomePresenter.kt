@@ -1,4 +1,4 @@
-package com.example.instagram.feature.home.presenter
+package com.example.instagram.feature.home.presentation
 
 import com.example.instagram.home.Home
 import com.example.instagram.common.base.RequestCallback

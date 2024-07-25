@@ -9,7 +9,7 @@ import com.example.instagram.common.model.Post
 import com.example.instagram.databinding.FragmentHomeBinding
 import com.example.instagram.di.DependencyInjector
 import com.example.instagram.home.Home
-import com.example.instagram.feature.home.presenter.HomePresenter
+import com.example.instagram.feature.home.presentation.HomePresenter
 
 class FragmentHome: BaseFragment<FragmentHomeBinding, Home.Presenter>(
     R.layout.fragment_home,

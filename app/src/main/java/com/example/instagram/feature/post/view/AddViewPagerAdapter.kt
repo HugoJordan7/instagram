@@ -1,4 +1,4 @@
-package com.example.instagram.feature.add.view
+package com.example.instagram.feature.post.view
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

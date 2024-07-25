@@ -1,5 +1,7 @@
 package com.example.instagram.di
 
+import android.app.Activity
+import android.content.Context
 import com.example.instagram.feature.add.data.AddFakeRemoteDataSource
 import com.example.instagram.feature.add.data.AddLocalDataSource
 import com.example.instagram.feature.add.data.AddRepository
@@ -16,6 +18,9 @@ import com.example.instagram.feature.splash.data.SplashRepository
 import com.example.instagram.feature.home.data.FeedMemoryCache
 import com.example.instagram.feature.home.data.HomeDataSourceFactory
 import com.example.instagram.feature.home.data.HomeRepository
+import com.example.instagram.feature.post.data.LocalPostDataSource
+import com.example.instagram.feature.post.data.PostDataSource
+import com.example.instagram.feature.post.data.PostRepository
 
 object DependencyInjector {
     fun loginRepository(): LoginRepository {
@@ -39,6 +44,10 @@ object DependencyInjector {
 
     fun addRepository(): AddRepository {
         return AddRepository(AddLocalDataSource(), AddFakeRemoteDataSource())
+    }
+
+    fun postRepository(context: Context): PostRepository{
+        return PostRepository(LocalPostDataSource(context))
     }
 
 }

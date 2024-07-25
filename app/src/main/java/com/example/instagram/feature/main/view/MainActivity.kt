@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.instagram.R
 import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.databinding.ActivityMainBinding
-import com.example.instagram.feature.add.view.FragmentAdd
+import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.home.view.FragmentHome
 import com.example.instagram.feature.profile.view.FragmentProfile
 import com.example.instagram.feature.search.view.FragmentSearch

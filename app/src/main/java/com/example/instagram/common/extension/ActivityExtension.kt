@@ -34,7 +34,7 @@ fun Activity.hideKeyBoard() {
 
 fun Activity.animationEnd(callback: () -> Unit): AnimatorListenerAdapter {
     return object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator?) {
+        override fun onAnimationEnd(animation: Animator) {
             callback.invoke()
         }
     }

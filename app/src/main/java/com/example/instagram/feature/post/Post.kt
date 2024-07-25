@@ -12,7 +12,7 @@ interface Post {
         fun showProgress(enabled: Boolean)
         fun displayFailure(message: String)
         fun displayEmptyPictures()
-        fun displaysPictures(posts: List<Uri>)
+        fun displayPictures(posts: List<Uri>)
     }
 
     interface Presenter: BasePresenter{

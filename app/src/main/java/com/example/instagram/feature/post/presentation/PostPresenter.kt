@@ -15,7 +15,8 @@ class PostPresenter(
     private val repository: PostRepository
 ) : Post.Presenter, CoroutineScope {
 
-    override val coroutineContext: CoroutineContext = Job() + Dispatchers.IO
+    private val job = Job()
+    override val coroutineContext: CoroutineContext = job + Dispatchers.IO
 
     override fun fetchPictures() {
         view?.showProgress(true)
@@ -25,7 +26,7 @@ class PostPresenter(
                 if (photos.isEmpty()){
                     view?.displayEmptyPictures()
                 } else{
-                    view?.displaysPictures(photos)
+                    view?.displayPictures(photos)
                 }
                 view?.showProgress(false)
             }
@@ -35,7 +36,7 @@ class PostPresenter(
 
     override fun onDestroy() {
         view = null
-        this.cancel()
+        job.cancel()
     }
 
 }

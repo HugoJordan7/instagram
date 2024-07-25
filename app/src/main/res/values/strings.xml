@@ -48,5 +48,6 @@
     <string name="profile">Perfil</string>
     <string name="invalid_name">O nome deve ter no mínimo 4 caracteres</string>
     <string name="no_posts_found">Ainda não há publicações</string>
+    <string name="no_pictures">Ainda não há fotos</string>
     <string name="permission_camera_denied">Permissão não concedida, habilite nas configurações do smartphone.</string>
 </resources>

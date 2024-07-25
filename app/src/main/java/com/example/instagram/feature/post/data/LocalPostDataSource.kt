@@ -39,7 +39,6 @@ class LocalPostDataSource(private val context: Context): PostDataSource {
                 if(photos.size == 99) break
             }
         }
-
         return photos
     }
 

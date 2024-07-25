@@ -1,4 +1,4 @@
-package com.example.instagram.feature.add.view
+package com.example.instagram.feature.post.view
 
 import android.Manifest
 import android.app.Activity
@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.SurfaceRequest.Result.ResultCode
+import androidx.activity.result.contract.ActivityResultContracts.GetContent
+import androidx.activity.result.contract.ActivityResultContracts.PickContact
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -18,6 +20,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.instagram.R
 import com.example.instagram.databinding.FragmentAddBinding
+import com.example.instagram.feature.add.view.AddActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -41,7 +44,7 @@ class FragmentAdd : Fragment(R.layout.fragment_add) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is AddListener){
+        if (context is AddListener) {
             addListener = context
         }
     }
@@ -84,29 +87,47 @@ class FragmentAdd : Fragment(R.layout.fragment_add) {
         setFragmentResult("cameraKey", bundleOf("startCamera" to true))
     }
 
-    private val addActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == Activity.RESULT_OK){
-            addListener?.onPostCreated()
+    private val addActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                addListener?.onPostCreated()
+            }
         }
-    }
 
-    interface AddListener{
+    interface AddListener {
         fun onPostCreated()
     }
 
-    private val getPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
-            Toast.makeText(requireContext(), R.string.permission_camera_denied, Toast.LENGTH_LONG).show()
+    private val getPermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                Toast.makeText(requireContext(), R.string.permission_camera_denied, Toast.LENGTH_LONG).show()
+            }
         }
+
+    private fun allPermissionsGranted(): Boolean{
+        var allPermissionsGranted = true
+        for (permission in REQUIRED_PERMISSION){
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) !=
+                PackageManager.PERMISSION_GRANTED){
+                allPermissionsGranted = false
+            }
+        }
+        return allPermissionsGranted
     }
 
-    private fun allPermissionsGranted() =
-        ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION) == PackageManager.PERMISSION_GRANTED
+
+        //ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION[0]) == PackageManager.PERMISSION_GRANTED
+                //&& ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION[1]) == PackageManager.PERMISSION_GRANTED
 
     companion object {
-        private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
+        private val REQUIRED_PERMISSION = if (Build.VERSION.SDK_INT >= 33){
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+        } else{
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     }
 
 }

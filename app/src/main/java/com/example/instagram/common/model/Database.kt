@@ -14,7 +14,7 @@ object Database {
     var sessionAuth: UserAuth? = null
 
     init {
-        val filePath = "/storage/emulated/0/Android/media/com.example.instagram/Instagram/2024-07-24-14-12-29-261.jpeg"
+        val filePath = "/storage/emulated/0/Android/media/com.example.instagram/Instagram/2024-07-26-11-34-13-453.jpeg"
 
         val userA = UserAuth(UUID.randomUUID().toString(), "User1","user1@gmail.com","12345678",0,5,5, Uri.fromFile(File(filePath)))
         val userB = UserAuth(UUID.randomUUID().toString(), "User2","user2@gmail.com","12345678",0,7,7, Uri.fromFile(File(filePath)))

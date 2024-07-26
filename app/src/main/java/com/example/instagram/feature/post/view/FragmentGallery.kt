@@ -49,7 +49,6 @@ class FragmentGallery : BaseFragment<FragmentGalleryBinding, Post.Presenter>(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.action_send ->{
-                Log.i("tessss","")
                 setFragmentResult(TAKE_PHOTO_KEY, bundleOf(URI to presenter.getSelectedUri()))
             }
         }

@@ -34,7 +34,12 @@
         <activity
             android:name=".feature.main.view.MainActivity"
             android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true">
+
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+
+        </activity>
         <activity
             android:name=".feature.register.view.RegisterActivity"
             android:exported="true"/>

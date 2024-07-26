@@ -1,57 +1,48 @@
 package com.example.instagram.feature.search.view
 
-import android.os.Bundle
-import android.view.*
-import android.widget.ImageView
-import androidx.fragment.app.Fragment
+import android.app.SearchManager
+import android.content.Context
+import android.view.Menu
+import android.view.MenuInflater
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
+import com.example.instagram.common.base.BaseFragment
+import com.example.instagram.databinding.FragmentSearchBinding
+import com.example.instagram.feature.search.Search
+import com.example.instagram.feature.search.presentation.SearchPresenter
 
-class FragmentSearch: Fragment() {
+class FragmentSearch: BaseFragment<FragmentSearchBinding, Search.Presenter>(
+    R.layout.fragment_search,
+    FragmentSearchBinding::bind
+), Search.View {
 
-    private lateinit var recyclerView: RecyclerView
+    override lateinit var presenter: Search.Presenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+    override fun setupPresenter() {
+        presenter = SearchPresenter(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search,container,false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.search_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = PostAdapter()
+    override fun setupViews() {
+        binding?.searchRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        binding?.searchRecyclerView?.adapter = PostAdapter()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_profile,menu)
         super.onCreateOptionsMenu(menu, inflater)
-    }
 
-    inner class PostAdapter : RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
+        val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.menu_search).actionView as SearchView
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-            val view = layoutInflater.inflate(R.layout.item_user_list,parent,false)
-            return PostViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-            holder.bind(R.drawable.ic_insta_add)
-        }
-
-        override fun getItemCount() = 30
-
-        inner class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-            fun bind(image: Int){
-                val imageView = itemView.findViewById<ImageView>(R.id.search_img_user)
-                imageView.setImageResource(image)
-            }
+        searchView.apply {
+            setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean = false
+                override fun onQueryTextChange(newText: String?): Boolean = false
+            })
         }
     }
+
+    override fun getMenu(): Int = R.menu.menu_search
 
 }

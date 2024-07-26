@@ -12,7 +12,7 @@
         android:title="@string/search"/>
 
     <item
-        android:id="@+id/menu_bottom_user"
+        android:id="@+id/menu_profile_user"
         android:icon="@drawable/ic_insta_profile"
         android:title="@string/add"/>
 </menu>

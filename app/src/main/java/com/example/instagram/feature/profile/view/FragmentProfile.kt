@@ -1,9 +1,12 @@
 package com.example.instagram.feature.profile.view
 
 import android.annotation.SuppressLint
+import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.Post
@@ -12,11 +15,12 @@ import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.di.DependencyInjector
 import com.example.instagram.feature.profile.Profile
 import com.example.instagram.feature.profile.presentation.ProfilePresenter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     R.layout.fragment_profile,
     FragmentProfileBinding::bind
-), Profile.View {
+), Profile.View, BottomNavigationView.OnNavigationItemSelectedListener {
 
     override lateinit var presenter: Profile.Presenter
 
@@ -30,6 +34,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     override fun setupViews() {
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
         binding?.profileRv?.adapter = adapter
+        binding?.profileBottomNav?.setOnNavigationItemSelectedListener(this)
         presenter.fetchUserProfile()
     }
 
@@ -66,6 +71,21 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
 
     override fun getMenu(): Int {
         return R.menu.menu_profile
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_profile_grid -> {
+                binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
+            }
+            R.id.menu_profile_listed -> {
+                binding?.profileRv?.layoutManager = LinearLayoutManager(requireContext())
+            }
+            R.id.menu_profile_user -> {
+                binding?.profileRv?.layoutManager = LinearLayoutManager(requireContext())
+            }
+        }
+        return true
     }
 
 }

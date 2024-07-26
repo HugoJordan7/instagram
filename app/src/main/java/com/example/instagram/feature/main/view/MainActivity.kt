@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.menu_bottom_add -> {
                 if (currentFragment == addFragment) return false
+                isScrollEnabled = false
                 addFragment
             }
             R.id.menu_bottom_search -> {

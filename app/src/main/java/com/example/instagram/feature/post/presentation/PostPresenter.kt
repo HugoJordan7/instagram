@@ -1,5 +1,6 @@
 package com.example.instagram.feature.post.presentation
 
+import android.net.Uri
 import com.example.instagram.feature.post.Post
 import com.example.instagram.feature.post.data.PostRepository
 import kotlinx.coroutines.CoroutineScope
@@ -14,6 +15,8 @@ class PostPresenter(
     private var view: Post.View?,
     private val repository: PostRepository
 ) : Post.Presenter, CoroutineScope {
+
+    private var uri: Uri? = null
 
     private val job = Job()
     override val coroutineContext: CoroutineContext = job + Dispatchers.IO
@@ -32,6 +35,12 @@ class PostPresenter(
             }
         }
 
+    }
+
+    override fun getSelectedUri(): Uri? = uri
+
+    override fun selectUri(uri: Uri) {
+        this.uri = uri
     }
 
     override fun onDestroy() {

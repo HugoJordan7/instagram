@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.instagram.R
+import com.example.instagram.common.util.PHOTO_URI
 import com.example.instagram.databinding.ActivityAddBinding
 import com.example.instagram.di.DependencyInjector
 import com.example.instagram.feature.add.Add
@@ -36,7 +37,7 @@ class AddActivity : AppCompatActivity(), Add.View {
         supportActionBar?.setHomeAsUpIndicator(drawable)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        uri = intent.extras?.getParcelable("photoUri") ?: throw RuntimeException("photo not found")
+        uri = intent.extras?.getParcelable(PHOTO_URI) ?: throw RuntimeException("photo not found")
 
         binding.addImgCaption.setImageURI(uri)
     }

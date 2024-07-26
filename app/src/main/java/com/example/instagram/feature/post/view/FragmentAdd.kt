@@ -19,6 +19,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.example.instagram.R
+import com.example.instagram.common.util.CAMERA_KEY
+import com.example.instagram.common.util.PHOTO_URI
+import com.example.instagram.common.util.START_CAMERA
+import com.example.instagram.common.util.TAKE_PHOTO_KEY
+import com.example.instagram.common.util.URI
 import com.example.instagram.databinding.FragmentAddBinding
 import com.example.instagram.feature.add.view.AddActivity
 import com.google.android.material.tabs.TabLayout
@@ -32,11 +37,11 @@ class FragmentAdd : Fragment(R.layout.fragment_add) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setFragmentResultListener("takePhotoKey") { requestKey, bundle ->
-            val uri = bundle.getParcelable<Uri>("uri")
+        setFragmentResultListener(TAKE_PHOTO_KEY) { requestKey, bundle ->
+            val uri = bundle.getParcelable<Uri>(URI)
             uri?.let {
                 val intent = Intent(requireContext(), AddActivity::class.java)
-                intent.putExtra("photoUri", uri)
+                intent.putExtra(PHOTO_URI, uri)
                 addActivityResult.launch(intent)
             }
         }
@@ -84,7 +89,7 @@ class FragmentAdd : Fragment(R.layout.fragment_add) {
     }
 
     private fun startCamera() {
-        setFragmentResult("cameraKey", bundleOf("startCamera" to true))
+        setFragmentResult(CAMERA_KEY, bundleOf(START_CAMERA to true))
     }
 
     private val addActivityResult =

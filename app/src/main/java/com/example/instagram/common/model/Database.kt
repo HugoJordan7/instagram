@@ -29,54 +29,9 @@ object Database {
         feeds[userB.uuid] = hashSetOf()
         posts[userB.uuid] = hashSetOf()
 
-        feeds[userA.uuid]?.addAll(
-            arrayListOf(
-                Post(
-                    UUID.randomUUID().toString(),
-                    Uri.fromFile(File(filePath)),
-                    "caption",
-                    System.currentTimeMillis(),
-                    userA
-                ),
-                Post(
-                    UUID.randomUUID().toString(),
-                    Uri.fromFile(File(filePath)),
-                    "caption",
-                    System.currentTimeMillis(),
-                    userA
-                ),
-                Post(
-                    UUID.randomUUID().toString(),
-                    Uri.fromFile(File(filePath)),
-                    "caption",
-                    System.currentTimeMillis(),
-                    userA
-                ),
-                Post(
-                    UUID.randomUUID().toString(),
-                    Uri.fromFile(File(filePath)),
-                    "caption",
-                    System.currentTimeMillis(),
-                    userA
-                ),
-                Post(
-                    UUID.randomUUID().toString(),
-                    Uri.fromFile(File(filePath)),
-                    "caption",
-                    System.currentTimeMillis(),
-                    userA
-                ),
-                Post(
-                    UUID.randomUUID().toString(),
-                    Uri.fromFile(File(filePath)),
-                    "caption",
-                    System.currentTimeMillis(),
-                    userA
-                )
-            )
-        )
-        feeds[userA.uuid]?.let {
-            feeds[userB.uuid]?.addAll(it)
+        for (i in 0 .. 30){
+            val user = UserAuth(UUID.randomUUID().toString(), "user$i", "user$i@gmail.com", "12344321", photoUri = null)
+            usersAuth.add(user)
         }
 
         sessionAuth = usersAuth.first()

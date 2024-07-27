@@ -10,8 +10,8 @@ data class UserAuth(
     var name: String,
     var email: String,
     var password: String,
-    var postsCount: Int,
-    var followersCount: Int,
-    var followingCount: Int,
+    var postsCount: Int = 0,
+    var followersCount: Int = 0,
+    var followingCount: Int = 0,
     var photoUri: Uri?
 )

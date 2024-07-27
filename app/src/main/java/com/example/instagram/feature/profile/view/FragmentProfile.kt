@@ -11,6 +11,7 @@ import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.UserAuth
+import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.di.DependencyInjector
 import com.example.instagram.feature.profile.Profile
@@ -22,9 +23,10 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     FragmentProfileBinding::bind
 ), Profile.View, BottomNavigationView.OnNavigationItemSelectedListener {
 
-    override lateinit var presenter: Profile.Presenter
-
     private val adapter = PostAdapter()
+    private var uuid: String? = null
+
+    override lateinit var presenter: Profile.Presenter
 
     override fun setupPresenter() {
         val repository = DependencyInjector.profileRepository()
@@ -32,10 +34,11 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     }
 
     override fun setupViews() {
+        uuid = arguments?.getString(KEY_USER_ID)
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
         binding?.profileRv?.adapter = adapter
         binding?.profileBottomNav?.setOnNavigationItemSelectedListener(this)
-        presenter.fetchUserProfile()
+        presenter.fetchUserProfile(uuid)
     }
 
     override fun showProgress(enabled: Boolean) {
@@ -49,7 +52,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtUsername?.text = userAuth.name
         binding?.profileTxtBio?.text = "TODO"
         binding?.profileImgIcon?.setImageURI(userAuth.photoUri)
-        presenter.fetchUserPosts()
+        presenter.fetchUserPosts(uuid)
     }
 
     override fun displayFailure(message: String) {

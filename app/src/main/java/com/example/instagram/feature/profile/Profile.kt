@@ -9,13 +9,14 @@ interface Profile {
 
     interface View: BaseView<Presenter>{
         fun showProgress(enabled: Boolean)
-        fun displayUserProfile(userAuth: Pair<UserAuth, Boolean?>)
+        fun displayUserProfile(response: Pair<UserAuth, Boolean?>)
         fun displayFailure(message: String)
         fun displayEmptyPosts()
         fun displaysPosts(posts: List<Post>)
     }
 
     interface Presenter: BasePresenter{
+        fun followUser(uuid: String?, follow: Boolean)
         fun fetchUserProfile(uuid: String?)
         fun fetchUserPosts(uuid: String?)
         fun clear()

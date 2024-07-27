@@ -11,6 +11,14 @@ class ProfilePresenter(
     private val repository: ProfileRepository
 ) : Profile.Presenter {
 
+    override fun followUser(uuid: String?, follow: Boolean) {
+        repository.followUser(uuid, follow, object : RequestCallback<Boolean>{
+            override fun onSuccess(data: Boolean) {}
+            override fun onFailure(message: String) {}
+            override fun onComplete() {}
+        })
+    }
+
     override fun fetchUserProfile(uuid: String?) {
         view?.showProgress(true)
         repository.fetchUserProfile(uuid, object : RequestCallback<Pair<UserAuth, Boolean?>>{
@@ -41,6 +49,7 @@ class ProfilePresenter(
             }
         })
     }
+
 
     override fun clear() {
         repository.clearCache()

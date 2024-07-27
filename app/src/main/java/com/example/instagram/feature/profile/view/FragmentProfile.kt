@@ -39,6 +39,18 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileRv?.adapter = adapter
         binding?.profileBottomNav?.setOnNavigationItemSelectedListener(this)
         presenter.fetchUserProfile(uuid)
+
+        binding?.profileButtonTop?.setOnClickListener{
+            if(it.tag == true){
+                binding?.profileButtonTop?.text = getString(R.string.follow)
+                presenter.followUser(uuid, false)
+                binding?.profileButtonTop?.tag = false
+            } else if(it.tag == false){
+                binding?.profileButtonTop?.text = getString(R.string.unfollow)
+                presenter.followUser(uuid, true)
+                binding?.profileButtonTop?.tag = true
+            }
+        }
     }
 
     override fun showProgress(enabled: Boolean) {
@@ -51,7 +63,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
         binding?.profileTxtCountFollowers?.text = userAuth.followersCount.toString()
         binding?.profileTxtUsername?.text = userAuth.name
-        binding?.profileTxtBio?.text = "TODO"
+        binding?.profileTxtBio?.text = getString(R.string.app_name)
         binding?.profileImgIcon?.setImageURI(userAuth.photoUri)
         presenter.fetchUserPosts(uuid)
 
@@ -60,6 +72,8 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
             true -> getString(R.string.unfollow)
             false -> getString(R.string.follow)
         }
+
+        binding?.profileButtonTop?.tag = following
     }
 
     override fun displayFailure(message: String) {

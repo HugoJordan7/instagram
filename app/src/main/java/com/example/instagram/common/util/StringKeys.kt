@@ -9,3 +9,5 @@ const val START_CAMERA = "startCamera"
 const val URI = "uri"
 
 const val PHOTO_URI = "photoUri"
+
+const val KEY_USER_ID = "keyUserId"

@@ -2,6 +2,7 @@ package com.example.instagram.feature.main.view
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
 import com.example.instagram.common.extension.replaceFragment
+import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.ActivityMainBinding
 import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.home.view.FragmentHome
@@ -19,7 +21,12 @@ import com.example.instagram.feature.search.view.FragmentSearch
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, FragmentAdd.AddListener {
+class MainActivity :
+    AppCompatActivity(),
+    BottomNavigationView.OnNavigationItemSelectedListener,
+    FragmentAdd.AddListener,
+    FragmentSearch.SearchListener
+{
 
     private lateinit var homeFragment: FragmentHome
     private lateinit var searchFragment: Fragment
@@ -74,6 +81,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.menu_bottom_search -> {
                 if (currentFragment == searchFragment) return false
+                isScrollEnabled = false
                 searchFragment
             }
             else -> null
@@ -104,6 +112,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             profileFragment.presenter.clear()
         }
         binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
+    }
+
+    override fun goToProfileScreen(userUUID: String) {
+        Log.i("searchTest", userUUID)
+        val fragment = FragmentProfile()
+        val bundle = Bundle().apply { putString(KEY_USER_ID, userUUID) }
+        fragment.arguments = bundle
+        replaceFragment(R.id.main_fragment, fragment, fragment.javaClass.simpleName + "detail", true)
     }
 
 }

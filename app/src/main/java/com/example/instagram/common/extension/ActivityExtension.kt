@@ -9,10 +9,13 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
-fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment) {
+
+//This method adding fragment in supportFragmentManager when fragment not exist and replace fragment when exist
+//To force replace fragment when he not exist in supportFragmentManager, write forceReplace as true
+fun AppCompatActivity.replaceFragment(@IdRes id: Int, fragment: Fragment, fragmentTag: String? = null, forceReplace: Boolean = false) {
     supportFragmentManager.beginTransaction().apply {
-        val tag = fragment.javaClass.simpleName
-        if (supportFragmentManager.findFragmentById(id) == null) {
+        val tag = fragmentTag ?: fragment.javaClass.simpleName
+        if (supportFragmentManager.findFragmentById(id) == null && !forceReplace) {
             add(id, fragment, tag)
         } else {
             replace(id, fragment, tag)

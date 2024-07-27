@@ -14,6 +14,7 @@ import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.UserAuth
 import com.example.instagram.databinding.FragmentSearchBinding
 import com.example.instagram.di.DependencyInjector
+import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.search.Search
 import com.example.instagram.feature.search.presentation.SearchPresenter
 
@@ -23,7 +24,19 @@ class FragmentSearch: BaseFragment<FragmentSearchBinding, Search.Presenter>(
 ), Search.View {
 
     override lateinit var presenter: Search.Presenter
-    private val adapter = UserAdapter()
+    private val adapter by lazy { UserAdapter(onUserClickListener) }
+    private var searchListener: SearchListener? = null
+
+    private val onUserClickListener: (String) -> Unit = { userUUID ->
+        searchListener?.goToProfileScreen(userUUID)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is SearchListener){
+            searchListener = context
+        }
+    }
 
     override fun setupPresenter() {
         val repository = DependencyInjector.searchRepository()
@@ -77,6 +90,10 @@ class FragmentSearch: BaseFragment<FragmentSearchBinding, Search.Presenter>(
 
     override fun displayFailure(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    interface SearchListener{
+        fun goToProfileScreen(userUUID: String)
     }
 
 }

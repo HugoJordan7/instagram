@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 import com.example.instagram.common.model.UserAuth
 
-class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
+class UserAdapter(
+    private val onClickListener: (String) -> Unit
+): RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
 
     var items: List<UserAuth> = mutableListOf()
 
@@ -28,6 +30,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
         fun bind(user: UserAuth){
             itemView.findViewById<ImageView>(R.id.search_img_user).setImageURI(user.photoUri)
             itemView.findViewById<TextView>(R.id.search_txt_username).text = user.name
+            itemView.setOnClickListener { onClickListener.invoke(user.uuid) }
         }
     }
 }

@@ -30,7 +30,6 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
     class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bind(image: Uri){
             itemView.findViewById<ImageView>(R.id.item_profile_img_grid).setImageURI(image)
-            Log.i("testMark","test")
         }
     }
 

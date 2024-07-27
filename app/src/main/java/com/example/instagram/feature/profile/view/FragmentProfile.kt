@@ -45,7 +45,8 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileProgressBar?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displayUserProfile(userAuth: UserAuth) {
+    override fun displayUserProfile(response: Pair<UserAuth, Boolean?>) {
+        val (userAuth, following) = response
         binding?.profileTxtCountPosts?.text = userAuth.postsCount.toString()
         binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
         binding?.profileTxtCountFollowers?.text = userAuth.followersCount.toString()
@@ -53,6 +54,12 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtBio?.text = "TODO"
         binding?.profileImgIcon?.setImageURI(userAuth.photoUri)
         presenter.fetchUserPosts(uuid)
+
+        binding?.profileButtonTop?.text = when(following){
+            null -> getString(R.string.edit_profile)
+            true -> getString(R.string.unfollow)
+            false -> getString(R.string.follow)
+        }
     }
 
     override fun displayFailure(message: String) {

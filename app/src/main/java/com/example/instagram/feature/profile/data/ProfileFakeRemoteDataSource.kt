@@ -9,11 +9,18 @@ import com.example.instagram.common.model.UserAuth
 
 class ProfileFakeRemoteDataSource : ProfileDataSource {
 
-    override fun fetchUserProfile(userUUID: String, callback: RequestCallback<UserAuth>) {
+    override fun fetchUserProfile(userUUID: String, callback: RequestCallback<Pair<UserAuth, Boolean?>>) {
         Handler(Looper.getMainLooper()).postDelayed({
             val userAuth = Database.usersAuth.firstOrNull { it.uuid == userUUID }
             if (userAuth != null) {
-                callback.onSuccess(userAuth)
+                if (userAuth.uuid == Database.sessionAuth?.uuid){
+                    callback.onSuccess(Pair(userAuth, null))
+                } else {
+                    val followers = Database.followers[Database.sessionAuth!!.uuid]
+                    val destUser = followers?.firstOrNull{ it == userUUID }
+                    //destUser != null -> Estou seguindo ele
+                    callback.onSuccess(Pair(userAuth, destUser != null))
+                }
             } else {
                 callback.onFailure("Profile not found")
             }

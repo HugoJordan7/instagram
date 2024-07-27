@@ -88,8 +88,8 @@
                 app:layout_constraintTop_toBottomOf="@id/profile_txt_count_posts" />
 
             <Button
+                android:id="@+id/profile_button_top"
                 style="@style/Theme.Instagram.Button.White"
-                android:text="@string/edit_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profile_img_icon"
                 app:layout_constraintTop_toBottomOf="@id/profile_txt_posts" />

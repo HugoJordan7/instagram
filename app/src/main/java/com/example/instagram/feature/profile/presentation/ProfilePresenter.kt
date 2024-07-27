@@ -11,13 +11,10 @@ class ProfilePresenter(
     private val repository: ProfileRepository
 ) : Profile.Presenter {
 
-    var state: UserAuth? = null
-
     override fun fetchUserProfile(uuid: String?) {
         view?.showProgress(true)
-        repository.fetchUserProfile(uuid, object : RequestCallback<UserAuth>{
-            override fun onSuccess(data: UserAuth) {
-                state = data
+        repository.fetchUserProfile(uuid, object : RequestCallback<Pair<UserAuth, Boolean?>>{
+            override fun onSuccess(data: Pair<UserAuth, Boolean?>) {
                 view?.displayUserProfile(data)
             }
             override fun onFailure(message: String) {

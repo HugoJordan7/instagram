@@ -7,9 +7,9 @@ import java.util.*
 object Database {
 
     var usersAuth = mutableListOf<UserAuth>()
-    var posts = hashMapOf<String,MutableSet<Post>>()
-    var feeds = hashMapOf<String,MutableSet<Post>>()
-    val followers = hashMapOf<String,MutableSet<String>>()
+    var posts = hashMapOf<String, MutableSet<Post>>()
+    var feeds = hashMapOf<String, MutableSet<Post>>()
+    val followers = hashMapOf<String, MutableSet<String>>()
 
     var sessionAuth: UserAuth? = null
 
@@ -35,6 +35,7 @@ object Database {
         }
 
         sessionAuth = usersAuth.first()
+        followers[sessionAuth?.uuid]?.add(usersAuth[2].uuid)
     }
 
 }

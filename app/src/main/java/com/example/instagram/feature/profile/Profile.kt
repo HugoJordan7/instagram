@@ -9,7 +9,7 @@ interface Profile {
 
     interface View: BaseView<Presenter>{
         fun showProgress(enabled: Boolean)
-        fun displayUserProfile(userAuth: UserAuth)
+        fun displayUserProfile(userAuth: Pair<UserAuth, Boolean?>)
         fun displayFailure(message: String)
         fun displayEmptyPosts()
         fun displaysPosts(posts: List<Post>)

@@ -47,12 +47,12 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
         binding?.registerEditEmailLayout?.error = emailError?.let { getString(it) }
     }
 
-    override fun goToNameAndPasswordScreen(email: String) {
-        attachListener.goToNameAndPasswordScreen(email)
+    override fun onEmailFailure(message: String) {
+        binding?.registerEditEmailLayout?.error = message
     }
 
-    override fun onEmailFailure(message: String) {
-        Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+    override fun goToNameAndPasswordScreen(email: String) {
+        attachListener.goToNameAndPasswordScreen(email)
     }
 
     override fun onAttach(context: Context) {

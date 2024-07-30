@@ -1,8 +1,8 @@
 package com.example.instagram.feature.register.presentation
 
 import com.example.instagram.R
+import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.register.RegisterNamePasswordContract
-import com.example.instagram.feature.register.data.RegisterCallback
 import com.example.instagram.feature.register.data.RegisterRepository
 
 class RegisterNamePasswordPresenter(
@@ -24,8 +24,8 @@ class RegisterNamePasswordPresenter(
 
         if(isNameValid && isPasswordValid && isConfirmValid){
             view?.showProgress(true)
-            repository.register(email,name,password, object : RegisterCallback {
-                override fun onSuccess() {
+            repository.register(email,name,password, object : RequestCallback<Boolean> {
+                override fun onSuccess(data: Boolean) {
                     view?.onRegisterSuccess(name)
                 }
                 override fun onFailure(message: String) {

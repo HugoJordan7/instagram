@@ -1,8 +1,8 @@
 package com.example.instagram.feature.register.presentation
 
 import android.net.Uri
+import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.register.RegisterPhotoContract
-import com.example.instagram.feature.register.data.RegisterCallback
 import com.example.instagram.feature.register.data.RegisterRepository
 
 class RegisterPhotoPresenter(
@@ -12,20 +12,16 @@ class RegisterPhotoPresenter(
 
     override fun updateUser(uri: Uri) {
         view?.showProgress(true)
-        repository.updateUser(uri, object : RegisterCallback {
-
-            override fun onSuccess() {
+        repository.updateUser(uri, object : RequestCallback<Boolean> {
+            override fun onSuccess(data: Boolean) {
                 view?.onUpdateSuccess()
             }
-
             override fun onFailure(message: String) {
                 view?.onUpdateFailure(message)
             }
-
             override fun onComplete() {
                 view?.showProgress(false)
             }
-
         })
     }
 

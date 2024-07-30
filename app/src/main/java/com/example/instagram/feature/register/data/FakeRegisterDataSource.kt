@@ -3,25 +3,26 @@ package com.example.instagram.feature.register.data
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Database
 import com.example.instagram.common.model.UserAuth
 import java.util.*
 
 class FakeRegisterDataSource: RegisterDataSource {
 
-    override fun register(email: String, callback: RegisterCallback) {
+    override fun register(email: String, callback: RequestCallback<Boolean>) {
         Handler(Looper.getMainLooper()).postDelayed({
             val userAuth = Database.usersAuth.firstOrNull { email == it.email }
             if (userAuth != null){
                 callback.onFailure("The user is already registered")
             } else{
-                callback.onSuccess()
+                callback.onSuccess(true)
             }
             callback.onComplete()
         }, 2000)
     }
 
-    override fun register(email: String, name: String, password: String, callback: RegisterCallback) {
+    override fun register(email: String, name: String, password: String, callback: RequestCallback<Boolean>) {
         Handler(Looper.getMainLooper()).postDelayed({
             val userAuth = Database.usersAuth.firstOrNull{ email == it.email }
             if (userAuth != null){
@@ -34,7 +35,7 @@ class FakeRegisterDataSource: RegisterDataSource {
                     Database.followers[newUser.uuid] = hashSetOf()
                     Database.posts[newUser.uuid] = hashSetOf()
                     Database.feeds[newUser.uuid] = hashSetOf()
-                    callback.onSuccess()
+                    callback.onSuccess(true)
                 } else{
                     callback.onFailure("User registration failure due to an intern server problem")
                 }
@@ -43,7 +44,7 @@ class FakeRegisterDataSource: RegisterDataSource {
         }, 2000)
     }
 
-    override fun updateUser(uri: Uri, callback: RegisterCallback) {
+    override fun updateUser(uri: Uri, callback: RequestCallback<Boolean>) {
         Handler(Looper.getMainLooper()).postDelayed({
             val userAuth = Database.sessionAuth
             if(userAuth == null){
@@ -52,7 +53,7 @@ class FakeRegisterDataSource: RegisterDataSource {
                 val index = Database.usersAuth.indexOf(userAuth)
                 Database.usersAuth[index] = userAuth.copy(photoUri = uri)
                 Database.sessionAuth = Database.usersAuth[index]
-                callback.onSuccess()
+                callback.onSuccess(true)
             }
             callback.onComplete()
         },2000)

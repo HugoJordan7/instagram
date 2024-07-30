@@ -2,8 +2,8 @@ package com.example.instagram.feature.register.presentation
 
 import android.util.Patterns
 import com.example.instagram.R
+import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.register.RegisterEmailContract
-import com.example.instagram.feature.register.data.RegisterCallback
 import com.example.instagram.feature.register.data.RegisterRepository
 
 class RegisterEmailPresenter(
@@ -16,8 +16,8 @@ class RegisterEmailPresenter(
         view?.displayEmailFailure(if (isEmailValid) null else R.string.invalid_email)
         if(isEmailValid){
             view?.showProgress(true)
-            repository.register(email, object : RegisterCallback {
-                override fun onSuccess() {
+            repository.register(email, object : RequestCallback<Boolean> {
+                override fun onSuccess(data: Boolean) {
                     view?.goToNameAndPasswordScreen(email)
                 }
 

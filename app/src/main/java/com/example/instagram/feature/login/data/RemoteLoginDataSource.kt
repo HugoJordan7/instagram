@@ -1,10 +1,11 @@
 package com.example.instagram.feature.login.data
 
+import com.example.instagram.common.base.RequestCallback
 import com.google.firebase.auth.FirebaseAuth
 
 class RemoteLoginDataSource: LoginDataSource {
 
-    override fun login(email: String, password: String, callback: LoginCallback) {
+    override fun login(email: String, password: String, callback: RequestCallback<Boolean>) {
         FirebaseAuth.getInstance()
             .signInWithEmailAndPassword(email, password)
             .addOnSuccessListener { response ->
@@ -12,7 +13,6 @@ class RemoteLoginDataSource: LoginDataSource {
                     callback.onFailure("O usuário ainda não foi cadastrado")
                     return@addOnSuccessListener
                 }
-
                 callback.onSuccess(true)
             }
             .addOnFailureListener { exception ->

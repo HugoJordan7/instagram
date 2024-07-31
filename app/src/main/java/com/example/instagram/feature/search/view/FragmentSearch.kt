@@ -13,7 +13,7 @@ import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.UserAuth
 import com.example.instagram.databinding.FragmentSearchBinding
-import com.example.instagram.di.DependencyInjector
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.search.Search
 import com.example.instagram.feature.search.presentation.SearchPresenter

@@ -7,7 +7,7 @@ import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.Post
 import com.example.instagram.databinding.FragmentHomeBinding
-import com.example.instagram.di.DependencyInjector
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.home.Home
 import com.example.instagram.feature.home.presentation.HomePresenter
 

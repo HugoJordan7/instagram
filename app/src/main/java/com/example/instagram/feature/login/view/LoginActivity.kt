@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.instagram.di.DependencyInjector
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
 import com.example.instagram.feature.login.LoginContract

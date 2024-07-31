@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewPropertyAnimator
-import com.example.instagram.di.DependencyInjector
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.extension.animationEnd
 import com.example.instagram.databinding.ActivitySplashBinding
 import com.example.instagram.feature.login.view.LoginActivity

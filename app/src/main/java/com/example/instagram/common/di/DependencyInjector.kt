@@ -1,4 +1,4 @@
-package com.example.instagram.di
+package com.example.instagram.common.di
 
 import android.content.Context
 import com.example.instagram.feature.add.data.AddFakeRemoteDataSource
@@ -10,7 +10,6 @@ import com.example.instagram.feature.profile.data.PostListMemoryCache
 import com.example.instagram.feature.profile.data.ProfileDataSourceFactory
 import com.example.instagram.feature.profile.data.ProfileMemoryCache
 import com.example.instagram.feature.profile.data.ProfileRepository
-import com.example.instagram.feature.register.data.FakeRegisterDataSource
 import com.example.instagram.feature.register.data.RegisterRepository
 import com.example.instagram.feature.splash.data.FakeSplashDataSource
 import com.example.instagram.feature.splash.data.SplashRepository

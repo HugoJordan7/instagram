@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import com.example.instagram.R
 import com.example.instagram.common.util.PHOTO_URI
 import com.example.instagram.databinding.ActivityAddBinding
-import com.example.instagram.di.DependencyInjector
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.feature.add.Add
 import com.example.instagram.feature.add.presentation.AddPresenter
 

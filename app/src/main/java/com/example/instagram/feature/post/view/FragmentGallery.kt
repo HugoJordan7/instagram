@@ -17,7 +17,7 @@ import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.util.TAKE_PHOTO_KEY
 import com.example.instagram.common.util.URI
 import com.example.instagram.databinding.FragmentGalleryBinding
-import com.example.instagram.di.DependencyInjector
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.feature.post.Post
 import com.example.instagram.feature.post.presentation.PostPresenter
 

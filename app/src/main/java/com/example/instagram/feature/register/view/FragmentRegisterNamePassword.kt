@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
-import com.example.instagram.di.DependencyInjector
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
 import com.example.instagram.feature.register.RegisterNamePasswordContract

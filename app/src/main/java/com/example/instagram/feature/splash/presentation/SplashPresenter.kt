@@ -1,7 +1,7 @@
 package com.example.instagram.feature.splash.presentation
 
+import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.splash.SplashContract
-import com.example.instagram.feature.splash.data.SplashCallback
 import com.example.instagram.feature.splash.data.SplashRepository
 
 class SplashPresenter(
@@ -10,13 +10,14 @@ class SplashPresenter(
 ) : SplashContract.Presenter {
 
     override fun authenticated() {
-        repository.session(object : SplashCallback {
-            override fun onSuccess() {
+        repository.session(object : RequestCallback<Boolean> {
+            override fun onSuccess(data: Boolean) {
                 view?.goToMainScreen()
             }
-            override fun onFailure() {
+            override fun onFailure(message: String) {
                 view?.goToLoginScreen()
             }
+            override fun onComplete() {}
         })
     }
 

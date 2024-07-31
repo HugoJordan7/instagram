@@ -1,38 +1,37 @@
-package com.example.instagram.di
+package com.example.instagram.common.di
 
 import android.content.Context
 import com.example.instagram.feature.add.data.AddFakeRemoteDataSource
 import com.example.instagram.feature.add.data.AddLocalDataSource
 import com.example.instagram.feature.add.data.AddRepository
-import com.example.instagram.feature.login.data.FakeDataSource
+import com.example.instagram.feature.home.data.FeedMemoryCache
+import com.example.instagram.feature.home.data.HomeDataSourceFactory
+import com.example.instagram.feature.home.data.HomeRepository
 import com.example.instagram.feature.login.data.LoginRepository
+import com.example.instagram.feature.login.data.RemoteLoginDataSource
+import com.example.instagram.feature.post.data.LocalPostDataSource
+import com.example.instagram.feature.post.data.PostRepository
 import com.example.instagram.feature.profile.data.PostListMemoryCache
 import com.example.instagram.feature.profile.data.ProfileDataSourceFactory
 import com.example.instagram.feature.profile.data.ProfileMemoryCache
 import com.example.instagram.feature.profile.data.ProfileRepository
-import com.example.instagram.feature.register.data.FakeRegisterDataSource
 import com.example.instagram.feature.register.data.RegisterRepository
-import com.example.instagram.feature.splash.data.FakeSplashDataSource
-import com.example.instagram.feature.splash.data.SplashRepository
-import com.example.instagram.feature.home.data.FeedMemoryCache
-import com.example.instagram.feature.home.data.HomeDataSourceFactory
-import com.example.instagram.feature.home.data.HomeRepository
-import com.example.instagram.feature.post.data.LocalPostDataSource
-import com.example.instagram.feature.post.data.PostRepository
 import com.example.instagram.feature.register.data.RemoteRegisterDataSource
 import com.example.instagram.feature.search.data.FakeRemoteSearchDataSource
 import com.example.instagram.feature.search.data.SearchRepository
+import com.example.instagram.feature.splash.data.RemoteSplashDataSource
+import com.example.instagram.feature.splash.data.SplashRepository
 
 object DependencyInjector {
     fun loginRepository(): LoginRepository {
-        return LoginRepository(FakeDataSource())
+        return LoginRepository(RemoteLoginDataSource())
     }
     fun registerRepository(): RegisterRepository {
         return RegisterRepository(RemoteRegisterDataSource())
     }
 
     fun splashRepository(): SplashRepository {
-        return SplashRepository(FakeSplashDataSource())
+        return SplashRepository(RemoteSplashDataSource())
     }
 
     fun profileRepository(): ProfileRepository {

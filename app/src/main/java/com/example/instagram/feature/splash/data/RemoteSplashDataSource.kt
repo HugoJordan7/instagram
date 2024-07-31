@@ -1,15 +1,15 @@
 package com.example.instagram.feature.splash.data
 
-import com.google.firebase.FirebaseApp
+import com.example.instagram.common.base.RequestCallback
 import com.google.firebase.auth.FirebaseAuth
 
 class RemoteSplashDataSource: SplashDataSource {
 
-    override fun session(callback: SplashCallback) {
+    override fun session(callback: RequestCallback<Boolean>) {
         if(FirebaseAuth.getInstance().uid != null){
-            callback.onSuccess()
+            callback.onSuccess(true)
         } else {
-            callback.onFailure()
+            callback.onFailure("")
         }
     }
 

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 import com.example.instagram.common.model.Post
+import com.squareup.picasso.Picasso
 
 class FeedAdapter : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
 
@@ -30,10 +31,12 @@ class FeedAdapter : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
 
     class FeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(post: Post) {
-            itemView.findViewById<ImageView>(R.id.home_img_publication).setImageURI(post.uri)
+            Picasso.get().load(post.photoUrl).into(itemView.findViewById<ImageView>(R.id.home_img_publication))
+            //itemView.findViewById<ImageView>(R.id.home_img_publication).setImageURI(post.photoUrl)
             itemView.findViewById<TextView>(R.id.home_txt_caption).text = post.caption
-            itemView.findViewById<ImageView>(R.id.home_img_profile).setImageURI(post.publisher.photoUri)
-            itemView.findViewById<TextView>(R.id.home_user_name).text = post.publisher.name
+            Picasso.get().load(post.publisher?.photoUrl).into(itemView.findViewById<ImageView>(R.id.home_img_profile))
+            //itemView.findViewById<ImageView>(R.id.home_img_profile).setImageURI(post.publisher?.photoUrl)
+            itemView.findViewById<TextView>(R.id.home_user_name).text = post.publisher?.name
         }
     }
 

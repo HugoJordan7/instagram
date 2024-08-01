@@ -13,7 +13,7 @@ class HomeDataSourceFactory(private val feedCache: Cache<List<Post>>) {
         if (feedCache.isCached()) {
             return HomeLocalDataSource(feedCache)
         }
-        return HomeFakeRemoteDataSource()
+        return FireHomeDataSource()
     }
 
 }

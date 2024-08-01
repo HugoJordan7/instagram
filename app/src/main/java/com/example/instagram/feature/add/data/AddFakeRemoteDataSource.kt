@@ -8,6 +8,7 @@ import com.example.instagram.common.model.Database
 import com.example.instagram.common.model.Post
 import java.util.UUID
 
+//TODO: delete fake class
 class AddFakeRemoteDataSource: AddDataSource {
 
     override fun createPost(userUUID: String, uri: Uri, caption: String, callback: RequestCallback<Boolean>) {
@@ -17,7 +18,7 @@ class AddFakeRemoteDataSource: AddDataSource {
                 posts = mutableSetOf()
                 Database.posts[userUUID] = posts
             }
-            val post = Post(UUID.randomUUID().toString(), uri, caption, System.currentTimeMillis(), Database.sessionAuth!!)
+            val post = Post(UUID.randomUUID().toString(), null, caption, System.currentTimeMillis(), null)
             posts.add(post)
 
             var followers = Database.followers[userUUID]

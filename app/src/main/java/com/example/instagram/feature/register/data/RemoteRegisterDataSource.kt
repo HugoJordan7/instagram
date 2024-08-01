@@ -92,7 +92,7 @@ class RemoteRegisterDataSource: RegisterDataSource {
                             .addOnSuccessListener { response ->
 
                                 val user = response.toObject(User::class.java)
-                                val newUser = user?.copy(photoUri = uri.toString())
+                                val newUser = user?.copy(photoUrl = uri.toString())
                                 if (newUser != null){
                                     usersRef.set(newUser)
                                         .addOnSuccessListener {

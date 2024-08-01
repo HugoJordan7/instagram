@@ -1,9 +1,6 @@
 package com.example.instagram.common.model
 
 import android.net.Uri
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
 data class UserAuth(
     var uuid: String,

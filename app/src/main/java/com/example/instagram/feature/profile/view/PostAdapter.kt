@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 import com.example.instagram.common.model.Post
+import com.squareup.picasso.Picasso
 
 class PostAdapter : RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
 
@@ -20,7 +21,7 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(posts[position].uri)
+        holder.bind(posts[position].photoUrl)
     }
 
     override fun getItemCount(): Int {
@@ -28,8 +29,10 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
     }
 
     class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(image: Uri){
-            itemView.findViewById<ImageView>(R.id.item_profile_img_grid).setImageURI(image)
+        fun bind(imageUrl: String?){
+            val url = imageUrl ?: return
+            Picasso.get().load(url).into(itemView.findViewById<ImageView>(R.id.item_profile_img_grid))
+            //itemView.findViewById<ImageView>(R.id.item_profile_img_grid).setImageURI(image)
         }
     }
 

@@ -1,10 +1,14 @@
 package com.example.instagram.feature.register.view
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.instagram.R
@@ -12,6 +16,7 @@ import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.view.CustomDialog
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.FragmentRegisterPhotoBinding
+import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.register.RegisterPhotoContract
 import com.example.instagram.feature.register.presentation.RegisterPhotoPresenter
 
@@ -63,7 +68,12 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
         customDialog.addButton(R.string.photo,R.string.gallery){
             when(it.id){
                 R.string.photo -> {
-                    attachListener?.goToCameraScreen()
+                    if (allPermissionsGranted()) {
+                        attachListener?.goToCameraScreen()
+                    } else {
+                        getPermission.launch(REQUIRED_PERMISSION)
+                    }
+                    //attachListener?.goToCameraScreen()
                 }
                 R.string.gallery -> {
                     attachListener?.goToGalleryScreen()
@@ -79,6 +89,25 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
             attachListener = context
         }
     }
+
+
+    private val getPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (allPermissionsGranted()) {
+
+                //TODO: startCamera()
+            } else {
+                Toast.makeText(requireContext(), R.string.permission_camera_denied, Toast.LENGTH_LONG).show()
+            }
+        }
+
+    private fun allPermissionsGranted(): Boolean =
+        ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION) == PackageManager.PERMISSION_GRANTED
+
+    companion object {
+        private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
+    }
+
 
     override fun onDestroy() {
         binding = null

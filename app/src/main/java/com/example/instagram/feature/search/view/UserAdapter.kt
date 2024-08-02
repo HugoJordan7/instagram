@@ -7,13 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
-import com.example.instagram.common.model.UserAuth
+import com.example.instagram.common.model.User
+import com.squareup.picasso.Picasso
 
 class UserAdapter(
     private val onClickListener: (String) -> Unit
 ): RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
 
-    var items: List<UserAuth> = mutableListOf()
+    var items: List<User> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user_list,parent,false)
@@ -27,10 +28,12 @@ class UserAdapter(
     override fun getItemCount() = items.size
 
     inner class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(user: UserAuth){
-            itemView.findViewById<ImageView>(R.id.search_img_user).setImageURI(user.photoUri)
+        fun bind(user: User){
+            Picasso.get().load(user.photoUrl).into(itemView.findViewById<ImageView>(R.id.search_img_user))
             itemView.findViewById<TextView>(R.id.search_txt_username).text = user.name
-            itemView.setOnClickListener { onClickListener.invoke(user.uuid) }
+            itemView.setOnClickListener {
+                user.uuid?.let { onClickListener.invoke(it) }
+            }
         }
     }
 }

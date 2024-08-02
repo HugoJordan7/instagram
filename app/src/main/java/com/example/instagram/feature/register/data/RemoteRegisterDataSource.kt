@@ -50,7 +50,7 @@ class RemoteRegisterDataSource: RegisterDataSource {
                             "postsCount" to 0,
                             "followersCount" to 0,
                             "followingCount" to 0,
-                            "photoUri" to null
+                            "photoUrl" to null
                         )
                     )
                     .addOnSuccessListener {

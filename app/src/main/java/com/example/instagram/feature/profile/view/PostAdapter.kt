@@ -1,7 +1,5 @@
 package com.example.instagram.feature.profile.view
 
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

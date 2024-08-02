@@ -2,6 +2,7 @@ package com.example.instagram.feature.profile.presentation
 
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
+import com.example.instagram.common.model.User
 import com.example.instagram.common.model.UserAuth
 import com.example.instagram.feature.profile.Profile
 import com.example.instagram.feature.profile.data.ProfileRepository
@@ -21,8 +22,8 @@ class ProfilePresenter(
 
     override fun fetchUserProfile(uuid: String?) {
         view?.showProgress(true)
-        repository.fetchUserProfile(uuid, object : RequestCallback<Pair<UserAuth, Boolean?>>{
-            override fun onSuccess(data: Pair<UserAuth, Boolean?>) {
+        repository.fetchUserProfile(uuid, object : RequestCallback<Pair<User, Boolean?>>{
+            override fun onSuccess(data: Pair<User, Boolean?>) {
                 view?.displayUserProfile(data)
             }
             override fun onFailure(message: String) {

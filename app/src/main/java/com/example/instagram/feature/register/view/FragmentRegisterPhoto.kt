@@ -1,10 +1,14 @@
 package com.example.instagram.feature.register.view
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.instagram.R
@@ -63,7 +67,11 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
         customDialog.addButton(R.string.photo,R.string.gallery){
             when(it.id){
                 R.string.photo -> {
-                    attachListener?.goToCameraScreen()
+                    if (allPermissionsGranted()) {
+                        attachListener?.goToCameraScreen()
+                    } else {
+                        getPermission.launch(REQUIRED_PERMISSION)
+                    }
                 }
                 R.string.gallery -> {
                     attachListener?.goToGalleryScreen()
@@ -78,6 +86,23 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
         if(context is FragmentAttachListener){
             attachListener = context
         }
+    }
+
+
+    private val getPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (allPermissionsGranted()) {
+                attachListener?.goToCameraScreen()
+            } else {
+                Toast.makeText(requireContext(), R.string.permission_camera_denied, Toast.LENGTH_LONG).show()
+            }
+        }
+
+    private fun allPermissionsGranted(): Boolean =
+        ContextCompat.checkSelfPermission(requireContext(), REQUIRED_PERMISSION) == PackageManager.PERMISSION_GRANTED
+
+    companion object {
+        private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
     }
 
     override fun onDestroy() {

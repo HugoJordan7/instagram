@@ -3,20 +3,20 @@ package com.example.instagram.feature.profile.view
 import android.annotation.SuppressLint
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.model.Post
-import com.example.instagram.common.model.UserAuth
+import com.example.instagram.common.model.User
 import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.FragmentProfileBinding
-import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.feature.profile.Profile
 import com.example.instagram.feature.profile.presentation.ProfilePresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.squareup.picasso.Picasso
 
 class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     R.layout.fragment_profile,
@@ -57,14 +57,14 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileProgressBar?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displayUserProfile(response: Pair<UserAuth, Boolean?>) {
+    override fun displayUserProfile(response: Pair<User, Boolean?>) {
         val (userAuth, following) = response
         binding?.profileTxtCountPosts?.text = userAuth.postsCount.toString()
         binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
         binding?.profileTxtCountFollowers?.text = userAuth.followersCount.toString()
         binding?.profileTxtUsername?.text = userAuth.name
         binding?.profileTxtBio?.text = getString(R.string.app_name)
-        binding?.profileImgIcon?.setImageURI(userAuth.photoUri)
+        Picasso.get().load(userAuth.photoUrl).into(binding?.profileImgIcon)
         presenter.fetchUserPosts(uuid)
 
         binding?.profileButtonTop?.text = when(following){

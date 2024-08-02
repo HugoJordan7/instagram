@@ -2,10 +2,11 @@ package com.example.instagram.feature.profile.data
 
 import com.example.instagram.common.base.Cache
 import com.example.instagram.common.model.Post
+import com.example.instagram.common.model.User
 import com.example.instagram.common.model.UserAuth
 
 class ProfileDataSourceFactory(
-    private val profileCache: Cache<Pair<UserAuth, Boolean?>>,
+    private val profileCache: Cache<Pair<User, Boolean?>>,
     private val postsCache: Cache<List<Post>>
 ) {
 
@@ -14,19 +15,19 @@ class ProfileDataSourceFactory(
     }
 
     fun createRemoteDataSource(): ProfileDataSource {
-        return ProfileFakeRemoteDataSource()
+        return FireProfileRemoteDataSource()
     }
 
     fun createFromUser(uuid: String?): ProfileDataSource {
-        if (uuid != null) return ProfileFakeRemoteDataSource()
+        if (uuid != null) return FireProfileRemoteDataSource()
         if(profileCache.isCached()) return ProfileLocalDataSource(profileCache, postsCache)
-        return ProfileFakeRemoteDataSource()
+        return FireProfileRemoteDataSource()
     }
 
     fun createFromPosts(uuid: String?): ProfileDataSource {
-        if (uuid != null) return ProfileFakeRemoteDataSource()
+        if (uuid != null) return FireProfileRemoteDataSource()
         if(postsCache.isCached()) return ProfileLocalDataSource(profileCache, postsCache)
-        return ProfileFakeRemoteDataSource()
+        return FireProfileRemoteDataSource()
     }
 
 }

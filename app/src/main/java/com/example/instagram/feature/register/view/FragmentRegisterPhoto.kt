@@ -16,7 +16,6 @@ import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.view.CustomDialog
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.FragmentRegisterPhotoBinding
-import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.register.RegisterPhotoContract
 import com.example.instagram.feature.register.presentation.RegisterPhotoPresenter
 
@@ -73,7 +72,6 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
                     } else {
                         getPermission.launch(REQUIRED_PERMISSION)
                     }
-                    //attachListener?.goToCameraScreen()
                 }
                 R.string.gallery -> {
                     attachListener?.goToGalleryScreen()
@@ -94,8 +92,7 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
     private val getPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (allPermissionsGranted()) {
-
-                //TODO: startCamera()
+                attachListener?.goToCameraScreen()
             } else {
                 Toast.makeText(requireContext(), R.string.permission_camera_denied, Toast.LENGTH_LONG).show()
             }
@@ -107,7 +104,6 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
     }
-
 
     override fun onDestroy() {
         binding = null

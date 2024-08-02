@@ -5,6 +5,7 @@ import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class FireProfileRemoteDataSource: ProfileDataSource {
 
@@ -47,7 +48,27 @@ class FireProfileRemoteDataSource: ProfileDataSource {
     }
 
     override fun fetchUserPosts(userUUID: String, callback: RequestCallback<List<Post>>) {
-        //TODO("Not yet implemented")
+        FirebaseFirestore.getInstance()
+            .collection("/posts")
+            .document(FirebaseAuth.getInstance().uid!!)
+            .collection("posts")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { response ->
+                val docs = response.documents
+                val posts = mutableListOf<Post>()
+                for (doc in docs){
+                    val post = doc.toObject(Post::class.java)
+                    post?.let { posts.add(it) }
+                }
+                callback.onSuccess(posts)
+            }
+            .addOnFailureListener { exception ->
+                callback.onFailure(exception.message ?: "Erro ao buscar posts do perfil")
+            }
+            .addOnCompleteListener {
+                callback.onComplete()
+            }
     }
 
     override fun followUser(userUUID: String, isFollow: Boolean, callback: RequestCallback<Boolean>) {

@@ -18,6 +18,7 @@ import com.example.instagram.feature.profile.data.ProfileRepository
 import com.example.instagram.feature.register.data.RegisterRepository
 import com.example.instagram.feature.register.data.RemoteRegisterDataSource
 import com.example.instagram.feature.search.data.FakeRemoteSearchDataSource
+import com.example.instagram.feature.search.data.FireSearchDataSource
 import com.example.instagram.feature.search.data.SearchRepository
 import com.example.instagram.feature.splash.data.RemoteSplashDataSource
 import com.example.instagram.feature.splash.data.SplashRepository
@@ -51,7 +52,7 @@ object DependencyInjector {
     }
 
     fun searchRepository(): SearchRepository{
-        return SearchRepository(FakeRemoteSearchDataSource())
+        return SearchRepository(FireSearchDataSource())
     }
 
 }

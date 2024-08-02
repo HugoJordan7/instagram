@@ -11,10 +11,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
-import com.example.instagram.common.model.UserAuth
-import com.example.instagram.databinding.FragmentSearchBinding
 import com.example.instagram.common.di.DependencyInjector
-import com.example.instagram.feature.main.view.MainActivity
+import com.example.instagram.common.model.User
+import com.example.instagram.databinding.FragmentSearchBinding
 import com.example.instagram.feature.search.Search
 import com.example.instagram.feature.search.presentation.SearchPresenter
 
@@ -53,7 +52,7 @@ class FragmentSearch: BaseFragment<FragmentSearchBinding, Search.Presenter>(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun displayUsers(users: List<UserAuth>) {
+    override fun displayUsers(users: List<User>) {
         binding?.searchTxtNoUsers?.visibility = View.GONE
         binding?.searchRecyclerView?.visibility = View.VISIBLE
         adapter.items = users

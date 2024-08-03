@@ -4,7 +4,9 @@ import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 
 class FireProfileRemoteDataSource: ProfileDataSource {
@@ -72,7 +74,39 @@ class FireProfileRemoteDataSource: ProfileDataSource {
     }
 
     override fun followUser(userUUID: String, isFollow: Boolean, callback: RequestCallback<Boolean>) {
-        //TODO: after implements
+        val currentUUID = FirebaseAuth.getInstance().uid
+        FirebaseFirestore.getInstance()
+            .collection("/followers")
+            .document(userUUID)
+            .update("followers",
+                if (isFollow) FieldValue.arrayUnion(currentUUID)
+                else FieldValue.arrayRemove(currentUUID)
+            )
+            .addOnSuccessListener { response ->
+                callback.onSuccess(true)
+            }
+            .addOnFailureListener { exception ->
+                val error = exception as? FirebaseFirestoreException
+                if (error?.code == FirebaseFirestoreException.Code.NOT_FOUND){
+                    FirebaseFirestore.getInstance()
+                        .collection("/followers")
+                        .document(userUUID)
+                        .set(
+                            hashMapOf("followers" to listOf(currentUUID))
+                        )
+                        .addOnSuccessListener { response ->
+                            callback.onSuccess(true)
+                        }
+                        .addOnFailureListener {
+                            callback.onFailure(exception.message ?: "Erro ao criar seguidor")
+                        }
+                } else{
+                    callback.onFailure(exception.message ?: "Erro ao seguir usuário")
+                }
+            }
+            .addOnCompleteListener {
+                callback.onComplete()
+            }
     }
 
 }

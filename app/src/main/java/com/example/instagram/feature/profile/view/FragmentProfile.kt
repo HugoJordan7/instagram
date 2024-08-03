@@ -59,7 +59,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
 
     override fun displayUserProfile(response: Pair<User, Boolean?>) {
         val (userAuth, following) = response
-        binding?.profileTxtCountPosts?.text = userAuth.postsCount.toString()
+        binding?.profileTxtCountPosts?.text = userAuth.postCount.toString()
         binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
         binding?.profileTxtCountFollowers?.text = userAuth.followersCount.toString()
         binding?.profileTxtUsername?.text = userAuth.name

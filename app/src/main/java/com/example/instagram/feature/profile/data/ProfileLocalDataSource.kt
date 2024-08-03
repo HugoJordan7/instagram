@@ -2,10 +2,8 @@ package com.example.instagram.feature.profile.data
 
 import com.example.instagram.common.base.Cache
 import com.example.instagram.common.base.RequestCallback
-import com.example.instagram.common.model.Database
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
-import com.example.instagram.common.model.UserAuth
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileLocalDataSource(
@@ -37,7 +35,7 @@ class ProfileLocalDataSource(
         return FirebaseAuth.getInstance().uid ?: throw RuntimeException("Usuário não logado")
     }
 
-    override fun putUser(response: Pair<User, Boolean?>) {
+    override fun putUser(response: Pair<User, Boolean?>?) {
         profileCache.put(response)
     }
 

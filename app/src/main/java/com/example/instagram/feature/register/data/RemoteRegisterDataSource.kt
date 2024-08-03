@@ -47,7 +47,7 @@ class RemoteRegisterDataSource: RegisterDataSource {
                             "uuid" to uuid,
                             "name" to name,
                             "email" to email,
-                            "postsCount" to 0,
+                            "postCount" to 0,
                             "followersCount" to 0,
                             "followingCount" to 0,
                             "photoUrl" to null

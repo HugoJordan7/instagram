@@ -3,7 +3,6 @@ package com.example.instagram.feature.profile.data
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
-import com.example.instagram.common.model.UserAuth
 
 interface ProfileDataSource {
 
@@ -15,7 +14,7 @@ interface ProfileDataSource {
 
     fun fetchSession(): String { throw UnsupportedOperationException() }
 
-    fun putUser(response: Pair<User, Boolean?>) { throw UnsupportedOperationException() }
+    fun putUser(response: Pair<User, Boolean?>?) { throw UnsupportedOperationException() }
 
     fun putPosts(response: List<Post>?){ throw UnsupportedOperationException() }
 

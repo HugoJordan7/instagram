@@ -56,7 +56,7 @@ class FireProfileRemoteDataSource: ProfileDataSource {
     override fun fetchUserPosts(userUUID: String, callback: RequestCallback<List<Post>>) {
         FirebaseFirestore.getInstance()
             .collection("/posts")
-            .document(FirebaseAuth.getInstance().uid!!)
+            .document(userUUID)
             .collection("posts")
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()

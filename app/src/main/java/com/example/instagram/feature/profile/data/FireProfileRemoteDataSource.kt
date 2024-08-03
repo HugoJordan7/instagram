@@ -16,8 +16,8 @@ class FireProfileRemoteDataSource: ProfileDataSource {
             .collection("/users")
             .document(userUUID)
             .get()
-            .addOnSuccessListener { response ->
-                val user = response.toObject(User::class.java)
+            .addOnSuccessListener { res ->
+                val user = res.toObject(User::class.java)
                 if (user == null) {
                     callback.onFailure("Erro ao converter objeto de usuário")
                     return@addOnSuccessListener
@@ -26,14 +26,27 @@ class FireProfileRemoteDataSource: ProfileDataSource {
                 if (FirebaseAuth.getInstance().uid == userUUID){
                     callback.onSuccess(user to null)
                 } else {
+//                    FirebaseFirestore.getInstance()
+//                        .collection("/followers")
+//                        .document(FirebaseAuth.getInstance().uid!!)
+//                        .collection("followers")
+//                        .whereEqualTo("uuid", userUUID)
+//                        .get()
+//                        .addOnSuccessListener { res ->
+//                            callback.onSuccess(user to !res.isEmpty)
+//                        }
                     FirebaseFirestore.getInstance()
                         .collection("/followers")
-                        .document(FirebaseAuth.getInstance().uid!!)
-                        .collection("followers")
-                        .whereEqualTo("uuid", userUUID)
+                        .document(userUUID)
                         .get()
-                        .addOnSuccessListener { res ->
-                            callback.onSuccess(user to !res.isEmpty)
+                        .addOnSuccessListener { response ->
+                            if (!response.exists()) {
+                                callback.onSuccess(Pair(user, false))
+                            } else {
+                                val list = response.get("followers") as List<String>
+                                callback.onSuccess(Pair(user, list.contains(FirebaseAuth.getInstance().uid)))
+                            }
+
                         }
                         .addOnFailureListener{ exception ->
                             callback.onFailure(exception.message ?: "Erro ao buscar perfil")

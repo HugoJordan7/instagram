@@ -55,32 +55,38 @@ class FireAddDataSource: AddDataSource {
                                             .set(post)
                                             .addOnSuccessListener { feedRes ->
 
-                                            }
-                                        //add my post to my followers feed
-                                        FirebaseFirestore.getInstance()
-                                            .collection("/followers")
-                                            .document(userUUID)
-                                            .collection("followers")
-                                            .get()
-                                            .addOnSuccessListener { followers ->
-                                                val docs = followers.documents
-                                                for (doc in docs){
-                                                    val followerUUID = doc.toObject(String::class.java) ?: throw RuntimeException("Erro ao pegar UUID do seguidor")
-                                                    FirebaseFirestore.getInstance()
-                                                        .collection("/feeds")
-                                                        .document(followerUUID)
-                                                        .collection("posts")
-                                                        .document(postRef.path)
-                                                        .set(post)
-                                                }
-                                                callback.onSuccess(true)
-                                            }
-                                            .addOnFailureListener { exception ->
-                                                callback.onFailure(exception.message ?: "Erro ao buscar seguidores")
+                                                //add my post to my followers feed
+                                                FirebaseFirestore.getInstance()
+                                                    .collection("/followers")
+                                                    .document(userUUID)
+                                                    .get()
+                                                    .addOnSuccessListener { followersRes ->
+                                                        if(followersRes.exists()){
+                                                            val followers = followersRes.get("followers") as List<String>
+                                                            for (followerUUID in followers){
+                                                                FirebaseFirestore.getInstance()
+                                                                    .collection("/feeds")
+                                                                    .document(followerUUID)
+                                                                    .collection("posts")
+                                                                    .document(postRef.id)
+                                                                    .set(post)
+                                                            }
+                                                            callback.onSuccess(true)
+                                                        }
+                                                    }
+                                                    .addOnFailureListener { exception ->
+                                                        callback.onFailure(exception.message ?: "Erro ao buscar seguidores")
+                                                    }
+                                                    .addOnCompleteListener {
+                                                        callback.onComplete()
+                                                    }
                                             }
                                     }
                                     .addOnFailureListener { exception ->
                                         callback.onFailure(exception.message ?: "Erro ao setar post")
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        callback.onFailure(exception.message ?: "Falha ao inserir um post")
                                     }
                             }
                             .addOnFailureListener { exception ->

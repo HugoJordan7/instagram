@@ -26,15 +26,6 @@ class FireProfileRemoteDataSource: ProfileDataSource {
                 if (FirebaseAuth.getInstance().uid == userUUID){
                     callback.onSuccess(user to null)
                 } else {
-//                    FirebaseFirestore.getInstance()
-//                        .collection("/followers")
-//                        .document(FirebaseAuth.getInstance().uid!!)
-//                        .collection("followers")
-//                        .whereEqualTo("uuid", userUUID)
-//                        .get()
-//                        .addOnSuccessListener { res ->
-//                            callback.onSuccess(user to !res.isEmpty)
-//                        }
                     FirebaseFirestore.getInstance()
                         .collection("/followers")
                         .document(userUUID)

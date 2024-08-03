@@ -5,12 +5,12 @@ import com.example.instagram.common.base.RequestCallback
 
 class AddRepository(
     private val localDataSource: AddLocalDataSource,
-    private val remoteDataSource: AddFakeRemoteDataSource
+    private val remoteDataSource: FireAddDataSource
 ) {
 
     fun createPost(uri: Uri, caption: String, callback: RequestCallback<Boolean>){
-        val userAuth = localDataSource.fetchSession()
-        remoteDataSource.createPost(userAuth.uuid, uri, caption, object : RequestCallback<Boolean>{
+        val userUUID = localDataSource.fetchSession()
+        remoteDataSource.createPost(userUUID, uri, caption, object : RequestCallback<Boolean>{
             override fun onSuccess(data: Boolean) {
                 callback.onSuccess(data)
             }

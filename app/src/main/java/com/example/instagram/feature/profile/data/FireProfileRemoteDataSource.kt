@@ -78,7 +78,7 @@ class FireProfileRemoteDataSource: ProfileDataSource {
     }
 
     override fun followUser(userUUID: String, isFollow: Boolean, callback: RequestCallback<Boolean>) {
-        val currentUUID = FirebaseAuth.getInstance().uid
+        val currentUUID = FirebaseAuth.getInstance().uid ?: throw RuntimeException("Usuário não logado")
         FirebaseFirestore.getInstance()
             .collection("/followers")
             .document(userUUID)
@@ -87,6 +87,7 @@ class FireProfileRemoteDataSource: ProfileDataSource {
                 else FieldValue.arrayRemove(currentUUID)
             )
             .addOnSuccessListener { response ->
+                followingCounter(currentUUID, isFollow)
                 callback.onSuccess(true)
             }
             .addOnFailureListener { exception ->
@@ -99,6 +100,7 @@ class FireProfileRemoteDataSource: ProfileDataSource {
                             hashMapOf("followers" to listOf(currentUUID))
                         )
                         .addOnSuccessListener { response ->
+                            followingCounter(currentUUID, isFollow)
                             callback.onSuccess(true)
                         }
                         .addOnFailureListener {
@@ -111,6 +113,15 @@ class FireProfileRemoteDataSource: ProfileDataSource {
             .addOnCompleteListener {
                 callback.onComplete()
             }
+    }
+
+    private fun followingCounter(uuid: String, isFollow: Boolean){
+        val meRef = FirebaseFirestore.getInstance()
+            .collection("/users")
+            .document(uuid)
+
+        if(isFollow) meRef.update("followingCount", FieldValue.increment(1))
+        else meRef.update("followingCount", FieldValue.increment(-1))
     }
 
 }

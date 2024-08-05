@@ -88,6 +88,7 @@ class FireProfileRemoteDataSource: ProfileDataSource {
             )
             .addOnSuccessListener { response ->
                 followingCounter(currentUUID, isFollow)
+                followersCounter(userUUID)
                 callback.onSuccess(true)
             }
             .addOnFailureListener { exception ->
@@ -101,6 +102,7 @@ class FireProfileRemoteDataSource: ProfileDataSource {
                         )
                         .addOnSuccessListener { response ->
                             followingCounter(currentUUID, isFollow)
+                            followersCounter(userUUID)
                             callback.onSuccess(true)
                         }
                         .addOnFailureListener {
@@ -122,6 +124,23 @@ class FireProfileRemoteDataSource: ProfileDataSource {
 
         if(isFollow) meRef.update("followingCount", FieldValue.increment(1))
         else meRef.update("followingCount", FieldValue.increment(-1))
+    }
+
+    private fun followersCounter(uuid: String){
+        val meRef = FirebaseFirestore.getInstance()
+            .collection("/users")
+            .document(uuid)
+
+        FirebaseFirestore.getInstance()
+            .collection("/followers")
+            .document(uuid)
+            .get()
+            .addOnSuccessListener { response ->
+                if (response.exists()){
+                    val followers = response.get("followers") as List<String>
+                    meRef.update("followersCount", followers.size)
+                }
+            }
     }
 
 }

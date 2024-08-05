@@ -1,5 +1,6 @@
 package com.example.instagram.feature.home.view
 
+import android.content.Context
 import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import com.example.instagram.databinding.FragmentHomeBinding
 import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.home.Home
 import com.example.instagram.feature.home.presentation.HomePresenter
+import com.example.instagram.feature.main.LogoutListener
 
 class FragmentHome: BaseFragment<FragmentHomeBinding, Home.Presenter>(
     R.layout.fragment_home,
@@ -18,6 +20,8 @@ class FragmentHome: BaseFragment<FragmentHomeBinding, Home.Presenter>(
 
     override lateinit var presenter: Home.Presenter
     private val adapter = FeedAdapter()
+
+    private var logoutListener: LogoutListener? = null
 
     override fun setupViews() {
         binding?.homeRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -31,11 +35,6 @@ class FragmentHome: BaseFragment<FragmentHomeBinding, Home.Presenter>(
     }
 
     override fun getMenu() = R.menu.menu_profile
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_profile_bottom_nav, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
     override fun showProgress(enabled: Boolean) {
         binding?.homeProgress?.visibility = if (enabled) View.VISIBLE else View.GONE
@@ -55,6 +54,20 @@ class FragmentHome: BaseFragment<FragmentHomeBinding, Home.Presenter>(
         binding?.homeProgress?.visibility = View.VISIBLE
         adapter.items = posts
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is LogoutListener){
+            logoutListener = context
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_logout -> logoutListener?.logout()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

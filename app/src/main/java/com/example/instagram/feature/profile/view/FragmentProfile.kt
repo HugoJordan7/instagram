@@ -31,6 +31,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     override lateinit var presenter: Profile.Presenter
 
     private var logoutListener: LogoutListener? = null
+    private var followListener: FollowListener? = null
 
     override fun setupPresenter() {
         val repository = DependencyInjector.profileRepository()
@@ -97,6 +98,10 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         adapter.notifyDataSetChanged()
     }
 
+    override fun followUpdated() {
+        followListener?.followUpdated()
+    }
+
     override fun getMenu(): Int {
         return R.menu.menu_profile
     }
@@ -121,6 +126,9 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         if (context is LogoutListener){
             logoutListener = context
         }
+        if (context is FollowListener){
+            followListener = context
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -128,6 +136,10 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
             R.id.menu_logout -> logoutListener?.logout()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    interface FollowListener{
+        fun followUpdated()
     }
 
 }

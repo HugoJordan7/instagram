@@ -13,6 +13,7 @@ interface Profile {
         fun displayFailure(message: String)
         fun displayEmptyPosts()
         fun displaysPosts(posts: List<Post>)
+        fun followUpdated()
     }
 
     interface Presenter: BasePresenter{

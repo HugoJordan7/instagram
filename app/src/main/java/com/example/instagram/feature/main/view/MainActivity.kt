@@ -10,27 +10,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ContentInfoCompat.Flags
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
 import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.ActivityMainBinding
-import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.home.view.FragmentHome
 import com.example.instagram.feature.main.LogoutListener
+import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.profile.view.FragmentProfile
 import com.example.instagram.feature.search.view.FragmentSearch
 import com.example.instagram.feature.splash.view.SplashActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.instagram.feature.profile.view.FragmentProfile.FollowListener
 
 class MainActivity :
     AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
     FragmentAdd.AddListener,
     FragmentSearch.SearchListener,
-    LogoutListener
+    LogoutListener,
+    FollowListener
 {
 
     private lateinit var homeFragment: FragmentHome
@@ -138,6 +139,10 @@ class MainActivity :
         if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
             profileFragment.presenter.clear()
         }
+    }
+
+    override fun followUpdated() {
+        clearCache()
     }
 
 }

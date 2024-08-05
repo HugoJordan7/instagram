@@ -1,5 +1,6 @@
 package com.example.instagram.feature.main.view
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ContentInfoCompat.Flags
 import androidx.fragment.app.Fragment
 import com.example.instagram.R
 import com.example.instagram.common.extension.replaceFragment
@@ -16,8 +18,10 @@ import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.ActivityMainBinding
 import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.home.view.FragmentHome
+import com.example.instagram.feature.main.LogoutListener
 import com.example.instagram.feature.profile.view.FragmentProfile
 import com.example.instagram.feature.search.view.FragmentSearch
+import com.example.instagram.feature.splash.view.SplashActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -25,7 +29,8 @@ class MainActivity :
     AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
     FragmentAdd.AddListener,
-    FragmentSearch.SearchListener
+    FragmentSearch.SearchListener,
+    LogoutListener
 {
 
     private lateinit var homeFragment: FragmentHome
@@ -107,10 +112,7 @@ class MainActivity :
     }
 
     override fun onPostCreated() {
-        homeFragment.presenter.clear()
-        if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
-            profileFragment.presenter.clear()
-        }
+        clearCache()
         binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
     }
 
@@ -120,6 +122,22 @@ class MainActivity :
         val bundle = Bundle().apply { putString(KEY_USER_ID, userUUID) }
         fragment.arguments = bundle
         replaceFragment(R.id.main_fragment, fragment, fragment.javaClass.simpleName + "detail", true)
+    }
+
+    override fun logout() {
+        clearCache()
+        homeFragment.presenter.logout()
+        val intent = Intent(this, SplashActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    private fun clearCache(){
+        homeFragment.presenter.clear()
+        if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
+            profileFragment.presenter.clear()
+        }
     }
 
 }

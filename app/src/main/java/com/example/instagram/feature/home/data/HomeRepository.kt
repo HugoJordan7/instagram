@@ -2,6 +2,7 @@ package com.example.instagram.feature.home.data
 
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
+import com.google.firebase.auth.FirebaseAuth
 
 class HomeRepository(private val dataSourceFactory: HomeDataSourceFactory) {
 
@@ -28,6 +29,10 @@ class HomeRepository(private val dataSourceFactory: HomeDataSourceFactory) {
     fun clearCache() {
         val localDataSource = dataSourceFactory.createLocalDataSource()
         localDataSource.putFeed(null)
+    }
+
+    fun logout(){
+        dataSourceFactory.createRemoteDataSource().logout()
     }
 
 }

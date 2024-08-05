@@ -1,6 +1,7 @@
 package com.example.instagram.feature.profile.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -13,6 +14,7 @@ import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.FragmentProfileBinding
+import com.example.instagram.feature.main.LogoutListener
 import com.example.instagram.feature.profile.Profile
 import com.example.instagram.feature.profile.presentation.ProfilePresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,6 +29,8 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     private var uuid: String? = null
 
     override lateinit var presenter: Profile.Presenter
+
+    private var logoutListener: LogoutListener? = null
 
     override fun setupPresenter() {
         val repository = DependencyInjector.profileRepository()
@@ -110,6 +114,20 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
             }
         }
         return true
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is LogoutListener){
+            logoutListener = context
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_logout -> logoutListener?.logout()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

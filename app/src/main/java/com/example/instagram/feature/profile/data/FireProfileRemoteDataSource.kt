@@ -88,8 +88,8 @@ class FireProfileRemoteDataSource: ProfileDataSource {
             )
             .addOnSuccessListener { response ->
                 followingCounter(currentUUID, isFollow)
-                followersCounter(userUUID)
-                callback.onSuccess(true)
+                followersCounter(userUUID, callback)
+                updateFeed(userUUID, isFollow)
             }
             .addOnFailureListener { exception ->
                 val error = exception as? FirebaseFirestoreException
@@ -102,8 +102,8 @@ class FireProfileRemoteDataSource: ProfileDataSource {
                         )
                         .addOnSuccessListener { response ->
                             followingCounter(currentUUID, isFollow)
-                            followersCounter(userUUID)
-                            callback.onSuccess(true)
+                            followersCounter(userUUID, callback)
+                            updateFeed(userUUID, isFollow)
                         }
                         .addOnFailureListener {
                             callback.onFailure(exception.message ?: "Erro ao criar seguidor")
@@ -126,7 +126,7 @@ class FireProfileRemoteDataSource: ProfileDataSource {
         else meRef.update("followingCount", FieldValue.increment(-1))
     }
 
-    private fun followersCounter(uuid: String){
+    private fun followersCounter(uuid: String, callback: RequestCallback<Boolean>){
         val meRef = FirebaseFirestore.getInstance()
             .collection("/users")
             .document(uuid)
@@ -140,7 +140,43 @@ class FireProfileRemoteDataSource: ProfileDataSource {
                     val followers = response.get("followers") as List<String>
                     meRef.update("followersCount", followers.size)
                 }
+                callback.onSuccess(true)
             }
+    }
+
+    private fun updateFeed(uuid: String, isFollow: Boolean){
+        if (isFollow){
+            FirebaseFirestore.getInstance()
+                .collection("/posts")
+                .document(uuid)
+                .collection("posts")
+                .get()
+                .addOnSuccessListener { response ->
+                    val posts = response.toObjects(Post::class.java)
+
+                    posts.lastOrNull()?.let {
+                        FirebaseFirestore.getInstance()
+                            .collection("/feeds")
+                            .document(FirebaseAuth.getInstance().uid!!)
+                            .collection("posts")
+                            .document(it.uuid!!)
+                            .set(it)
+                    }
+                }
+        } else{
+            FirebaseFirestore.getInstance()
+                .collection("/feeds")
+                .document(FirebaseAuth.getInstance().uid!!)
+                .collection("posts")
+                .whereEqualTo("publisher.uuid", uuid)
+                .get()
+                .addOnSuccessListener { response ->
+                    val docs = response.documents
+                    for(doc in docs){
+                        doc.reference.delete()
+                    }
+                }
+        }
     }
 
 }

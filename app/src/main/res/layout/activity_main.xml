@@ -16,7 +16,7 @@
             android:id="@+id/main_app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="?colorOnPrimary">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/main_toolbar"
@@ -25,11 +25,13 @@
                 android:layout_height="?attr/actionBarSize">
 
                 <ImageView
+                    android:id="@+id/main_image_logo"
                     android:layout_width="100dp"
                     android:layout_marginTop="8dp"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:src="@drawable/instagram_logo_black"/>
+                    android:src="@drawable/instagram_logo_black"
+                    app:tint="?colorPrimary" />
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -37,6 +39,7 @@
 
         <FrameLayout
             android:id="@+id/main_fragment"
+            android:background="?colorOnPrimary"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -50,6 +53,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:labelVisibilityMode="unlabeled"
-        app:itemIconTint="@color/black"/>
+        android:background="?colorOnPrimary"
+        app:itemIconTint="?colorPrimary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

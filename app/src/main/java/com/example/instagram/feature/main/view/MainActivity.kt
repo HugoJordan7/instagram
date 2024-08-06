@@ -1,6 +1,9 @@
 package com.example.instagram.feature.main.view
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -46,10 +49,18 @@ class MainActivity :
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val theme = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            window.insetsController?.setSystemBarsAppearance(theme, theme)
-            window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
+            when(resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
+                Configuration.UI_MODE_NIGHT_YES ->{
+                    window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+                }
+                Configuration.UI_MODE_NIGHT_NO ->{
+                    val theme = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    window.insetsController?.setSystemBarsAppearance(theme, theme)
+                    window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
+                }
+            }
         }
+
         val toolbar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {

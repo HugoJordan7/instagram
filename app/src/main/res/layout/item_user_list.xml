@@ -22,7 +22,6 @@
         android:text="@string/username"
         style="@style/Theme.Instagram.TextViewBase"
         android:layout_width="0dp"
-        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/search_img_user"
         app:layout_constraintTop_toTopOf="@id/search_img_user"

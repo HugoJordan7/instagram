@@ -2,22 +2,18 @@ package com.example.instagram.feature.post.view
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.os.Bundle
-import android.util.Log
-import android.view.*
-import android.widget.ImageView
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragment
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.TAKE_PHOTO_KEY
 import com.example.instagram.common.util.URI
 import com.example.instagram.databinding.FragmentGalleryBinding
-import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.feature.post.Post
 import com.example.instagram.feature.post.presentation.PostPresenter
 
@@ -78,4 +74,5 @@ class FragmentGallery : BaseFragment<FragmentGalleryBinding, Post.Presenter>(
     override fun displayFailure(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
+
 }

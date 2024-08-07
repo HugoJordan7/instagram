@@ -1,13 +1,13 @@
 package com.example.instagram.common.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
+import com.example.instagram.R
 
 abstract class BaseFragment<B,P: BasePresenter>(
     @LayoutRes layoutId: Int,
@@ -36,6 +36,7 @@ abstract class BaseFragment<B,P: BasePresenter>(
     protected abstract fun setupViews()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.removeItem(R.id.action_send)
         getMenu()?.let {
             inflater.inflate(it, menu)
         }
@@ -52,4 +53,5 @@ abstract class BaseFragment<B,P: BasePresenter>(
         binding = null
         presenter.onDestroy()
     }
+
 }

@@ -1,7 +1,6 @@
 package com.example.instagram.common.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -17,7 +16,6 @@ abstract class BaseFragment<B,P: BasePresenter>(
 
     protected abstract var presenter: P
     protected var binding: B? = null
-    protected var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +40,6 @@ abstract class BaseFragment<B,P: BasePresenter>(
         getMenu()?.let {
             inflater.inflate(it, menu)
         }
-        this.menu = menu
         super.onCreateOptionsMenu(menu, inflater)
     }
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@color/white"
+    android:background="?colorOnPrimary"
     android:orientation="vertical"
     tools:context=".feature.login.view.LoginActivity">
 
@@ -28,7 +28,8 @@
                 android:layout_height="60dp"
                 android:layout_marginBottom="48dp"
                 android:contentDescription="@null"
-                android:src="@drawable/instagram_logo_black" />
+                android:src="@drawable/instagram_logo_black"
+                app:tint="?colorPrimary" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -74,9 +75,10 @@
                 <TextView
                     style="@style/Theme.Instagram.FormTextView"
                     android:layout_gravity="center"
-                    android:background="@color/white"
+                    android:background="?colorOnPrimary"
                     android:padding="8dp"
-                    android:text="@string/or" />
+                    android:text="@string/or"
+                    android:textColor="@color/gray_border"/>
             </FrameLayout>
 
         </LinearLayout>
@@ -95,8 +97,8 @@
         android:layout_width="match_parent"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:textColor="@color/black"
-        android:background="@color/white"
+        android:textColor="?colorPrimary"
+        android:background="?colorOnPrimary"
         android:padding="24dp"
         android:text="@string/does_not_have_account"
         android:textAlignment="center"

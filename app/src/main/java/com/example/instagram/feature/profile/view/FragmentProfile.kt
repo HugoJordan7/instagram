@@ -69,15 +69,13 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtCountFollowers?.text = userAuth.followersCount.toString()
         binding?.profileTxtUsername?.text = userAuth.name
         binding?.profileTxtBio?.text = getString(R.string.app_name)
-        Picasso.get().load(userAuth.photoUrl).into(binding?.profileImgIcon)
+        userAuth.photoUrl?.let { Picasso.get().load(it).into(binding?.profileImgIcon) }
         presenter.fetchUserPosts(uuid)
-
         binding?.profileButtonTop?.text = when(following){
             null -> getString(R.string.edit_profile)
             true -> getString(R.string.unfollow)
             false -> getString(R.string.follow)
         }
-
         binding?.profileButtonTop?.tag = following
     }
 

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/define_photo_profile"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="?colorPrimary"
         android:padding="12dp"
         android:textAlignment="center"/>
 

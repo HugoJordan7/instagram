@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/top_bottom_borders"
-                app:itemIconTint="@color/black"
+                app:itemIconTint="?colorPrimary"
                 app:labelVisibilityMode="unlabeled"
                 app:layout_constraintTop_toBottomOf="@id/profile_txt_bio"
                 app:menu="@menu/menu_profile_bottom_nav" />

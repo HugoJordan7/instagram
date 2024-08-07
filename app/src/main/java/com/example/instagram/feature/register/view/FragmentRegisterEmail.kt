@@ -1,6 +1,9 @@
 package com.example.instagram.feature.register.view
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -31,6 +34,16 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
             registerBtnNext.setOnClickListener {
                 presenter.register(registerEditEmail.text.toString())
             }
+
+            when(resources.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
+                Configuration.UI_MODE_NIGHT_YES ->{
+                    registerImgLogo.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                }
+                Configuration.UI_MODE_NIGHT_NO ->{
+                    registerImgLogo.imageTintList = ColorStateList.valueOf(Color.BLACK)
+                }
+            }
+
         }
     }
 

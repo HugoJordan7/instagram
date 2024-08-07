@@ -8,6 +8,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
+import com.example.instagram.R
 
 abstract class BaseFragment<B,P: BasePresenter>(
     @LayoutRes layoutId: Int,
@@ -16,6 +17,7 @@ abstract class BaseFragment<B,P: BasePresenter>(
 
     protected abstract var presenter: P
     protected var binding: B? = null
+    protected var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +38,11 @@ abstract class BaseFragment<B,P: BasePresenter>(
     protected abstract fun setupViews()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.removeItem(R.id.action_send)
         getMenu()?.let {
             inflater.inflate(it, menu)
         }
+        this.menu = menu
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -52,4 +56,5 @@ abstract class BaseFragment<B,P: BasePresenter>(
         binding = null
         presenter.onDestroy()
     }
+
 }

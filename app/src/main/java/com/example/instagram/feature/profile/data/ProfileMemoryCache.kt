@@ -2,7 +2,6 @@ package com.example.instagram.feature.profile.data
 
 import com.example.instagram.common.base.Cache
 import com.example.instagram.common.model.User
-import com.example.instagram.common.model.UserAuth
 
 object ProfileMemoryCache: Cache<Pair<User, Boolean?>> {
 

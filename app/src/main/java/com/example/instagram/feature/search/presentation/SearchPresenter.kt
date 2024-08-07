@@ -2,7 +2,6 @@ package com.example.instagram.feature.search.presentation
 
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.User
-import com.example.instagram.common.model.UserAuth
 import com.example.instagram.feature.search.Search
 import com.example.instagram.feature.search.data.SearchRepository
 

@@ -2,7 +2,6 @@ package com.example.instagram.feature.home.data
 
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
-import com.example.instagram.common.model.UserAuth
 import java.lang.UnsupportedOperationException
 
 interface HomeDataSource {

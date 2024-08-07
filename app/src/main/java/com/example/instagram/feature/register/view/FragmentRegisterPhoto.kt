@@ -3,9 +3,13 @@ package com.example.instagram.feature.register.view
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -27,6 +31,7 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentRegisterPhotoBinding.bind(view)
         val repository = DependencyInjector.registerRepository()
         presenter = RegisterPhotoPresenter(this,repository)
@@ -47,6 +52,16 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
             registerBtnJump.setOnClickListener {
                 attachListener?.goToMainScreen()
             }
+
+            when(resources.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
+                Configuration.UI_MODE_NIGHT_YES ->{
+                    registerImgProfile.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                }
+                Configuration.UI_MODE_NIGHT_NO ->{
+                    registerImgProfile.imageTintList = ColorStateList.valueOf(Color.BLACK)
+                }
+            }
+
         }
     }
 

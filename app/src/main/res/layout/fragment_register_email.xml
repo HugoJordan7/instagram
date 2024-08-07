@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@color/white"
+    android:background="?colorOnPrimary"
     android:orientation="vertical">
 
     <ScrollView
@@ -28,7 +28,7 @@
                 android:layout_height="150dp"
                 android:layout_marginBottom="48dp"
                 android:contentDescription="@null"
-                android:src="@drawable/photo_icon" />
+                android:src="@drawable/photo_icon"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Theme.Instagram.FormTextInputLayout"
@@ -62,9 +62,9 @@
         style="@style/Theme.Instagram.FormTextView"
         android:layout_width="match_parent"
         android:layout_marginStart="0dp"
-        android:textColor="@color/black"
+        android:textColor="?colorPrimary"
         android:layout_marginEnd="0dp"
-        android:background="@color/white"
+        android:background="?colorOnPrimary"
         android:padding="24dp"
         android:text="@string/already_has_account"
         android:textAlignment="center"

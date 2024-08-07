@@ -1,7 +1,6 @@
 package com.example.instagram.common.di
 
 import android.content.Context
-import com.example.instagram.feature.add.data.AddFakeRemoteDataSource
 import com.example.instagram.feature.add.data.AddLocalDataSource
 import com.example.instagram.feature.add.data.AddRepository
 import com.example.instagram.feature.add.data.FireAddDataSource
@@ -18,7 +17,6 @@ import com.example.instagram.feature.profile.data.ProfileMemoryCache
 import com.example.instagram.feature.profile.data.ProfileRepository
 import com.example.instagram.feature.register.data.RegisterRepository
 import com.example.instagram.feature.register.data.RemoteRegisterDataSource
-import com.example.instagram.feature.search.data.FakeRemoteSearchDataSource
 import com.example.instagram.feature.search.data.FireSearchDataSource
 import com.example.instagram.feature.search.data.SearchRepository
 import com.example.instagram.feature.splash.data.RemoteSplashDataSource

@@ -50,4 +50,10 @@ Faça o download clicando [aqui.](https://github.com/HugoJordan7/instagram/raw/m
 
 # Vídeo
 
+- Light Theme:
+
 https://github.com/user-attachments/assets/1987eb44-c985-49d1-a75a-fdf0d7474123
+
+- Dark Theme:
+
+https://github.com/user-attachments/assets/177ee5aa-c16c-4919-877b-ea94fb8b4c7d

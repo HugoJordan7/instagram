@@ -22,10 +22,12 @@ Suas funções são:
 - Design Pattern: Template Method com o BaseFragment para cada fragmento
 - Design Pattern: Factory para DataSources locais ou remotos
 - Design Pattern: Dependency Injector
+- Design Pattern: MVP (model-view-presenter)
 - CircleImageView
 - ImageCropper
 - Camera2
 - Firebase
+- Dark Mode
 
 # Download atualizado (v1.0.0)
 Faça o download clicando [aqui.]()

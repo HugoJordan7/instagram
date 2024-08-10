@@ -11,6 +11,6 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideSplashRepository(dataSource: SplashDataSource): SplashRepository
+    abstract fun provideSplashRepository(repository: SplashRepository): SplashRepository
 
 }

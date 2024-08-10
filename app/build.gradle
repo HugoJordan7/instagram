@@ -10,8 +10,8 @@ android {
     compileSdk 34
     defaultConfig {
         applicationId "com.example.instagram"
-        minSdkVersion 23
-        targetSdk 33
+        minSdkVersion 26
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -35,9 +35,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.example.instagram'
 }
 
 dependencies {
+
+    def dagger_version = "2.52"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -58,10 +64,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
-
-    def dagger_version = "2.28.3"
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

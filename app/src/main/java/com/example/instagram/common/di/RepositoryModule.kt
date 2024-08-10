@@ -1,5 +1,6 @@
 package com.example.instagram.common.di
 
+import com.example.instagram.feature.splash.data.SplashDataSource
 import com.example.instagram.feature.splash.data.SplashRepository
 import dagger.Binds
 import dagger.Module
@@ -10,6 +11,6 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideSplashRepository(repository: SplashRepository): SplashRepository
+    abstract fun provideSplashRepository(dataSource: SplashDataSource): SplashRepository
 
 }

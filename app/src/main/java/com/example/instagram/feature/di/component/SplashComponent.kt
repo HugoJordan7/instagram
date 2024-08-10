@@ -1,9 +1,10 @@
-package com.example.instagram.feature.di
+package com.example.instagram.feature.di.component
 
+import com.example.instagram.feature.di.module.SplashModule
 import com.example.instagram.feature.splash.view.SplashActivity
 import dagger.Subcomponent
 
-@Subcomponent(modules = [])
+@Subcomponent(modules = [SplashModule::class])
 interface SplashComponent {
 
     @Subcomponent.Factory

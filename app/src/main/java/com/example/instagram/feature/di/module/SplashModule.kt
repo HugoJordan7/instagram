@@ -5,6 +5,7 @@ import com.example.instagram.common.di.ViewModelKey
 import com.example.instagram.feature.splash.presentation.SplashViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
 
 @Module

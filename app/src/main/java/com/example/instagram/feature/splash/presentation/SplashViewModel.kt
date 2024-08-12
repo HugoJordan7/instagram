@@ -3,11 +3,11 @@ package com.example.instagram.feature.splash.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.splash.data.SplashRepository
+import javax.inject.Inject
 
-class SplashViewModel(private val repository: SplashRepository): ViewModel(){
+class SplashViewModel @Inject constructor(private val repository: SplashRepository): ViewModel(){
 
     val isAuthenticated: LiveData<Boolean> get() = _isAuthenticated
     private val _isAuthenticated = MutableLiveData(false)
@@ -25,15 +25,6 @@ class SplashViewModel(private val repository: SplashRepository): ViewModel(){
             }
             override fun onComplete() {}
         })
-    }
-
-    class ViewModelFactory(val repository: SplashRepository): ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(SplashViewModel::class.java)){
-                return modelClass.getConstructor(SplashRepository::class.java).newInstance(repository)
-            }
-            throw IllegalArgumentException("Unknown view model")
-        }
     }
 
 }

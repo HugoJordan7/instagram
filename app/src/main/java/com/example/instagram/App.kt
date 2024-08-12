@@ -1,7 +1,8 @@
-package com.example.instagram.feature
+package com.example.instagram
 
 import android.app.Application
 import com.example.instagram.common.di.ApplicationComponent
+import com.example.instagram.common.di.DaggerApplicationComponent
 
 class App: Application(){
 
@@ -9,7 +10,7 @@ class App: Application(){
 
     override fun onCreate() {
         super.onCreate()
-        //applicationComponent = Dagger
+        applicationComponent = DaggerApplicationComponent.factory().create(this)
     }
 
 }

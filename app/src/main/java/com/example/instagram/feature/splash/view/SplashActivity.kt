@@ -36,7 +36,6 @@ class SplashActivity: AppCompatActivity() {
 
         splashComponent = (applicationContext as App).applicationComponent.splashComponent().create()
         splashComponent.inject(this)
-        //TODO: unused val repository = DependencyInjector.splashRepository()
 
         binding.splashImg.animate().apply {
             setListener(animationEnd {

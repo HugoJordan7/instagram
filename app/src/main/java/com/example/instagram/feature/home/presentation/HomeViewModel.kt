@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
 import com.example.instagram.feature.home.data.HomeRepository
+import javax.inject.Inject
 
-class HomeViewModel(
-    private val repository: HomeRepository
-): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: HomeRepository): ViewModel() {
 
     val posts: LiveData<List<Post>> get() = _posts
     private val _posts = MutableLiveData(emptyList<Post>())

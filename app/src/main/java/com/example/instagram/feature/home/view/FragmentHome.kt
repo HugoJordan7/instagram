@@ -4,14 +4,21 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.*
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.instagram.App
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.di.ViewModelFactory
 import com.example.instagram.common.model.Post
 import com.example.instagram.databinding.FragmentHomeBinding
+import com.example.instagram.feature.di.component.MainComponent
 import com.example.instagram.feature.home.presentation.HomeViewModel
 import com.example.instagram.home.Home
 import com.example.instagram.feature.main.LogoutListener
+import com.example.instagram.feature.main.view.MainActivity
+import javax.inject.Inject
 
 class FragmentHome: BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(
     R.layout.fragment_home,
@@ -22,8 +29,9 @@ class FragmentHome: BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(
 
     private var logoutListener: LogoutListener? = null
 
-    //TODO: implement di
-    override lateinit var viewModel: HomeViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<HomeViewModel> { viewModelFactory }
 
     override fun setupViews() {
         binding?.homeRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -72,6 +80,9 @@ class FragmentHome: BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(
         super.onAttach(context)
         if (context is LogoutListener){
             logoutListener = context
+        }
+        if (context is MainActivity){
+            context.mainComponent.inject(this)
         }
     }
 

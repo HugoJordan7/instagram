@@ -1,6 +1,7 @@
 package com.example.instagram.common.di
 
 import android.content.Context
+import com.example.instagram.feature.di.component.MainComponent
 import com.example.instagram.feature.di.component.SplashComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -18,7 +19,9 @@ interface ApplicationComponent {
 
     fun splashComponent(): SplashComponent.Factory
 
+    fun mainComponent(): MainComponent.Factory
+
 }
 
-@Module(subcomponents = [SplashComponent::class])
+@Module(subcomponents = [SplashComponent::class, MainComponent::class])
 object SubcomponentsModule

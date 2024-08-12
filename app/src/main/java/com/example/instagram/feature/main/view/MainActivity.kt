@@ -14,10 +14,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.instagram.App
 import com.example.instagram.R
 import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.ActivityMainBinding
+import com.example.instagram.feature.di.component.MainComponent
 import com.example.instagram.feature.home.view.FragmentHome
 import com.example.instagram.feature.main.LogoutListener
 import com.example.instagram.feature.post.view.FragmentAdd
@@ -44,10 +46,16 @@ class MainActivity :
     private var currentFragment: Fragment? = null
     private lateinit var binding: ActivityMainBinding
 
+    lateinit var mainComponent: MainComponent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        mainComponent = (applicationContext as App).applicationComponent.mainComponent().create()
+        mainComponent.inject(this)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             when(resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
                 Configuration.UI_MODE_NIGHT_YES ->{

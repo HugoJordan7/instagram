@@ -15,7 +15,7 @@ abstract class BaseFragmentMVVM<B, VM: ViewModel>(
     val bind: (View) -> B
 ): Fragment(layoutId) {
 
-    protected abstract var presenter: VM
+    abstract var viewModel: VM
     protected var binding: B? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

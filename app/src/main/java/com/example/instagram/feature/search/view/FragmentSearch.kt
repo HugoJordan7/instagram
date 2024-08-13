@@ -40,6 +40,22 @@ class FragmentSearch: BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
     override fun setupViews() {
         binding?.searchRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.searchRecyclerView?.adapter = adapter
+
+        viewModel.isFailure.observe(this){ isFailure ->
+            isFailure?.let{ displayFailure(it) }
+        }
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.users.observe(this){ users ->
+            users?.let {
+                if (it.isEmpty()) displayEmptyUsers()
+                else displayUsers(it)
+            }
+        }
+
     }
 
     private fun showProgress(enabled: Boolean) {

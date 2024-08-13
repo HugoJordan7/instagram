@@ -6,8 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.add.data.AddRepository
+import javax.inject.Inject
 
-class AddViewModel(
+class AddViewModel @Inject constructor(
     private val repository: AddRepository
 ): ViewModel() {
 

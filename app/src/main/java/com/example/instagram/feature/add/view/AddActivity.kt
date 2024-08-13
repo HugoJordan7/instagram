@@ -7,24 +7,37 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.instagram.App
 import com.example.instagram.R
+import com.example.instagram.common.di.ViewModelFactory
 import com.example.instagram.common.util.PHOTO_URI
 import com.example.instagram.databinding.ActivityAddBinding
 import com.example.instagram.feature.add.presentation.AddViewModel
+import com.example.instagram.feature.di.component.AddComponent
+import javax.inject.Inject
 
 class AddActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddBinding
     private lateinit var uri: Uri
 
-    private lateinit var viewModel: AddViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<AddViewModel> { viewModelFactory }
+
+    lateinit var addComponent: AddComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        addComponent = (applicationContext as App).applicationComponent.addComponent().create()
+        addComponent.inject(this)
 
         setSupportActionBar(binding.addToolbar)
 

@@ -15,7 +15,6 @@ import com.example.instagram.common.model.User
 import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.feature.main.LogoutListener
-import com.example.instagram.feature.profile.Profile
 import com.example.instagram.feature.profile.presentation.ProfilePresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso

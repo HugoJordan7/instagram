@@ -3,7 +3,6 @@ package com.example.instagram.feature.profile.presentation
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
-import com.example.instagram.feature.profile.Profile
 import com.example.instagram.feature.profile.data.ProfileRepository
 
 class ProfilePresenter(

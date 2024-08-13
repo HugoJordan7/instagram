@@ -1,9 +1,7 @@
 package com.example.instagram.feature.main.view
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -24,11 +22,11 @@ import com.example.instagram.feature.home.view.FragmentHome
 import com.example.instagram.feature.main.LogoutListener
 import com.example.instagram.feature.post.view.FragmentAdd
 import com.example.instagram.feature.profile.view.FragmentProfile
+import com.example.instagram.feature.profile.view.FragmentProfile.FollowListener
 import com.example.instagram.feature.search.view.FragmentSearch
 import com.example.instagram.feature.splash.view.SplashActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.example.instagram.feature.profile.view.FragmentProfile.FollowListener
 
 class MainActivity :
     AppCompatActivity(),
@@ -146,7 +144,7 @@ class MainActivity :
 
     override fun logout() {
         clearCache()
-        homeFragment.presenter.logout()
+        homeFragment.viewModel.logout()
         val intent = Intent(this, SplashActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
@@ -154,7 +152,7 @@ class MainActivity :
     }
 
     private fun clearCache(){
-        homeFragment.presenter.clear()
+        homeFragment.viewModel.clear()
         if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
             profileFragment.presenter.clear()
         }

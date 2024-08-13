@@ -154,7 +154,7 @@ class MainActivity :
     private fun clearCache(){
         homeFragment.viewModel.clear()
         if(supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null){
-            profileFragment.presenter.clear()
+            profileFragment.viewModel.clear()
         }
     }
 

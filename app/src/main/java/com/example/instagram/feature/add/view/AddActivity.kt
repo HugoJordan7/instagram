@@ -7,29 +7,37 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.instagram.App
 import com.example.instagram.R
+import com.example.instagram.common.di.ViewModelFactory
 import com.example.instagram.common.util.PHOTO_URI
 import com.example.instagram.databinding.ActivityAddBinding
-import com.example.instagram.common.di.DependencyInjector
-import com.example.instagram.feature.add.Add
-import com.example.instagram.feature.add.presentation.AddPresenter
+import com.example.instagram.feature.add.presentation.AddViewModel
+import com.example.instagram.feature.di.component.AddComponent
+import javax.inject.Inject
 
-class AddActivity : AppCompatActivity(), Add.View {
+class AddActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddBinding
     private lateinit var uri: Uri
 
-    override lateinit var presenter: Add.Presenter
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<AddViewModel> { viewModelFactory }
+
+    lateinit var addComponent: AddComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val repository = DependencyInjector.addRepository()
-        presenter = AddPresenter(this, repository)
+        addComponent = (applicationContext as App).applicationComponent.addComponent().create()
+        addComponent.inject(this)
 
         setSupportActionBar(binding.addToolbar)
 
@@ -40,6 +48,19 @@ class AddActivity : AppCompatActivity(), Add.View {
         uri = intent.extras?.getParcelable(PHOTO_URI) ?: throw RuntimeException("photo not found")
 
         binding.addImgCaption.setImageURI(uri)
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.isFailure.observe(this){ isFailure ->
+            isFailure?.let { displayFailure(it) }
+        }
+
+        viewModel.isSuccess.observe(this){ isSuccess ->
+            if (isSuccess) displaySuccess()
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,23 +75,23 @@ class AddActivity : AppCompatActivity(), Add.View {
                 return true
             }
             R.id.action_share -> {
-                presenter.createPost(uri, binding.addEditCaption.text.toString())
+                viewModel.createPost(uri, binding.addEditCaption.text.toString())
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding.addProgress.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displaySuccess() {
+    private fun displaySuccess() {
         setResult(Activity.RESULT_OK)
         finish()
     }
 
-    override fun displayFailure(message: String) {
+    private fun displayFailure(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

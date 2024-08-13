@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.example.instagram.R
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.login.data.LoginRepository
+import javax.inject.Inject
 
-class LoginViewModel(
+class LoginViewModel @Inject constructor(
     private val repository: LoginRepository
 ) : ViewModel(){
 

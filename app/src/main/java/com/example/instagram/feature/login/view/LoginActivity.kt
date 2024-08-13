@@ -3,21 +3,34 @@ package com.example.instagram.feature.login.view
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.instagram.App
 import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
+import com.example.instagram.feature.di.component.LoginComponent
 import com.example.instagram.feature.login.presentation.LoginViewModel
 import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.register.view.RegisterActivity
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var viewModel: LoginViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<LoginViewModel> { viewModelFactory }
+
+    lateinit var loginComponent: LoginComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        loginComponent = (applicationContext as App).applicationComponent.loginComponent().create()
+        loginComponent.inject(this)
 
         viewModel.isEmailFailure.observe(this){ message ->
             message?.let { displayEmailFailure(it) }

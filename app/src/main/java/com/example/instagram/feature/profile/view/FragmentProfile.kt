@@ -5,64 +5,88 @@ import android.content.Context
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragment
-import com.example.instagram.common.di.DependencyInjector
+import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.feature.main.LogoutListener
-import com.example.instagram.feature.profile.Profile
-import com.example.instagram.feature.profile.presentation.ProfilePresenter
+import com.example.instagram.feature.main.view.MainActivity
+import com.example.instagram.feature.profile.presentation.ProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
-class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
+class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewModel>(
     R.layout.fragment_profile,
     FragmentProfileBinding::bind
-), Profile.View, BottomNavigationView.OnNavigationItemSelectedListener {
+), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private val adapter = PostAdapter()
     private var uuid: String? = null
 
-    override lateinit var presenter: Profile.Presenter
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
 
     private var logoutListener: LogoutListener? = null
     private var followListener: FollowListener? = null
-
-    override fun setupPresenter() {
-        val repository = DependencyInjector.profileRepository()
-        presenter = ProfilePresenter(this, repository)
-    }
 
     override fun setupViews() {
         uuid = arguments?.getString(KEY_USER_ID)
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
         binding?.profileRv?.adapter = adapter
         binding?.profileBottomNav?.setOnNavigationItemSelectedListener(this)
-        presenter.fetchUserProfile(uuid)
+
+        viewModel.fetchUserProfile(uuid)
 
         binding?.profileButtonTop?.setOnClickListener{
             if(it.tag == true){
                 binding?.profileButtonTop?.text = getString(R.string.follow)
-                presenter.followUser(uuid, false)
+                viewModel.followUser(uuid, false)
                 binding?.profileButtonTop?.tag = false
             } else if(it.tag == false){
                 binding?.profileButtonTop?.text = getString(R.string.unfollow)
-                presenter.followUser(uuid, true)
+                viewModel.followUser(uuid, true)
                 binding?.profileButtonTop?.tag = true
             }
         }
+
+        viewModel.isFailure.observe(this){ isFailure ->
+            isFailure?.let { displayFailure(it) }
+        }
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.posts.observe(this){ posts ->
+            posts?.let {
+                if (it.isEmpty()) displayEmptyPosts()
+                else displaysPosts(it)
+            }
+        }
+
+        viewModel.isFollowUpdate.observe(this){ updated ->
+            followUpdated()
+        }
+
+        viewModel.displayUserProfile.observe(this){ displayUser ->
+            displayUser?.let { displayUserProfile(it) }
+        }
+
     }
 
-    override fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding?.profileProgressBar?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displayUserProfile(response: Pair<User, Boolean?>) {
+    private fun displayUserProfile(response: Pair<User, Boolean?>) {
         val (userAuth, following) = response
         binding?.profileTxtCountPosts?.text = userAuth.postCount.toString()
         binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
@@ -70,7 +94,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtUsername?.text = userAuth.name
         binding?.profileTxtBio?.text = getString(R.string.app_name)
         userAuth.photoUrl?.let { Picasso.get().load(it).into(binding?.profileImgIcon) }
-        presenter.fetchUserPosts(uuid)
+        viewModel.fetchUserPosts(uuid)
         binding?.profileButtonTop?.text = when(following){
             null -> getString(R.string.edit_profile)
             true -> getString(R.string.unfollow)
@@ -79,24 +103,24 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileButtonTop?.tag = following
     }
 
-    override fun displayFailure(message: String) {
+    private fun displayFailure(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
-    override fun displayEmptyPosts() {
+    private fun displayEmptyPosts() {
         binding?.profileTxtNoPosts?.visibility = View.VISIBLE
         binding?.profileRv?.visibility = View.GONE
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun displaysPosts(posts: List<Post>) {
+    private fun displaysPosts(posts: List<Post>) {
         binding?.profileTxtNoPosts?.visibility = View.GONE
         binding?.profileRv?.visibility = View.VISIBLE
         adapter.posts = posts
         adapter.notifyDataSetChanged()
     }
 
-    override fun followUpdated() {
+    private fun followUpdated() {
         followListener?.followUpdated()
     }
 
@@ -126,6 +150,9 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         }
         if (context is FollowListener){
             followListener = context
+        }
+        if (context is MainActivity){
+            context.mainComponent.inject(this)
         }
     }
 

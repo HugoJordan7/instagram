@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.App
@@ -47,10 +48,11 @@ class FragmentHome: BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(
         }
 
         viewModel.posts.observe(this){ posts ->
-            if (posts.isEmpty()) displayEmptyPosts()
-            else displayFullPosts(posts)
+            posts?.let {
+                if (it.isEmpty()) displayEmptyPosts()
+                else displayFullPosts(it)
+            }
         }
-
     }
 
     override fun getMenu() = R.menu.menu_profile
@@ -71,7 +73,7 @@ class FragmentHome: BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(
     @SuppressLint("NotifyDataSetChanged")
     private fun displayFullPosts(posts: List<Post>) {
         binding?.homeTxtNoPosts?.visibility = View.GONE
-        binding?.homeProgress?.visibility = View.VISIBLE
+        binding?.homeProgress?.visibility = View.GONE
         adapter.items = posts
         adapter.notifyDataSetChanged()
     }

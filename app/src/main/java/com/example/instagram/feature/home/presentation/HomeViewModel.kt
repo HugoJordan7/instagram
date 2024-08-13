@@ -10,15 +10,14 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val repository: HomeRepository): ViewModel() {
 
-    val posts: LiveData<List<Post>> get() = _posts
-    private val _posts = MutableLiveData(emptyList<Post>())
+    val posts: LiveData<List<Post>?> get() = _posts
+    private val _posts = MutableLiveData<List<Post>?>(null)
 
     val isLoading: LiveData<Boolean> get() = _isLoading
     private val _isLoading = MutableLiveData(false)
 
     val isFailure: LiveData<String?> get() = _isFailure
     private val _isFailure = MutableLiveData<String?>(null)
-
 
     fun fetchFeed() {
         _isLoading.value = true
@@ -32,6 +31,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository):
             }
             override fun onComplete() {
                 _isLoading.value = false
+                _posts.value
             }
         })
     }

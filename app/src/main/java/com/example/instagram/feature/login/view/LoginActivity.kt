@@ -7,26 +7,45 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
-import com.example.instagram.feature.login.LoginContract
-import com.example.instagram.feature.login.presentation.LoginPresenter
+import com.example.instagram.feature.login.presentation.LoginViewModel
 import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.register.view.RegisterActivity
 
-class LoginActivity : AppCompatActivity(), LoginContract.View {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    override lateinit var presenter: LoginContract.Presenter
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = LoginPresenter(this, DependencyInjector.loginRepository())
+
+        viewModel.isEmailFailure.observe(this){ message ->
+            message?.let { displayEmailFailure(it) }
+        }
+
+        viewModel.isPasswordFailure.observe(this){ message ->
+            message?.let { displayPasswordFailure(it) }
+        }
+
+        viewModel.isUserUnauthorized.observe(this){ message ->
+            message?.let { onUserUnauthorized(it) }
+        }
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.isAuthenticated.observe(this){ isAuthenticated ->
+            if (isAuthenticated) onUserAuthenticated()
+        }
+
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         with(binding) {
             loginEditEmail.addTextChangedListener(watcher)
             loginEditPassword.addTextChangedListener(watcher)
             loginBtnEnter.setOnClickListener {
-                presenter.loginValidate(loginEditEmail.text.toString(), loginEditPassword.text.toString())
+                viewModel.loginValidate(loginEditEmail.text.toString(), loginEditPassword.text.toString())
             }
             loginTxtRegister.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
@@ -45,30 +64,26 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-    override fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding.loginBtnEnter.showProgress(enabled)
     }
 
-    override fun displayEmailFailure(emailError: Int?) {
+    private fun displayEmailFailure(emailError: Int?) {
         binding.loginEditEmailLayout.error = emailError?.let { getString(it) }
     }
 
-    override fun displayPasswordFailure(passwordError: Int?) {
+    private fun displayPasswordFailure(passwordError: Int?) {
         binding.loginEditPasswordLayout.error = passwordError?.let { getString(it) }
     }
 
-    override fun onUserAuthenticated() {
+    private fun onUserAuthenticated() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
 
-    override fun onUserUnauthorized(message: String) {
+    private fun onUserUnauthorized(message: String) {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
-    }
 }

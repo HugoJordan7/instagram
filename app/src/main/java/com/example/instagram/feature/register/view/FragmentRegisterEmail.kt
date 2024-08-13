@@ -4,35 +4,47 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
-import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
-import com.example.instagram.common.di.DependencyInjector
+import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterEmailBinding
-import com.example.instagram.feature.register.RegisterEmailContract
-import com.example.instagram.feature.register.presentation.RegisterEmailPresenter
+import com.example.instagram.feature.register.presentation.RegisterEmailViewModel
+import javax.inject.Inject
 
-class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), RegisterEmailContract.View {
+class FragmentRegisterEmail: BaseFragmentMVVM<FragmentRegisterEmailBinding, RegisterEmailViewModel>(
+    R.layout.fragment_register_email,
+    FragmentRegisterEmailBinding::bind
+) {
 
-    private var binding: FragmentRegisterEmailBinding? = null
-    override lateinit var presenter: RegisterEmailContract.Presenter
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<RegisterEmailViewModel> { viewModelFactory }
+
     private lateinit var attachListener: FragmentAttachListener
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRegisterEmailBinding.bind(view)
-        val repository = DependencyInjector.registerRepository()
-        presenter = RegisterEmailPresenter(this,repository)
+    override fun setupViews() {
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.isEmailSuccess.observe(this){ email ->
+            email?.let { goToNameAndPasswordScreen(it) }
+        }
+
+        viewModel.isEmailFailure.observe(this){ message ->
+            message?.let { displayEmailFailure(it) }
+        }
+
         binding?.apply {
             registerEditEmail.addTextChangedListener(watcher)
-            registerTxtLogin.setOnClickListener { 
+            registerTxtLogin.setOnClickListener {
                 activity?.finish()
             }
             registerBtnNext.setOnClickListener {
-                presenter.register(registerEditEmail.text.toString())
+                viewModel.register(registerEditEmail.text.toString())
             }
 
             when(resources.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
@@ -52,32 +64,31 @@ class FragmentRegisterEmail: Fragment(R.layout.fragment_register_email), Registe
         displayEmailFailure(null)
     }
 
-    override fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding?.registerBtnNext?.showProgress(enabled)
     }
 
-    override fun displayEmailFailure(emailError: Int?) {
-        binding?.registerEditEmailLayout?.error = emailError?.let { getString(it) }
-    }
-
-    override fun onEmailFailure(message: String) {
+    private fun displayEmailFailure(message: String?) {
         binding?.registerEditEmailLayout?.error = message
     }
 
-    override fun goToNameAndPasswordScreen(email: String) {
+    private fun goToNameAndPasswordScreen(email: String) {
         attachListener.goToNameAndPasswordScreen(email)
     }
 
     override fun onAttach(context: Context) {
+        super.onAttach(context)
         if(context is FragmentAttachListener){
             attachListener = context
         }
-        super.onAttach(context)
+        if(context is RegisterActivity){
+            context.registerComponent.inject(this)
+        }
     }
 
-    override fun onDestroy() {
-        binding = null
-        presenter.onDestroy()
-        super.onDestroy()
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
     }
+
 }

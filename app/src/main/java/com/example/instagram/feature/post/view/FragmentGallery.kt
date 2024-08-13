@@ -1,25 +1,32 @@
 package com.example.instagram.feature.post.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.net.Uri
 import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.util.TAKE_PHOTO_KEY
 import com.example.instagram.common.util.URI
 import com.example.instagram.databinding.FragmentGalleryBinding
+import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.post.presentation.PostViewModel
+import javax.inject.Inject
 
 class FragmentGallery : BaseFragmentMVVM<FragmentGalleryBinding, PostViewModel>(
     R.layout.fragment_gallery,
     FragmentGalleryBinding::bind
 ){
 
-    override lateinit var viewModel: PostViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<PostViewModel> { viewModelFactory }
 
     private val adapter = PictureAdapter { uri ->
         binding?.galleryImgSelected?.setImageURI(uri)
@@ -74,6 +81,13 @@ class FragmentGallery : BaseFragmentMVVM<FragmentGalleryBinding, PostViewModel>(
     private fun displayEmptyPictures() {
         binding?.galleryTxtEmpty?.visibility = View.VISIBLE
         binding?.galleryRecyclerView?.visibility = View.GONE
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity){
+            context.mainComponent.inject(this)
+        }
     }
 
 }

@@ -11,9 +11,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class PostViewModel(
+class PostViewModel @Inject constructor(
     private val repository: PostRepository
 ) : ViewModel(), CoroutineScope {
 

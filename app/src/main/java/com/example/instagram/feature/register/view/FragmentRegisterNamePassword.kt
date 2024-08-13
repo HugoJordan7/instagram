@@ -4,37 +4,61 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
+import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
 import com.example.instagram.feature.register.RegisterNamePasswordContract
-import com.example.instagram.feature.register.presentation.RegisterNamePasswordPresenter
+import com.example.instagram.feature.register.presentation.RegisterNamePasswordViewModel
+import javax.inject.Inject
 
-class FragmentRegisterNamePassword :
-    Fragment(R.layout.fragment_register_name_password), RegisterNamePasswordContract.View {
+class FragmentRegisterNamePassword: BaseFragmentMVVM<FragmentRegisterNamePasswordBinding, RegisterNamePasswordViewModel>(
+    R.layout.fragment_register_name_password,
+    FragmentRegisterNamePasswordBinding::bind
+){
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<RegisterNamePasswordViewModel> { viewModelFactory }
 
     companion object {
         const val KEY_EMAIL = "key_email"
     }
 
-    override lateinit var presenter: RegisterNamePasswordContract.Presenter
     private var attachListener: FragmentAttachListener? = null
-    private var binding: FragmentRegisterNamePasswordBinding? = null
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRegisterNamePasswordBinding.bind(view)
-        val repository = DependencyInjector.registerRepository()
-        presenter = RegisterNamePasswordPresenter(this,repository)
+    override fun setupViews() {
         val email = arguments?.getString(KEY_EMAIL) ?: throw Exception("Email not found")
+
+        viewModel.isEmailSuccess.observe(this){ name ->
+            name?.let { onRegisterSuccess(it) }
+        }
+
+        viewModel.isPasswordFailure.observe(this){ isPasswordFailure ->
+            displayPasswordFailure(isPasswordFailure)
+        }
+
+        viewModel.isNameFailure.observe(this){ isNameFailure ->
+            displayNameFailure(isNameFailure)
+        }
+
+        viewModel.isFailure.observe(this){ message ->
+            message?.let { onRegisterFailure(it) }
+        }
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
         binding?.apply {
             registerEditName.addTextChangedListener(watcher)
             registerEditPassword.addTextChangedListener(watcher)
             registerEditPasswordConfirm.addTextChangedListener(watcher)
             registerBtnNamePasswordNext.setOnClickListener {
-                presenter.register(
+                viewModel.register(
                     email,
                     registerEditName.text.toString(),
                     registerEditPassword.text.toString(),
@@ -58,23 +82,23 @@ class FragmentRegisterNamePassword :
         }
     }
 
-    override fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding?.registerBtnNamePasswordNext?.showProgress(enabled)
     }
 
-    override fun displayNameFailure(nameError: Int?) {
+    private fun displayNameFailure(nameError: Int?) {
         binding?.registerEditNameLayout?.error = nameError?.let { getString(it) }
     }
 
-    override fun displayPasswordFailure(passwordError: Int?) {
+    private fun displayPasswordFailure(passwordError: Int?) {
         binding?.registerEditPasswordLayout?.error = passwordError?.let { getString(it) }
     }
 
-    override fun onRegisterFailure(message: String) {
+    private fun onRegisterFailure(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onRegisterSuccess(name: String) {
+    private fun onRegisterSuccess(name: String) {
         attachListener?.goToWelcomeScreen(name)
     }
 
@@ -83,12 +107,9 @@ class FragmentRegisterNamePassword :
         if(context is FragmentAttachListener){
             attachListener = context
         }
-    }
-
-    override fun onDestroy() {
-        binding = null
-        presenter.onDestroy()
-        super.onDestroy()
+        if(context is RegisterActivity){
+            context.registerComponent.inject(this)
+        }
     }
 
 }

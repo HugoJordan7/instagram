@@ -5,10 +5,12 @@ import android.content.Context
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.example.instagram.common.util.KEY_USER_ID
@@ -37,6 +39,12 @@ class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewMode
         binding?.profileRv?.adapter = adapter
         binding?.profileBottomNav?.setOnNavigationItemSelectedListener(this)
         viewModel.fetchUserProfile(uuid)
+
+        val repository = DependencyInjector.profileRepository()
+        viewModel = ViewModelProvider(
+            viewModelStore,
+            ProfileViewModel.ViewModelFactory(repository)
+        ).get(ProfileViewModel::class.java)
 
         binding?.profileButtonTop?.setOnClickListener{
             if(it.tag == true){

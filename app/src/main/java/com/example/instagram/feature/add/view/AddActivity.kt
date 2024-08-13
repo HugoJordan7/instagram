@@ -36,7 +36,17 @@ class AddActivity : AppCompatActivity() {
 
         binding.addImgCaption.setImageURI(uri)
 
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
 
+        viewModel.isFailure.observe(this){ isFailure ->
+            isFailure?.let { displayFailure(it) }
+        }
+
+        viewModel.isSuccess.observe(this){ isSuccess ->
+            if (isSuccess) displaySuccess()
+        }
 
     }
 

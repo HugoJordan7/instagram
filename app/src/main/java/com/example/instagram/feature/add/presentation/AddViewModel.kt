@@ -24,13 +24,8 @@ class AddViewModel(
         _isLoading.value = true
         repository.createPost(uri, caption, object : RequestCallback<Boolean>{
             override fun onSuccess(data: Boolean) {
-                if (data){
-                    _isSuccess.value = true
-                    _isFailure.value = null
-                } else{
-                    _isSuccess.value = false
-                    _isFailure.value = "Internal error"
-                }
+                _isSuccess.value = data
+                _isFailure.value = if (data) null else "Internal error"
             }
             override fun onFailure(message: String) {
                 _isSuccess.value = false

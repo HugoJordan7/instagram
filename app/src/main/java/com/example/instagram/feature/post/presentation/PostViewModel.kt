@@ -1,7 +1,9 @@
 package com.example.instagram.feature.post.presentation
 
 import android.net.Uri
-import com.example.instagram.feature.post.Post
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.instagram.feature.post.data.PostRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,41 +13,38 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-class PostPresenter(
-    private var view: Post.View?,
+class PostViewModel(
     private val repository: PostRepository
-) : Post.Presenter, CoroutineScope {
+) : ViewModel(), CoroutineScope {
 
     private var uri: Uri? = null
 
     private val job = Job()
     override val coroutineContext: CoroutineContext = job + Dispatchers.IO
 
-    override fun fetchPictures() {
-        view?.showProgress(true)
+    val photos: LiveData<List<Uri>?> get() = _photos
+    private val _photos = MutableLiveData<List<Uri>?>(null)
+
+    val isLoading: LiveData<Boolean> get() = _isLoading
+    private val _isLoading = MutableLiveData(false)
+
+    fun fetchPictures() {
+        _isLoading.value = true
         launch {
-            val photos = repository.fetchPictures()
+            val photos: List<Uri> = repository.fetchPictures()
             withContext(Dispatchers.Main){
-                if (photos.isEmpty()){
-                    view?.displayEmptyPictures()
-                } else{
-                    view?.displayPictures(photos)
-                }
-                view?.showProgress(false)
+                _photos.value = photos
+                _isLoading.value = false
+                this.cancel()
             }
         }
 
     }
 
-    override fun getSelectedUri(): Uri? = uri
+    fun getSelectedUri(): Uri? = uri
 
-    override fun selectUri(uri: Uri) {
+    fun selectUri(uri: Uri) {
         this.uri = uri
-    }
-
-    override fun onDestroy() {
-        view = null
-        job.cancel()
     }
 
 }

@@ -12,24 +12,19 @@ import androidx.core.content.ContextCompat
 import com.example.instagram.R
 import com.example.instagram.common.util.PHOTO_URI
 import com.example.instagram.databinding.ActivityAddBinding
-import com.example.instagram.common.di.DependencyInjector
-import com.example.instagram.feature.add.Add
-import com.example.instagram.feature.add.presentation.AddPresenter
+import com.example.instagram.feature.add.presentation.AddViewModel
 
-class AddActivity : AppCompatActivity(), Add.View {
+class AddActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddBinding
     private lateinit var uri: Uri
 
-    override lateinit var presenter: Add.Presenter
+    private lateinit var viewModel: AddViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val repository = DependencyInjector.addRepository()
-        presenter = AddPresenter(this, repository)
 
         setSupportActionBar(binding.addToolbar)
 
@@ -40,6 +35,9 @@ class AddActivity : AppCompatActivity(), Add.View {
         uri = intent.extras?.getParcelable(PHOTO_URI) ?: throw RuntimeException("photo not found")
 
         binding.addImgCaption.setImageURI(uri)
+
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,23 +52,23 @@ class AddActivity : AppCompatActivity(), Add.View {
                 return true
             }
             R.id.action_share -> {
-                presenter.createPost(uri, binding.addEditCaption.text.toString())
+                viewModel.createPost(uri, binding.addEditCaption.text.toString())
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding.addProgress.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displaySuccess() {
+    private fun displaySuccess() {
         setResult(Activity.RESULT_OK)
         finish()
     }
 
-    override fun displayFailure(message: String) {
+    private fun displayFailure(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

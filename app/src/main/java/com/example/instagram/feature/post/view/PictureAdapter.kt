@@ -1,7 +1,6 @@
 package com.example.instagram.feature.post.view
 
 import android.net.Uri
-import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,6 @@ class PictureAdapter(
 
     inner class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         suspend fun bind(image: Uri){
-            //Picasso.with(context).load(image).resize(100,100).get();
             val bitmap = Picasso.get().load(image).resize(200,200).get()
             withContext(Dispatchers.Main){
                 itemView.findViewById<ImageView>(R.id.item_profile_img_grid).setImageBitmap(bitmap)
@@ -51,7 +49,6 @@ class PictureAdapter(
                     onClick.invoke(image)
                 }
             }
-            //val bitmap = itemView.context.contentResolver.loadThumbnail(image, Size(200, 200), null)
         }
     }
 }

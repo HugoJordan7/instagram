@@ -3,6 +3,7 @@ package com.example.instagram.feature.di.module
 import androidx.lifecycle.ViewModel
 import com.example.instagram.common.di.ViewModelKey
 import com.example.instagram.feature.register.presentation.RegisterEmailViewModel
+import com.example.instagram.feature.register.presentation.RegisterNamePasswordViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -14,5 +15,10 @@ interface RegisterModule {
     @IntoMap
     @ViewModelKey(RegisterEmailViewModel::class)
     fun bindRegisterEmailViewModel(viewModel: RegisterEmailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RegisterNamePasswordViewModel::class)
+    fun bindRegisterNamePasswordViewModel(viewModel: RegisterNamePasswordViewModel): ViewModel
 
 }

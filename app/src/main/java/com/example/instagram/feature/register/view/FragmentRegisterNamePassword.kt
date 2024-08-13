@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.di.DependencyInjector
@@ -11,13 +13,16 @@ import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
 import com.example.instagram.feature.register.RegisterNamePasswordContract
 import com.example.instagram.feature.register.presentation.RegisterNamePasswordViewModel
+import javax.inject.Inject
 
 class FragmentRegisterNamePassword: BaseFragmentMVVM<FragmentRegisterNamePasswordBinding, RegisterNamePasswordViewModel>(
     R.layout.fragment_register_name_password,
     FragmentRegisterNamePasswordBinding::bind
 ){
 
-    override lateinit var viewModel: RegisterNamePasswordViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<RegisterNamePasswordViewModel> { viewModelFactory }
 
     companion object {
         const val KEY_EMAIL = "key_email"
@@ -45,7 +50,7 @@ class FragmentRegisterNamePassword: BaseFragmentMVVM<FragmentRegisterNamePasswor
         }
 
         viewModel.isLoading.observe(this){ isLoading ->
-            showProgress(true)
+            showProgress(isLoading)
         }
 
         binding?.apply {
@@ -101,6 +106,9 @@ class FragmentRegisterNamePassword: BaseFragmentMVVM<FragmentRegisterNamePasswor
         super.onAttach(context)
         if(context is FragmentAttachListener){
             attachListener = context
+        }
+        if(context is RegisterActivity){
+            context.registerComponent.inject(this)
         }
     }
 

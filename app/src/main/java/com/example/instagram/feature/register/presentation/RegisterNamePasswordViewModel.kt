@@ -7,8 +7,9 @@ import com.example.instagram.R
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.register.RegisterNamePasswordContract
 import com.example.instagram.feature.register.data.RegisterRepository
+import javax.inject.Inject
 
-class RegisterNamePasswordViewModel(
+class RegisterNamePasswordViewModel @Inject constructor(
     private val repository: RegisterRepository
 ) : ViewModel() {
 

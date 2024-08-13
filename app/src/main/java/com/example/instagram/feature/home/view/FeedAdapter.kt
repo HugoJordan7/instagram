@@ -1,6 +1,5 @@
 package com.example.instagram.feature.home.view
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,10 +31,8 @@ class FeedAdapter : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     class FeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(post: Post) {
             Picasso.get().load(post.photoUrl).into(itemView.findViewById<ImageView>(R.id.home_img_publication))
-            //itemView.findViewById<ImageView>(R.id.home_img_publication).setImageURI(post.photoUrl)
             itemView.findViewById<TextView>(R.id.home_txt_caption).text = post.caption
             Picasso.get().load(post.publisher?.photoUrl).into(itemView.findViewById<ImageView>(R.id.home_img_profile))
-            //itemView.findViewById<ImageView>(R.id.home_img_profile).setImageURI(post.publisher?.photoUrl)
             itemView.findViewById<TextView>(R.id.home_user_name).text = post.publisher?.name
         }
     }

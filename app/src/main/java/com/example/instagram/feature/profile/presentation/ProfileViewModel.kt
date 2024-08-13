@@ -3,14 +3,13 @@ package com.example.instagram.feature.profile.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.example.instagram.feature.profile.data.ProfileRepository
-import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class ProfileViewModel(
+class ProfileViewModel @Inject constructor(
     private val repository: ProfileRepository
 ): ViewModel() {
 
@@ -69,19 +68,8 @@ class ProfileViewModel(
         })
     }
 
-
     fun clear() {
         repository.clearCache()
-    }
-
-    class ViewModelFactory(val repository: ProfileRepository): ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ProfileViewModel::class.java)){
-                return modelClass.getConstructor(ProfileRepository::class.java).newInstance(repository)
-            }
-            throw IllegalArgumentException("Unknown ViewModel")
-        }
-
     }
 
 }

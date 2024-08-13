@@ -5,20 +5,22 @@ import android.content.Context
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
-import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.example.instagram.common.util.KEY_USER_ID
 import com.example.instagram.databinding.FragmentProfileBinding
 import com.example.instagram.feature.main.LogoutListener
+import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.profile.presentation.ProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
 class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewModel>(
     R.layout.fragment_profile,
@@ -28,7 +30,9 @@ class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewMode
     private val adapter = PostAdapter()
     private var uuid: String? = null
 
-    override lateinit var viewModel: ProfileViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<ProfileViewModel> { viewModelFactory }
 
     private var logoutListener: LogoutListener? = null
     private var followListener: FollowListener? = null
@@ -38,12 +42,6 @@ class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewMode
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
         binding?.profileRv?.adapter = adapter
         binding?.profileBottomNav?.setOnNavigationItemSelectedListener(this)
-
-        val repository = DependencyInjector.profileRepository()
-        viewModel = ViewModelProvider(
-            viewModelStore,
-            ProfileViewModel.ViewModelFactory(repository)
-        ).get(ProfileViewModel::class.java)
 
         viewModel.fetchUserProfile(uuid)
 
@@ -152,6 +150,9 @@ class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewMode
         }
         if (context is FollowListener){
             followListener = context
+        }
+        if (context is MainActivity){
+            context.mainComponent.inject(this)
         }
     }
 

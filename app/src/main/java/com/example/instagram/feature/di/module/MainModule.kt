@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.example.instagram.common.di.ViewModelKey
 import com.example.instagram.feature.home.presentation.HomeViewModel
 import com.example.instagram.feature.profile.presentation.ProfileViewModel
+import com.example.instagram.feature.search.presentation.SearchViewModel
 import dagger.Binds
-import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 
@@ -21,5 +21,10 @@ interface MainModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    fun bindSearchViewModel(viewModel: SearchViewModel): ViewModel
 
 }

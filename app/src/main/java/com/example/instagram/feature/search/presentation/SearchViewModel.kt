@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.common.model.User
 import com.example.instagram.feature.search.data.SearchRepository
+import javax.inject.Inject
 
-class SearchViewModel(
+class SearchViewModel @Inject constructor(
     private val repository: SearchRepository
 ): ViewModel() {
 

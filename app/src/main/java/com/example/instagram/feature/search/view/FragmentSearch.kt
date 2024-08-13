@@ -8,20 +8,25 @@ import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
-import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.model.User
 import com.example.instagram.databinding.FragmentSearchBinding
+import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.search.presentation.SearchViewModel
+import javax.inject.Inject
 
 class FragmentSearch: BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
     R.layout.fragment_search,
     FragmentSearchBinding::bind
 ) {
 
-    override lateinit var viewModel: SearchViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<SearchViewModel> { viewModelFactory }
 
     private val adapter by lazy { UserAdapter(onUserClickListener) }
     private var searchListener: SearchListener? = null
@@ -34,6 +39,9 @@ class FragmentSearch: BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
         super.onAttach(context)
         if(context is SearchListener){
             searchListener = context
+        }
+        if(context is MainActivity){
+            context.mainComponent.inject(this)
         }
     }
 

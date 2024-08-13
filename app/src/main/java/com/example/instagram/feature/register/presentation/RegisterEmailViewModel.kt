@@ -8,8 +8,9 @@ import com.example.instagram.R
 import com.example.instagram.common.base.RequestCallback
 import com.example.instagram.feature.register.RegisterEmailContract
 import com.example.instagram.feature.register.data.RegisterRepository
+import javax.inject.Inject
 
-class RegisterEmailViewModel(
+class RegisterEmailViewModel @Inject constructor(
     private val repository: RegisterRepository
 ) : ViewModel() {
 
@@ -41,6 +42,10 @@ class RegisterEmailViewModel(
                 }
             })
         }
+    }
+
+    fun onStart(){
+        _isEmailSuccess.value = null
     }
 
 }

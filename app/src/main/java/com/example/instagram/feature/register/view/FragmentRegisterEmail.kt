@@ -4,21 +4,23 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterEmailBinding
 import com.example.instagram.feature.register.presentation.RegisterEmailViewModel
+import javax.inject.Inject
 
 class FragmentRegisterEmail: BaseFragmentMVVM<FragmentRegisterEmailBinding, RegisterEmailViewModel>(
     R.layout.fragment_register_email,
     FragmentRegisterEmailBinding::bind
 ) {
 
-    override lateinit var viewModel: RegisterEmailViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<RegisterEmailViewModel> { viewModelFactory }
 
     private lateinit var attachListener: FragmentAttachListener
 
@@ -75,10 +77,18 @@ class FragmentRegisterEmail: BaseFragmentMVVM<FragmentRegisterEmailBinding, Regi
     }
 
     override fun onAttach(context: Context) {
+        super.onAttach(context)
         if(context is FragmentAttachListener){
             attachListener = context
         }
-        super.onAttach(context)
+        if(context is RegisterActivity){
+            context.registerComponent.inject(this)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
     }
 
 }

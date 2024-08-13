@@ -16,11 +16,13 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.example.instagram.App
 import com.example.instagram.R
 import com.example.instagram.common.extension.replaceFragment
 import com.example.instagram.common.view.FragmentImageCropper
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.ActivityRegisterBinding
+import com.example.instagram.feature.di.component.RegisterComponent
 import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.register.view.FragmentRegisterNamePassword.Companion.KEY_EMAIL
 import com.example.instagram.feature.register.view.FragmentRegisterWelcome.Companion.KEY_NAME
@@ -36,12 +38,15 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var currentPhoto: Uri
 
+    lateinit var registerComponent: RegisterComponent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityRegisterBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
+
+        registerComponent = (applicationContext as App).applicationComponent.registerComponent().create()
+        registerComponent.inject(this)
 
         val fragment = FragmentRegisterEmail()
         replaceFragment(fragment)

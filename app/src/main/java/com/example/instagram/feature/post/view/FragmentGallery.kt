@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,11 +27,22 @@ class FragmentGallery : BaseFragmentMVVM<FragmentGalleryBinding, PostViewModel>(
         viewModel.selectUri(uri)
     }
 
-
     override fun setupViews() {
         binding?.galleryRecyclerView?.layoutManager = GridLayoutManager(requireContext(), 3)
         binding?.galleryRecyclerView?.adapter = adapter
         viewModel.fetchPictures()
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.photos.observe(this){ posts ->
+            posts?.let {
+                if(it.isEmpty()) displayEmptyPictures()
+                else displayPictures(it)
+            }
+        }
+
     }
 
     override fun getMenu(): Int = R.menu.menu_send
@@ -64,10 +74,6 @@ class FragmentGallery : BaseFragmentMVVM<FragmentGalleryBinding, PostViewModel>(
     private fun displayEmptyPictures() {
         binding?.galleryTxtEmpty?.visibility = View.VISIBLE
         binding?.galleryRecyclerView?.visibility = View.GONE
-    }
-
-    private fun displayFailure(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
 }

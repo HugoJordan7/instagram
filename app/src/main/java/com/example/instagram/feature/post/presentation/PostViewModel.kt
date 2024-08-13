@@ -38,7 +38,6 @@ class PostViewModel(
                 this.cancel()
             }
         }
-
     }
 
     fun getSelectedUri(): Uri? = uri

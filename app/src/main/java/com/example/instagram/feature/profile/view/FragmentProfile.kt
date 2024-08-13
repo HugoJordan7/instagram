@@ -38,13 +38,14 @@ class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewMode
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
         binding?.profileRv?.adapter = adapter
         binding?.profileBottomNav?.setOnNavigationItemSelectedListener(this)
-        viewModel.fetchUserProfile(uuid)
 
         val repository = DependencyInjector.profileRepository()
         viewModel = ViewModelProvider(
             viewModelStore,
             ProfileViewModel.ViewModelFactory(repository)
         ).get(ProfileViewModel::class.java)
+
+        viewModel.fetchUserProfile(uuid)
 
         binding?.profileButtonTop?.setOnClickListener{
             if(it.tag == true){
@@ -57,13 +58,37 @@ class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewMode
                 binding?.profileButtonTop?.tag = true
             }
         }
+
+        viewModel.isFailure.observe(this){ isFailure ->
+            isFailure?.let { displayFailure(it) }
+        }
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.posts.observe(this){ posts ->
+            posts?.let {
+                if (it.isEmpty()) displayEmptyPosts()
+                else displaysPosts(it)
+            }
+        }
+
+        viewModel.isFollowUpdate.observe(this){ updated ->
+            followUpdated()
+        }
+
+        viewModel.displayUserProfile.observe(this){ displayUser ->
+            displayUser?.let { displayUserProfile(it) }
+        }
+
     }
 
-    fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding?.profileProgressBar?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    fun displayUserProfile(response: Pair<User, Boolean?>) {
+    private fun displayUserProfile(response: Pair<User, Boolean?>) {
         val (userAuth, following) = response
         binding?.profileTxtCountPosts?.text = userAuth.postCount.toString()
         binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
@@ -80,24 +105,24 @@ class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewMode
         binding?.profileButtonTop?.tag = following
     }
 
-    fun displayFailure(message: String) {
+    private fun displayFailure(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
-    fun displayEmptyPosts() {
+    private fun displayEmptyPosts() {
         binding?.profileTxtNoPosts?.visibility = View.VISIBLE
         binding?.profileRv?.visibility = View.GONE
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun displaysPosts(posts: List<Post>) {
+    private fun displaysPosts(posts: List<Post>) {
         binding?.profileTxtNoPosts?.visibility = View.GONE
         binding?.profileRv?.visibility = View.VISIBLE
         adapter.posts = posts
         adapter.notifyDataSetChanged()
     }
 
-    fun followUpdated() {
+    private fun followUpdated() {
         followListener?.followUpdated()
     }
 

@@ -22,6 +22,7 @@ Suas funções são:
 - Design Pattern: Factory para DataSources locais ou remotos
 - Design Pattern: Dependency Injector com Dagger2
 - Design Pattern: MVVM (model-view-viewModel)
+- Live Data
 - View Binding
 - Picasso
 - CircleImageView
@@ -52,8 +53,8 @@ Faça o download clicando [aqui.](https://github.com/HugoJordan7/instagram/raw/m
 
 - Light Theme:
 
-https://github.com/user-attachments/assets/1987eb44-c985-49d1-a75a-fdf0d7474123
+https://github.com/user-attachments/assets/2dae107f-33ac-43a0-9369-66c220ce898c
 
 - Dark Theme:
 
-https://github.com/user-attachments/assets/177ee5aa-c16c-4919-877b-ea94fb8b4c7d
+https://github.com/user-attachments/assets/cfa52ffe-1a84-4ffe-a2a1-a0fdcf5a2911

@@ -9,38 +9,36 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.instagram.R
+import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.view.CustomDialog
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
+import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
 import com.example.instagram.databinding.FragmentRegisterPhotoBinding
 import com.example.instagram.feature.register.RegisterPhotoContract
-import com.example.instagram.feature.register.presentation.RegisterPhotoPresenter
+import com.example.instagram.feature.register.presentation.RegisterPhotoViewModel
 
-class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), RegisterPhotoContract.View {
+class FragmentRegisterPhoto: BaseFragmentMVVM<FragmentRegisterPhotoBinding, RegisterPhotoViewModel>(
+    R.layout.fragment_register_photo,
+    FragmentRegisterPhotoBinding::bind
+) {
 
-    private var binding: FragmentRegisterPhotoBinding? = null
+    override lateinit var viewModel: RegisterPhotoViewModel
+
     private var attachListener: FragmentAttachListener? = null
-    override lateinit var presenter: RegisterPhotoContract.Presenter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding = FragmentRegisterPhotoBinding.bind(view)
-        val repository = DependencyInjector.registerRepository()
-        presenter = RegisterPhotoPresenter(this,repository)
-
+    override fun setupViews() {
         setFragmentResultListener("cropToPhoto"){ requestKey, bundle ->
             val profileImageUri: Uri? = bundle.getParcelable(KEY_URI)
             profileImageUri?.let {
                 binding?.registerImgProfile?.setImageURI(it)
-                presenter.updateUser(it)
+                viewModel.updateUser(it)
             }
         }
 
@@ -52,7 +50,6 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
             registerBtnJump.setOnClickListener {
                 attachListener?.goToMainScreen()
             }
-
             when(resources.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
                 Configuration.UI_MODE_NIGHT_YES ->{
                     registerImgProfile.imageTintList = ColorStateList.valueOf(Color.WHITE)
@@ -61,19 +58,31 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
                     registerImgProfile.imageTintList = ColorStateList.valueOf(Color.BLACK)
                 }
             }
-
         }
+
+        viewModel.isLoading.observe(this){ isLoading ->
+            showProgress(isLoading)
+        }
+
+        viewModel.isFailure.observe(this){ message ->
+            message?.let { onUpdateFailure(it) }
+        }
+
+        viewModel.isSuccess.observe(this){ isSuccess ->
+            if (isSuccess) onUpdateSuccess()
+        }
+
     }
 
-    override fun showProgress(enabled: Boolean) {
+    private fun showProgress(enabled: Boolean) {
         binding?.registerBtnPhotoNext?.showProgress(enabled)
     }
 
-    override fun onUpdateSuccess() {
+    private fun onUpdateSuccess() {
         attachListener?.goToMainScreen()
     }
 
-    override fun onUpdateFailure(message: String) {
+    private fun onUpdateFailure(message: String) {
         Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
     }
 
@@ -118,12 +127,6 @@ class FragmentRegisterPhoto: Fragment(R.layout.fragment_register_photo), Registe
 
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
-    }
-
-    override fun onDestroy() {
-        binding = null
-        presenter.onDestroy()
-        super.onDestroy()
     }
 
 }

@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.App
-import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.extension.animationEnd
 import com.example.instagram.databinding.ActivitySplashBinding
 import com.example.instagram.feature.di.component.SplashComponent

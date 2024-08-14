@@ -11,23 +11,25 @@ Suas funções são:
 - Seguir ou deixar de seguir usuários
 - Login/Registro de contas reais
 
-
 # Tecnologias utilizadas
 - Android Studio
 - Kotlin
 - Banco de dados Firebase
-- Arquitetura MVP
+- Arquitetura MVVM
 
 # Fundamentos trabalhados
 - Design Pattern: Template Method com o BaseFragment para cada fragmento
 - Design Pattern: Factory para DataSources locais ou remotos
-- Design Pattern: Dependency Injector
-- Design Pattern: MVP (model-view-presenter)
+- Design Pattern: Dependency Injector com Dagger2
+- Design Pattern: MVVM (model-view-viewModel)
+- View Binding
+- Picasso
 - CircleImageView
 - ImageCropper
 - Camera2
-- Firebase
+- Firebase (Authentication / Firestore Database / Storage)
 - Dark Mode
+- Camera / Media permissions
 
 # Download atualizado (v1.0.0)
 Faça o download clicando [aqui.](https://github.com/HugoJordan7/instagram/raw/main/Instagram.apk)
@@ -45,8 +47,6 @@ Faça o download clicando [aqui.](https://github.com/HugoJordan7/instagram/raw/m
 <img src="https://github.com/user-attachments/assets/f1853c15-1331-4823-b814-ead7d0216dbb" width="250" alt="">
 <img src="https://github.com/user-attachments/assets/148576f8-084d-44e7-8697-1955811b48de" width="250" alt="">
 <img src="https://github.com/user-attachments/assets/ab8bed45-4e38-459a-9aea-bc873cdc453b" width="250" alt=""> 
-
-
 
 # Vídeo
 

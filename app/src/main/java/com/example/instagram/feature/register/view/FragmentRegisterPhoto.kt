@@ -14,14 +14,14 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.view.CustomDialog
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.FragmentRegisterPhotoBinding
 import com.example.instagram.feature.register.presentation.RegisterPhotoViewModel
 import javax.inject.Inject
 
-class FragmentRegisterPhoto: BaseFragmentMVVM<FragmentRegisterPhotoBinding, RegisterPhotoViewModel>(
+class FragmentRegisterPhoto: BaseFragment<FragmentRegisterPhotoBinding, RegisterPhotoViewModel>(
     R.layout.fragment_register_photo,
     FragmentRegisterPhotoBinding::bind
 ) {

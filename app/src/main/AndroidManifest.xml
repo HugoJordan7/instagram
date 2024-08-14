@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Instagram">
         <activity android:name=".feature.splash.view.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,13 +43,16 @@
         </activity>
         <activity
             android:name=".feature.register.view.RegisterActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".feature.login.view.LoginActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:label="@string/photo"
-            android:name=".feature.add.view.AddActivity" />
+            android:name=".feature.add.view.AddActivity"
+            android:screenOrientation="portrait"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.instagram.fileprovider"

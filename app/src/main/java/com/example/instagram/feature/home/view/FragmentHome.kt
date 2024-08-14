@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.Post
 import com.example.instagram.databinding.FragmentHomeBinding
 import com.example.instagram.feature.home.presentation.HomeViewModel
@@ -16,7 +16,7 @@ import com.example.instagram.feature.main.LogoutListener
 import com.example.instagram.feature.main.view.MainActivity
 import javax.inject.Inject
 
-class FragmentHome: BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(
+class FragmentHome: BaseFragment<FragmentHomeBinding, HomeViewModel>(
     R.layout.fragment_home,
     FragmentHomeBinding::bind
 ){

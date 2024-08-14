@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.Post
 import com.example.instagram.common.model.User
 import com.example.instagram.common.util.KEY_USER_ID
@@ -22,7 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-class FragmentProfile : BaseFragmentMVVM<FragmentProfileBinding, ProfileViewModel>(
+class FragmentProfile : BaseFragment<FragmentProfileBinding, ProfileViewModel>(
     R.layout.fragment_profile,
     FragmentProfileBinding::bind
 ), BottomNavigationView.OnNavigationItemSelectedListener {

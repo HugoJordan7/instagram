@@ -7,13 +7,13 @@ import android.graphics.Color
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterEmailBinding
 import com.example.instagram.feature.register.presentation.RegisterEmailViewModel
 import javax.inject.Inject
 
-class FragmentRegisterEmail: BaseFragmentMVVM<FragmentRegisterEmailBinding, RegisterEmailViewModel>(
+class FragmentRegisterEmail: BaseFragment<FragmentRegisterEmailBinding, RegisterEmailViewModel>(
     R.layout.fragment_register_email,
     FragmentRegisterEmailBinding::bind
 ) {

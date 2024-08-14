@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.App
-import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.ActivityLoginBinding
 import com.example.instagram.feature.di.component.LoginComponent

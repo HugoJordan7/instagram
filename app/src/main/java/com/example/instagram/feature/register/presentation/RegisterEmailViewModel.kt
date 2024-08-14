@@ -4,9 +4,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.instagram.R
 import com.example.instagram.common.base.RequestCallback
-import com.example.instagram.feature.register.RegisterEmailContract
 import com.example.instagram.feature.register.data.RegisterRepository
 import javax.inject.Inject
 

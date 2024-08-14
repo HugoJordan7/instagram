@@ -7,24 +7,17 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
-import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
-import com.example.instagram.common.di.DependencyInjector
-import com.example.instagram.common.di.ViewModelFactory
 import com.example.instagram.common.view.CustomDialog
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
-import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
 import com.example.instagram.databinding.FragmentRegisterPhotoBinding
-import com.example.instagram.feature.register.RegisterPhotoContract
 import com.example.instagram.feature.register.presentation.RegisterPhotoViewModel
 import javax.inject.Inject
 

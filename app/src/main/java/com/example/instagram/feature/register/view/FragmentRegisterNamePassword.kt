@@ -1,17 +1,13 @@
 package com.example.instagram.feature.register.view
 
 import android.content.Context
-import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
-import com.example.instagram.common.di.DependencyInjector
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
-import com.example.instagram.feature.register.RegisterNamePasswordContract
 import com.example.instagram.feature.register.presentation.RegisterNamePasswordViewModel
 import javax.inject.Inject
 

@@ -5,13 +5,13 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.util.CustomTextWatcher
 import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
 import com.example.instagram.feature.register.presentation.RegisterNamePasswordViewModel
 import javax.inject.Inject
 
-class FragmentRegisterNamePassword: BaseFragmentMVVM<FragmentRegisterNamePasswordBinding, RegisterNamePasswordViewModel>(
+class FragmentRegisterNamePassword: BaseFragment<FragmentRegisterNamePasswordBinding, RegisterNamePasswordViewModel>(
     R.layout.fragment_register_name_password,
     FragmentRegisterNamePasswordBinding::bind
 ){

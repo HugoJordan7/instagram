@@ -7,14 +7,15 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import com.example.instagram.R
 
-abstract class BaseFragment<B,P: BasePresenter>(
+abstract class BaseFragment<B, VM: ViewModel>(
     @LayoutRes layoutId: Int,
     val bind: (View) -> B
 ): Fragment(layoutId) {
 
-    protected abstract var presenter: P
+    abstract val viewModel: VM
     protected var binding: B? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,10 +23,7 @@ abstract class BaseFragment<B,P: BasePresenter>(
         if(getMenu() != null){
             setHasOptionsMenu(true)
         }
-        setupPresenter()
     }
-
-    protected abstract fun setupPresenter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +49,6 @@ abstract class BaseFragment<B,P: BasePresenter>(
     override fun onDestroy() {
         super.onDestroy()
         binding = null
-        presenter.onDestroy()
     }
 
 }

@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.util.TAKE_PHOTO_KEY
 import com.example.instagram.common.util.URI
 import com.example.instagram.databinding.FragmentGalleryBinding
@@ -19,7 +19,7 @@ import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.post.presentation.PostViewModel
 import javax.inject.Inject
 
-class FragmentGallery : BaseFragmentMVVM<FragmentGalleryBinding, PostViewModel>(
+class FragmentGallery : BaseFragment<FragmentGalleryBinding, PostViewModel>(
     R.layout.fragment_gallery,
     FragmentGalleryBinding::bind
 ){

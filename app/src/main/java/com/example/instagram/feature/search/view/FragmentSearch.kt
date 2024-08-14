@@ -12,14 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instagram.R
-import com.example.instagram.common.base.BaseFragmentMVVM
+import com.example.instagram.common.base.BaseFragment
 import com.example.instagram.common.model.User
 import com.example.instagram.databinding.FragmentSearchBinding
 import com.example.instagram.feature.main.view.MainActivity
 import com.example.instagram.feature.search.presentation.SearchViewModel
 import javax.inject.Inject
 
-class FragmentSearch: BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
+class FragmentSearch: BaseFragment<FragmentSearchBinding, SearchViewModel>(
     R.layout.fragment_search,
     FragmentSearchBinding::bind
 ) {

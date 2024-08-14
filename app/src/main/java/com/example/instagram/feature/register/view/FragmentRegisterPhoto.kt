@@ -14,22 +14,28 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.instagram.R
 import com.example.instagram.common.base.BaseFragmentMVVM
 import com.example.instagram.common.di.DependencyInjector
+import com.example.instagram.common.di.ViewModelFactory
 import com.example.instagram.common.view.CustomDialog
 import com.example.instagram.common.view.FragmentImageCropper.Companion.KEY_URI
 import com.example.instagram.databinding.FragmentRegisterNamePasswordBinding
 import com.example.instagram.databinding.FragmentRegisterPhotoBinding
 import com.example.instagram.feature.register.RegisterPhotoContract
 import com.example.instagram.feature.register.presentation.RegisterPhotoViewModel
+import javax.inject.Inject
 
 class FragmentRegisterPhoto: BaseFragmentMVVM<FragmentRegisterPhotoBinding, RegisterPhotoViewModel>(
     R.layout.fragment_register_photo,
     FragmentRegisterPhotoBinding::bind
 ) {
 
-    override lateinit var viewModel: RegisterPhotoViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val viewModel by viewModels<RegisterPhotoViewModel> { viewModelFactory }
 
     private var attachListener: FragmentAttachListener? = null
 
@@ -109,6 +115,9 @@ class FragmentRegisterPhoto: BaseFragmentMVVM<FragmentRegisterPhotoBinding, Regi
         super.onAttach(context)
         if(context is FragmentAttachListener){
             attachListener = context
+        }
+        if(context is RegisterActivity){
+            context.registerComponent.inject(this)
         }
     }
 

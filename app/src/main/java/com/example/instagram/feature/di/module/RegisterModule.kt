@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.instagram.common.di.ViewModelKey
 import com.example.instagram.feature.register.presentation.RegisterEmailViewModel
 import com.example.instagram.feature.register.presentation.RegisterNamePasswordViewModel
+import com.example.instagram.feature.register.presentation.RegisterPhotoViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -20,5 +21,10 @@ interface RegisterModule {
     @IntoMap
     @ViewModelKey(RegisterNamePasswordViewModel::class)
     fun bindRegisterNamePasswordViewModel(viewModel: RegisterNamePasswordViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RegisterPhotoViewModel::class)
+    fun bindRegisterPhotoViewModel(viewModel: RegisterPhotoViewModel): ViewModel
 
 }
